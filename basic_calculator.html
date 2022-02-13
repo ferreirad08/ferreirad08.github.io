@@ -1,0 +1,116 @@
+<!-- Author: David Ferreira -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8"/>
+  <title>Calculator</title>
+  <style>
+    .txt {  
+      font: 1.5rem 'Fira Sans', sans-serif;
+      color: orange;
+      width: 211px;
+      height: 30px;
+    }
+
+    .btn {  
+      font: 1.5rem 'Fira Sans', sans-serif;
+      background: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+    }
+
+    .btnDoIt {
+      font: 1.5rem 'Fira Sans', sans-serif;
+      color: white;
+      background: orange;
+      border: none;
+      width: 50px;
+      height: 50px;
+    }
+
+    .btnOp {
+      font: 1.5rem 'Fira Sans', sans-serif;
+      color: orange;
+      border: none;
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <form name="Calculator">
+    <input type="text" name="Input" class="txt">
+    <table>
+            <tr>
+                <td><input type="button" class="btn" value="C" onClick="Calculator.Input.value = ''"></td>
+                <td><input type="button" class="btn" value="e" onClick="Calculator.Input.value += 'e'"></td>
+                <td><input type="button" class="btn" value="(" onClick="Calculator.Input.value += '('"></td>
+                <td><input type="button" class="btn" value=")" onClick="Calculator.Input.value += ')'"></td>
+            </tr>
+            <tr>
+                <td><input type="button" class="btn" value="7" onClick="Calculator.Input.value += '7'"></td>
+                <td><input type="button" class="btn" value="8" onClick="Calculator.Input.value += '8'"></td>
+                <td><input type="button" class="btn" value="9" onClick="Calculator.Input.value += '9'"></td>
+                <td><input type="button" class="btnOp" value="/" onClick="Calculator.Input.value += '/'"></td>
+            </tr>
+            <tr>
+                <td><input type="button" class="btn" value="4" onClick="Calculator.Input.value += '4'"></td>
+                <td><input type="button" class="btn" value="5" onClick="Calculator.Input.value += '5'"></td>
+                <td><input type="button" class="btn" value="6" onClick="Calculator.Input.value += '6'"></td>
+                <td><input type="button" class="btnOp" value="*" onClick="Calculator.Input.value += '*'"></td>
+            </tr>
+            <tr>
+                <td><input type="button" class="btn" value="1" onClick="Calculator.Input.value += '1'"></td>
+                <td><input type="button" class="btn" value="2" onClick="Calculator.Input.value += '2'"></td>
+                <td><input type="button" class="btn" value="3" onClick="Calculator.Input.value += '3'"></td>
+                <td><input type="button" class="btnOp" value="-" onClick="Calculator.Input.value += '-'"></td>
+            </tr>
+            <tr>
+                <td><input type="button" class="btn" value="0" onClick="Calculator.Input.value += '0'"></td>
+                <td><input type="button" class="btn" value="." onClick="Calculator.Input.value += '.'"></td>
+                <td><input type="button" class="btnDoIt" value="=" onClick="equal()"></td>
+                <td><input type="button" class="btnOp" value="+" onClick="Calculator.Input.value += '+'"></td>
+            </tr>
+            <tr>
+                <td><input type="button" class="btn" value="^" onClick="Calculator.Input.value += '^'"></td>
+                <td><input type="button" class="btn" value="&radic;" onClick="Calculator.Input.value += '^0.5'"></td>
+                <td><input type="button" class="btn" value="&#8678;" onClick="del()"></td>
+                <td><input type="button" class="btn" value="&pi;" onClick="Calculator.Input.value += '&pi;'"></td>
+            </tr>
+            <tr>
+                <td><input type="button" class="btn" value="&#x25;" onClick="Calculator.Input.value += '/100'"></td>
+                <td><input type="button" class="btn" value="+/-" onClick="replace_signal()"></td>
+            </tr>
+    </table>
+  </form>
+  <script>
+    function equal() {
+      var len = Calculator.Input.value.length
+      for (var i = 0; i < len; i++) {
+        Calculator.Input.value = Calculator.Input.value.replace("^", "**");
+        Calculator.Input.value = Calculator.Input.value.replace("×", "*");
+        Calculator.Input.value = Calculator.Input.value.replace("π", "3.141592653589793238");
+      }
+      Calculator.Input.value = eval(Calculator.Input.value);
+    }
+
+    function replace_signal() {
+      Calculator.Input.value = Calculator.Input.value.split("").reverse().join("");
+    }
+
+    function del() {
+      var len = Calculator.Input.value.length
+      Calculator.Input.value = Calculator.Input.value.slice(0, len - 1);
+    }
+
+    function sum(a, b){
+      return a + b;
+    }
+
+    console.log(sum(1, 2));
+    console.log(sum('1', '2'));
+  </script>
+</body>
+</html>
