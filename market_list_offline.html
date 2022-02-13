@@ -62,11 +62,10 @@
     }
   </style>  
 </head>
-<body bgcolor="white" style="background-image: url('https://eskipaper.com/images/green-background-8.jpg');">
+<body bgcolor="#40E0D0">
   <div id="login-page-id">
-    <h1>Enter your token:</h1>
-    <input type="number" id="token-id" class="number">
-    <input type="button" class="button" value="Login" onclick="show()">
+    <h1>First List:</h1>
+    <input type="button" class="button" value="First List" onclick="show()">
     <br><br>
     <h1>Or choose a file:</h1>
     <label class="file-upload">
@@ -114,14 +113,11 @@
   <table id="table" class="styled-table"></table>
   </div>
   <script>
-    var token = document.getElementById("token-id");
     var productNames = [];
     var arr = [];
-    // getData();
     var options = document.getElementById("options");
     options.add(new Option("New", "New"), undefined);
     var product = document.getElementById("product");
-    // updateProdList();
     var quantity = document.getElementById("quantity");
     var label = document.getElementById("label");
     var table = document.getElementById("table");
@@ -188,7 +184,6 @@
         options.add(new Option(idx, idx), undefined);
       });
       insertHead();
-      putData();
     }
 
     function insertHead() {
@@ -225,31 +220,12 @@
       productNames.push(text);
       product.innerHTML = "";
       updateProdList();
-      putData();
     }
 
     function updateProdList() {
       productNames.sort().forEach(text => {
         product.add(new Option(text, text), undefined);
       });
-    }
-
-    async function putData() {
-      if (token.value === "") return;
-      var res = await fetch("https://jsonblob.com/api/jsonBlob/" + token.value, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({"arr": arr, "productNames": productNames})
-      });
-
-      if (res.status == 200) {
-        if (res.headers.get("Content-Type") === "application/json") {
-          console.log(JSON.stringify(await res.json()));
-        }
-      }
     }
 
     async function getData(data) {
@@ -273,14 +249,7 @@
     }
 
     function show() {
-      fetch("https://jsonblob.com/api/jsonBlob/" + token.value)
-        .then(res => {
-          if (res.status === 200 && res.headers.get("Content-Type") === "application/json") {
-            res.json().then(data => getData(data));
-          } else {
-            alert("Invalid token.");
-          }
-        });
+      alert("show");
     }
 
     function getFile(files) {
@@ -290,9 +259,7 @@
           var data = JSON.parse(evt.target.result);
           var keys = Object.keys(data);
           if (keys.includes("arr") && keys.includes("productNames")) {
-            token.value = "";
             getData(data);
-            // alert(`Token: ${token.value}`);
           } else {
             alert("Invalid file.");
           }
