@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<link href="index.css" rel="stylesheet">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Hash</title>
+  <style>
+    .btnSet {
+      font: 1.5rem 'Fira Sans', sans-serif;
+      color: white;
+      background: red;
+      border: none;
+      width: 308px;
+      height: 50px;
+    }
+    .btnOp {
+      font: 1.5rem 'Fira Sans', sans-serif;
+      color: white;
+      background: orange;
+      border: none;
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+    <form name="Hash">
+        <table>
+            <tr>
+                <td><input id="0" type="button" class="btnOp" onClick="setValue(this, 0)"></td>
+                <td><input id="1" type="button" class="btnOp" onClick="setValue(this, 1)"></td>
+                <td><input id="2" type="button" class="btnOp" onClick="setValue(this, 2)"></td>
+            </tr>
+            <tr>
+                <td><input id="3" type="button" class="btnOp" onClick="setValue(this, 3)"></td>
+                <td><input id="4" type="button" class="btnOp" onClick="setValue(this, 4)"></td>
+                <td><input id="5" type="button" class="btnOp" onClick="setValue(this, 5)"></td>
+
+            </tr>
+            <tr>
+                <td><input id="6" type="button" class="btnOp" onClick="setValue(this, 6)"></td>
+                <td><input id="7" type="button" class="btnOp" onClick="setValue(this, 7)"></td>
+                <td><input id="8" type="button" class="btnOp" onClick="setValue(this, 8)"></td>
+            </tr>
+            <tr>
+                <td colspan="3"><input type="button" class="btnSet" value="New game" onClick="newGame()"></td>
+            </tr>
+        </table>
+    </form>
+    <p>Select an opponent:</p>
+    <div>
+      <input type="radio" id="human" name="opponent" value="human" onClick="setOpponent(this)" checked>
+      <label for="human">Human</label>
+    </div>
+    <div>
+      <input type="radio" id="bot" name="opponent" value="bot" onClick="setOpponent(this)">
+      <label for="bot">Easy bot</label>
+    </div>
+    <div>
+      <input type="radio" id="mediumbot" name="opponent" value="mediumbot" onClick="setOpponent(this)">
+      <label for="bot">Medium bot</label>
+    </div>
+    <div>
+      <input type="radio" id="hardbot" name="opponent" value="hardbot" onClick="setOpponent(this)">
+      <label for="bot">Hard bot</label>
+    </div>
+    <p>Choose your symbol:</p>
+    <div>
+      <input type="radio" id="X" name="marker" value="X" onClick="setMarker(this)" checked>
+      <label for="X">X</label>
+    </div>
+    <div>
+      <input type="radio" id="O" name="marker" value="O" onClick="setMarker(this)">
+      <label for="O">O</label>
+    </div>
+</body>
+<script>
+  const combinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+  setDisabled(["X", "O"], true);
+  var level = null;
+  var machine = false;
+  var available = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  var player = true;
+  var choices = {
+    true: [],
+    false: []
+  };
+  var markers = {true: "X", false: "O"};
+
+  function setValue(obj, value) {
+    if (available.includes(value)) {
+      obj.value = markers[player];
+      available = available.filter(item => item !== value);
+      choices[player].push(value);
+      verify(player);
+      player = !player;
+      if (!player && machine) {
+        auto();
+      }
+    }
+  }
+
+  function verify(player) {
+    setDisabled(["X", "O", "human", "bot", "mediumbot", "hardbot"], true);
+    for (var i = 0; i < combinations.length; i++) {
+      if (combinations[i].every(e => choices[player].indexOf(e) !== -1)) {
+        available = [];
+        combinations[i].forEach((element) => {
+          document.getElementById(`${element}`).style.backgroundColor = "red";
+        });
+        // setTimeout(function () {alert(`${player} venceu.`)}, 700);
+        return;
+      }
+    }
+    if (available.length == 0) {
+        [0, 1, 2, 3, 4, 5, 6, 7, 8].forEach((element) => {
+          document.getElementById(`${element}`).style.backgroundColor = "red";
+        });
+        // setTimeout(function () {alert("Nobody won.")}, 700);
+    }
+  }
+
+  function verifyOriginal(_choices) {
+    for (var i = 0; i < combinations.length; i++) {
+      if (combinations[i].every(e => _choices.indexOf(e) !== -1)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function choice(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function auto() {
+    if (level !== 'bot') {
+      for (var i = 0; i < available.length; i++) {
+        var temp = choices[false].slice();
+        temp.push(available[i]);
+        if (verifyOriginal(temp)) {
+          value = available[i];
+          obj = document.getElementById(`${value}`);
+          setValue(obj, value);
+          return;
+        }
+      }
+
+      for (var i = 0; i < available.length; i++) {
+        var temp = choices[true].slice();
+        temp.push(available[i]);
+        if (verifyOriginal(temp)) {
+          value = available[i];
+          obj = document.getElementById(`${value}`);
+          setValue(obj, value);
+          return;
+        }
+      }
+    }
+
+    if (level === 'hardbot') {
+      for (var i = 0; i < scenarios.length; i++) {
+        var [A, B, C] = scenarios[i];
+        if (isEqual(A, choices[true]) && isEqual(B, choices[false])) {
+          value = choice(C);
+          obj = document.getElementById(`${value}`);
+          console.log(obj)
+          setValue(obj, value);
+          return;
+        }
+      }      
+    }
+
+    value = choice(available);
+    obj = document.getElementById(`${value}`);
+    setValue(obj, value);
+    return;
+  }
+
+  function setMarker(obj) {
+    setDisabled(["X", "O"], true);
+    if (obj.value == 'X') {
+      player = true;
+    } else if (obj.value == 'O') {
+      player = false;
+      markers = {true: "O", false: "X"};
+      auto();
+    }
+  }
+
+  function setOpponent(obj) {
+    if (obj.value == 'human') {
+      machine = false;
+      setDisabled(["X", "O"], true);
+    } else {
+      level = obj.value;
+      machine = true;
+      setDisabled(["X", "O"], false);
+    }
+  }
+
+  function newGame() {
+    setDisabled(["human", "bot", "mediumbot", "hardbot"], false);
+    if (machine) {
+      setDisabled(["X", "O"], false);
+      document.getElementById("X").checked = true;
+      markers = {true: "X", false: "O"};
+    }
+    available = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    available.forEach((element) => {
+      obj = document.getElementById(`${element}`);
+      obj.value = "";
+      obj.style.backgroundColor = "orange";
+    });
+    player = true;
+    choices = {
+      true: [],
+      false: []
+    };
+  }
+
+  function setDisabled(ids, status) {
+    ids.forEach((id) => {
+      document.getElementById(id).disabled = status;
+    });
+  }
+
+  function isEqual(arr1, arr2) {
+    if (arr1.length === arr2.length) {
+      return arr1.every(x => arr2.includes(x));
+    }
+    return false;
+  }
+
+  const scenarios = [
+    // Y list
+    [[1, 6], [4], [2]],
+    [[1, 8], [4], [0]],
+    [[2, 3], [4], [6]],
+    [[3, 8], [4], [0]],
+    [[0, 5], [4], [8]],
+    [[5, 6], [4], [2]],
+    [[0, 7], [4], [8]],
+    [[2, 7], [4], [6]],
+
+    // diagonals
+    [[4, 8], [0], [2, 6]],
+    [[0, 8], [4], [1, 3, 5, 7]],
+    [[0, 4], [8], [2, 6]],
+    [[4, 6], [2], [0, 8]],
+    [[2, 6], [4], [1, 3, 5, 7]],
+    [[2, 4], [6], [0, 8]],
+
+    // V attack
+    [[5], [0], [6]],
+    [[3], [2], [8]],
+    [[1], [6], [8]],
+    [[1], [8], [6]],
+    [[7], [0], [2]],
+    [[7], [2], [0]],
+    [[5], [6], [0]],
+    [[3], [8], [2]],
+
+    // Vizinho lados
+    [[1], [0], [4]],
+    [[1], [2], [4]],
+    [[3], [6], [4]],
+    [[5], [8], [4]],
+    [[3], [0], [4]],
+    [[5], [2], [4]],
+    [[7], [6], [4]],
+    [[7], [8], [4]],
+    [[0, 5], [4, 8], [6]],
+    [[0, 7], [4, 8], [2]],
+    [[2, 3], [4, 6], [8]],
+    [[2, 7], [4, 6], [0]],
+    [[6, 1], [4, 2], [8]],
+    [[6, 5], [4, 2], [0]],
+    [[8, 1], [4, 0], [6]],
+    [[8, 3], [4, 0], [2]],
+
+    // Mais aberto
+    [[2], [0], [8]],
+    [[6], [0], [8]],
+    [[0], [2], [6]],
+    [[8], [2], [6]],
+    [[0], [6], [2]],
+    [[8], [6], [2]],
+    [[2], [8], [0]],
+    [[6], [8], [0]],
+
+    // Opostos
+    [[8], [0], [2, 6]],
+    [[6], [2], [0, 8]],
+    [[2], [6], [0, 8]],
+    [[0], [8], [2, 6]],
+    [[3, 8], [0, 6], [2]],
+    [[1, 8], [0, 2], [6]],
+    [[1, 6], [2, 0], [8]],
+    [[5, 6], [2, 8], [0]],
+    [[2, 3], [0, 6], [8]],
+    [[2, 7], [6, 8], [0]],
+    [[0, 5], [2, 8], [6]],
+    [[0, 7], [6, 8], [2]],
+
+    // Primeira jogada
+    [[], [], [0, 2, 6, 8]],
+    [[0], [], [4]],
+    [[1], [], [4]],
+    [[2], [], [4]],
+    [[3], [], [4]],
+    [[4], [], [0, 2, 6, 8]],
+    [[5], [], [4]],
+    [[6], [], [4]],
+    [[7], [], [4]],
+    [[8], [], [4]]
+  ]
+</script>
+</html>
