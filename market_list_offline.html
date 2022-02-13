@@ -11,7 +11,7 @@
       height: 30px;
       border-radius: 6px;
       font-size: 20px;
-      background: blue;
+      background: purple;
       border: none;
       color: white;
       // border: 1px solid black;
@@ -43,7 +43,7 @@
       height: 30px;
       border-radius: 6px;
       font-size: 20px;
-      background: blue;
+      background: purple;
       border: none;
       color: white;
     }
@@ -64,10 +64,10 @@
 </head>
 <body bgcolor="#40E0D0">
   <div id="login-page-id">
-    <h1>First List:</h1>
-    <input type="button" class="button" value="First List" onclick="show()">
+    <h1>Create a new list:</h1>
+    <input type="button" class="button" value="New list" onclick="new_list()">
     <br><br>
-    <h1>Or choose a file:</h1>
+    <h1>Select a file:</h1>
     <label class="file-upload">
       <input type="file" accept="application/json" id="input-file-id" onchange="getFile(files)">
       Upload
@@ -248,8 +248,8 @@
       //document.body.removeChild(element);
     }
 
-    function show() {
-      alert("show");
+    function new_list() {
+      getData({"arr": [], "productNames": []});
     }
 
     function getFile(files) {
