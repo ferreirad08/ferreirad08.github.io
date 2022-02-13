@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <title>MarketList</title>
+  <style>
+    .number {
+      width: 150px;
+      height: 30px;
+      border-radius: 6px;
+      font-size: 20px;
+      background: white;
+      border: none;
+    }
+
+    .button {
+      width: 90px;
+      height: 30px;
+      border-radius: 6px;
+      font-size: 20px;
+      background: blue;
+      border: none;
+      color: white;
+    }
+
+    .styled-table {
+      border-radius: 6px;
+      font-size: 20px;
+      min-width: 370px;
+      background-color: white;
+      // border: 1px solid black;
+      // background-color: blue;
+      // border-collapse: collapse;
+      // margin: 25px 0;
+      // font-family: sans-serif;
+      // box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+  </style>  
+</head>
+<body bgcolor="white" style="background-image: url('https://eskipaper.com/images/green-background-8.jpg');">
+  <div id="login-page-id">
+    <h1>Your token:</h1>
+    <input type="number" id="token-id" class="number">
+    <input type="button" class="button" value="Login" onclick="show('app-page-id', 'login-page-id')">
+  </div>
+
+  <div id="app-page-id" style="display:none">
+    <input type="button" class="button" value="Logout" onclick="document.location.reload(true)">
+    <input type="button" class="button" value="Download" onclick="download()">
+  <h1>My Market List</h1>
+  ID:
+  <select name="select" id="options" class="number" onchange="read()"></select>
+  <br><br>
+  Product Name:
+  <select name="pnames" id="product" class="number"></select>
+  <br><br>
+  Unit Price (Optional):
+  <input type="number" id="price" class="number">
+  <br><br>
+  Quantity:
+  <select name="quantity" id="quantity" class="number">
+    <option value="1" selected>1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+  </select>
+  <br><br>
+  <h2>
+    Total (R$):
+    <label id="label">0</label>
+  </h2>
+  <br>
+  <input type="button" class="button" onclick="create()" value="Create">
+  <input type="button" class="button" onclick="update()" value="Update">
+  <input type="button" class="button" onclick="_delete()" value="Delete">
+  <input type="button" class="button" onclick="register()" value="Register">
+  <br><br>
+  <table id="table" class="styled-table"></table>
+  </div>
+  <script>
+    var token;
+    var productNames = [];
+    var arr = [];
+    // getData();
+    var options = document.getElementById("options");
+    options.add(new Option("New", "New"), undefined);
+    var product = document.getElementById("product");
+    // updateProdList();
+    var quantity = document.getElementById("quantity");
+    var label = document.getElementById("label");
+    var table = document.getElementById("table");
+    var price = document.getElementById("price");
+
+    function read() {
+      if (options.value === "New") {
+        format();
+        return;
+      }
+      product.value = arr[options.value][0];
+      price.value = arr[options.value][1];
+      quantity.value = arr[options.value][2];
+    }
+
+    function update() {
+      if (options.value !== "New" && product.value !== "") {
+        arr.splice(options.value, 1, [product.value, price.value, quantity.value]);
+        format();
+      }
+    }
+
+    function _delete() {
+      if (options.value !== "New") {
+        arr.splice(options.value, 1);
+        format();
+      }
+    }
+
+    function create() {
+      if (product.value !== "" && options.value === "New") {
+        arr.push([product.value, price.value, quantity.value]);
+        format();
+        // console.log(table.rows[0].cells[0].textContent);
+      }
+    }
+
+    function clearValues() {
+      product.value = "";
+      price.value = "";
+      quantity.value = "1";
+      table.innerHTML = "";
+      options.innerHTML = "";
+      label.innerHTML = 0;
+    }
+
+    function format() {
+      clearValues();
+      options.add(new Option("New", "New"), undefined);
+
+      var sum = 0;
+      // label.innerHTML = sum;
+
+      arr.forEach((item, idx) => {
+        insertRow(item, idx);
+        if (item[1] !== "") {
+          sum += parseFloat(item[1]) * parseFloat(item[2]);
+          label.innerHTML = Math.round(sum*100)/100;
+        }
+        options.add(new Option(idx, idx), undefined);
+      });
+      insertHead();
+      putData();
+    }
+
+    function insertHead() {
+      var header = table.createTHead();
+      var row = header.insertRow(0);
+      var cell0 = row.insertCell(0);
+      var cell1 = row.insertCell(1);
+      var cell2 = row.insertCell(2);
+      var cell3 = row.insertCell(3);
+      cell0.innerHTML = "<b>ID</b>";
+      cell1.innerHTML = "<b>Product</b>";
+      cell2.innerHTML = "<b>Price</b>";
+      cell3.innerHTML = "<b>Quantity</b>";
+    }
+
+    function insertRow(item, idx) {
+      var row = table.insertRow(0);
+      var cell0 = row.insertCell(0);
+      var cell1 = row.insertCell(1);
+      var cell2 = row.insertCell(2);
+      var cell3 = row.insertCell(3);
+      cell0.innerHTML = idx;
+      cell1.innerHTML = item[0];
+      cell2.innerHTML = Math.round(item[1]*100)/100
+      cell3.innerHTML = item[2];
+    }
+
+    function register() {
+      var text = prompt("Insira o nome do novo produto.");
+      if ([null, ""].includes(text)) return;
+      text = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+      if (productNames.includes(text)) return;
+      productNames.push(text);
+      product.innerHTML = "";
+      updateProdList();
+      putData();
+    }
+
+    function updateProdList() {
+      productNames.sort().forEach(text => {
+        product.add(new Option(text, text), undefined);
+      });
+    }
+
+    async function putData() {
+      var res = await fetch("https://jsonblob.com/api/jsonBlob/" + token.value, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({"arr": arr, "productNames": productNames})
+      });
+
+      if (res.status == 200) {
+        if (res.headers.get("Content-Type") === "application/json") {
+          console.log(JSON.stringify(await res.json()));
+        }
+      }
+    }
+
+    async function getData(data) {
+      productNames = data["productNames"];
+      arr = data["arr"];
+      updateProdList();
+      format();
+    }
+
+    function show(page1, page2) {
+      token = document.getElementById("token-id");
+      fetch("https://jsonblob.com/api/jsonBlob/" + token.value)
+        .then(res => {
+          if (res.status === 200 && res.headers.get("Content-Type") === "application/json") {
+            document.getElementById(page1).style.display = "block";
+            document.getElementById(page2).style.display = "none";
+            res.json().then(data => getData(data));
+          } else {
+            alert("Invalid token.");
+          }
+        });
+    }
+
+    function download() {
+      var filename = (new Date(Date.now())).toISOString() + ".json"
+      var element = document.createElement('a');
+      element.setAttribute('href','data:text/plain;charset=utf-8, ' + encodeURIComponent(JSON.stringify({"arr": arr, "productNames": productNames})));
+      element.setAttribute('download', filename);
+      document.body.appendChild(element);
+      element.click();
+      //document.body.removeChild(element);
+    }
+  </script>
+</body>
+</html>
