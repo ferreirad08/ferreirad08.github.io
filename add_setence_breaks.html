@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+</head>
+<body>
+    <textarea rows="25" style="width: 100%;" oninput="AddSentenceBreaks(this.value)"></textarea>
+    <label id="LabelId"></label>
+    <script type="text/javascript">
+        function AddSentenceBreaks(value) {
+            for (var i = 0; i <= 9; i++) {
+                for (var j = 0; j <= 9; j++) {
+                    value = value.replaceAll(`${i}.${j}`, `${i}is_number${j}`);
+                }
+            }
+            value = "<br/>" + value.replaceAll(".", ".<br/><br/>");
+            for (var i = 0; i <= 9; i++) {
+                for (var j = 0; j <= 9; j++) {
+                    value = value.replaceAll(`${i}is_number${j}`, `${i}.${j}`);
+                }
+            }
+            document.getElementById("LabelId").innerHTML = value;
+        }
+    </script>
+</body>
+</html>
