@@ -5,6 +5,11 @@
   <meta charset="UTF-8"/>
   <title>Hash</title>
   <style>
+    .label-radio {
+      font: 1.2rem 'Fira Sans', sans-serif;
+      font-weight: bolder;
+      // font-weight: bold;
+    }
     .button {
       width: 120.5px;
       height: 30px;
@@ -68,12 +73,12 @@
       <option value='hardbot'>Hard bot</option>
     </select>
 
-    <br>
-    <p>Your symbol:</p>
+    <br><br>
+    Your symbol:
     <input type='radio' id='X' name='marker' value='X' onClick='setMarker(this)' checked>
-    X
+    &#10008;
     <input type='radio' id='O' name='marker' value='O' onClick='setMarker(this)'>
-    O
+    <b style='font-size: 1.06rem'>&#128319;<b>
 </body>
 <script>
   const combinations = [
