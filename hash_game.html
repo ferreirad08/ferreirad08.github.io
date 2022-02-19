@@ -14,76 +14,66 @@
       border: none;
       color: #FFFFFF;
     }
-    .btnSet {
-      font: 1.5rem 'Fira Sans', sans-serif;
-      color: white;
-      background: red;
-      border: none;
-      width: 308px;
-      height: 50px;
-    }
     .btnOp {
-      font: 1.5rem 'Fira Sans', sans-serif;
+      font: 4rem 'Fira Sans', sans-serif;
+      font-weight: bold;
       color: white;
-      background: orange;
+      background: white;
       border: none;
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
+    }
+    .number {
+      width: 150px;
+      height: 30px;
+      border-radius: 6px;
+      font-size: 17px;
+      background: white;
+      color: #5f6774;
+      border: none;
     }
   </style>
 </head>
 <body bgcolor='#E8ECEE'>
     <input type='button' class='button' value='Back' onclick='location.href="/index.html";'>
     <h1 style='color:#5f6774;'>Hash Game</h1>
-    <form name="Hash">
-        <table>
-            <tr>
-                <td><input id="0" type="button" class="btnOp" onClick="setValue(this, 0)"></td>
-                <td><input id="1" type="button" class="btnOp" onClick="setValue(this, 1)"></td>
-                <td><input id="2" type="button" class="btnOp" onClick="setValue(this, 2)"></td>
-            </tr>
-            <tr>
-                <td><input id="3" type="button" class="btnOp" onClick="setValue(this, 3)"></td>
-                <td><input id="4" type="button" class="btnOp" onClick="setValue(this, 4)"></td>
-                <td><input id="5" type="button" class="btnOp" onClick="setValue(this, 5)"></td>
-
-            </tr>
-            <tr>
-                <td><input id="6" type="button" class="btnOp" onClick="setValue(this, 6)"></td>
-                <td><input id="7" type="button" class="btnOp" onClick="setValue(this, 7)"></td>
-                <td><input id="8" type="button" class="btnOp" onClick="setValue(this, 8)"></td>
-            </tr>
-            <tr>
-                <td colspan="3"><input type="button" class="btnSet" value="New game" onClick="newGame()"></td>
-            </tr>
-        </table>
+    <form name='Hash'>
+      <table>
+        <tr>
+          <td><input id='0' type='button' class='btnOp' value='X' onClick='setValue(this, 0)'></td>
+          <td><input id='1' type='button' class='btnOp' value='X' onClick='setValue(this, 1)'></td>
+          <td><input id='2' type='button' class='btnOp' value='X' onClick='setValue(this, 2)'></td>
+        </tr>
+        <tr>
+          <td><input id='3' type='button' class='btnOp' value='X' onClick='setValue(this, 3)'></td>
+          <td><input id='4' type='button' class='btnOp' value='X' onClick='setValue(this, 4)'></td>
+          <td><input id='5' type='button' class='btnOp' value='X' onClick='setValue(this, 5)'></td>
+        </tr>
+        <tr>
+          <td><input id='6' type='button' class='btnOp' value='X' onClick='setValue(this, 6)'></td>
+          <td><input id='7' type='button' class='btnOp' value='X' onClick='setValue(this, 7)'></td>
+          <td><input id='8' type='button' class='btnOp' value='X' onClick='setValue(this, 8)'></td>
+        </tr>
+      </table>
     </form>
-    <p>Select an opponent:</p>
-    <div>
-      <input type="radio" id="human" name="opponent" value="human" onClick="setOpponent(this)" checked>
-      <label for="human">Human</label>
-    </div>
-    <div>
-      <input type="radio" id="bot" name="opponent" value="bot" onClick="setOpponent(this)">
-      <label for="bot">Easy bot</label>
-    </div>
-    <div>
-      <input type="radio" id="mediumbot" name="opponent" value="mediumbot" onClick="setOpponent(this)">
-      <label for="bot">Medium bot</label>
-    </div>
-    <div>
-      <input type="radio" id="hardbot" name="opponent" value="hardbot" onClick="setOpponent(this)">
-      <label for="bot">Hard bot</label>
-    </div>
-    <p>Choose your symbol:</p>
-    <div>
-      <input type="radio" id="X" name="marker" value="X" onClick="setMarker(this)" checked>
-      <label for="X">X</label>
-    </div>
-    <div>
-      <input type="radio" id="O" name="marker" value="O" onClick="setMarker(this)">
-      <label for="O">O</label>
-    </div>
+
+    <br>
+    <input type='button' class='button' value='New game' onClick='newGame()'>
+    <br><br>
+    Opponent:
+    <select name='oponent-select' id='oponent-select' class='number' onchange="setOpponent(this.value)">
+      <option value='human' selected>Human</option>
+      <option value='bot'>Easy bot</option>
+      <option value='mediumbot'>Medium bot</option>
+      <option value='hardbot'>Hard bot</option>
+    </select>
+
+    <br>
+    <p>Your symbol:</p>
+    <input type='radio' id='X' name='marker' value='X' onClick='setMarker(this)' checked>
+    X
+    <input type='radio' id='O' name='marker' value='O' onClick='setMarker(this)'>
+    O
 </body>
 <script>
   const combinations = [
@@ -96,47 +86,88 @@
     [0, 4, 8],
     [2, 4, 6]
   ];
-  setDisabled(["X", "O"], true);
+  setDisabled(['X', 'O'], true);
   var level = null;
   var machine = false;
+  var remote = false;
   var available = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   var player = true;
   var choices = {
     true: [],
     false: []
   };
-  var markers = {true: "X", false: "O"};
+  var markers = {true: 'X', false: 'O'};
+  var url = 'https://jsonblob.com/api/jsonBlob/943721425269964800';
 
   function setValue(obj, value) {
     if (available.includes(value)) {
       obj.value = markers[player];
+      obj.setAttribute('style', 'color:black;');
       available = available.filter(item => item !== value);
       choices[player].push(value);
       verify(player);
       player = !player;
+
       if (!player && machine) {
         auto();
+      }
+
+      if (!player && remote) {
+        putData(value);
       }
     }
   }
 
+  async function putData(lastChoice) {
+    console.log('putData');
+
+    var res = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'mode': 'no-cors',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({value:lastChoice})
+    });
+    if (res.status === 200 && res.headers.get('Content-Type') === 'application/json') {
+      setTimeout(() => { getData(lastChoice) }, 1000);
+    } else {
+      alert('Tentando reconectar.');
+      setTimeout(() => { putData(lastChoice) }, 1000);
+    }
+  }
+
+  async function getData(lastChoice) {
+    console.log('getData');
+
+    var res = await fetch(url);
+    if (res.status === 200 && res.headers.get('Content-Type') === 'application/json') {
+      var data = await res.json();
+      if (data['value'] === lastChoice) {
+        setTimeout(() => { getData(lastChoice) }, 1000);
+      } else {
+        obj = document.getElementById(`${data['value']}`);
+        setValue(obj, data['value']);
+      }
+    } else {
+      alert('Tentando reconectar.');
+      setTimeout(() => { getData(lastChoice) }, 1000);
+    }
+  }
+
   function verify(player) {
-    setDisabled(["X", "O", "human", "bot", "mediumbot", "hardbot"], true);
+    setDisabled(['X', 'O', 'oponent-select'], true);
     for (var i = 0; i < combinations.length; i++) {
       if (combinations[i].every(e => choices[player].indexOf(e) !== -1)) {
         available = [];
-        combinations[i].forEach((element) => {
-          document.getElementById(`${element}`).style.backgroundColor = "red";
-        });
-        // setTimeout(function () {alert(`${player} venceu.`)}, 700);
+        blink(combinations[i]);
         return;
       }
     }
+
     if (available.length == 0) {
-        [0, 1, 2, 3, 4, 5, 6, 7, 8].forEach((element) => {
-          document.getElementById(`${element}`).style.backgroundColor = "red";
-        });
-        // setTimeout(function () {alert("Nobody won.")}, 700);
+      blink([0, 1, 2, 3, 4, 5, 6, 7, 8]);
     }
   }
 
@@ -147,10 +178,6 @@
       }
     }
     return false;
-  }
-
-  function choice(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
   }
 
   function auto() {
@@ -184,11 +211,10 @@
         if (isEqual(A, choices[true]) && isEqual(B, choices[false])) {
           value = choice(C);
           obj = document.getElementById(`${value}`);
-          console.log(obj)
           setValue(obj, value);
           return;
         }
-      }      
+      }
     }
 
     value = choice(available);
@@ -198,7 +224,7 @@
   }
 
   function setMarker(obj) {
-    setDisabled(["X", "O"], true);
+    setDisabled(['X', 'O'], true);
     if (obj.value == 'X') {
       player = true;
     } else if (obj.value == 'O') {
@@ -208,30 +234,33 @@
     }
   }
 
-  function setOpponent(obj) {
-    if (obj.value == 'human') {
+  function setOpponent(value) {
+    if (value == 'human') {
       machine = false;
-      setDisabled(["X", "O"], true);
+      setDisabled(['X', 'O'], true);
     } else {
-      level = obj.value;
+      level = value;
       machine = true;
-      setDisabled(["X", "O"], false);
+      setDisabled(['X', 'O'], false);
     }
   }
 
   function newGame() {
-    setDisabled(["human", "bot", "mediumbot", "hardbot"], false);
+    setDisabled(['oponent-select'], false);
     if (machine) {
-      setDisabled(["X", "O"], false);
-      document.getElementById("X").checked = true;
-      markers = {true: "X", false: "O"};
+      setDisabled(['X', 'O'], false);
+      document.getElementById('X').checked = true;
+      markers = {true: 'X', false: 'O'};
     }
+
     available = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     available.forEach((element) => {
       obj = document.getElementById(`${element}`);
-      obj.value = "";
-      obj.style.backgroundColor = "orange";
+      obj.setAttribute('style', 'color:white;');
+      obj.value = 'X';
+      obj.style.backgroundColor = 'white';
     });
+
     player = true;
     choices = {
       true: [],
@@ -240,7 +269,7 @@
   }
 
   function setDisabled(ids, status) {
-    ids.forEach((id) => {
+    ids.forEach(id => {
       document.getElementById(id).disabled = status;
     });
   }
@@ -250,6 +279,26 @@
       return arr1.every(x => arr2.includes(x));
     }
     return false;
+  }
+
+  function choice(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function changeColor(ids, color) {
+    ids.forEach(id => {
+      document.getElementById(`${id}`)
+        .setAttribute('style', `color:${color};`);
+      // document.getElementById(`${id}`).style.backgroundColor = color;
+    });
+  }
+
+  function blink(ids) {
+    setTimeout(() => { changeColor(ids, 'red') }, 400);
+    setTimeout(() => { changeColor(ids, 'black') }, 800);
+    setTimeout(() => { changeColor(ids, 'red') }, 1200);
+    setTimeout(() => { changeColor(ids, 'black') }, 1600);
+    setTimeout(() => { changeColor(ids, 'red') }, 2000);
   }
 
   const scenarios = [
