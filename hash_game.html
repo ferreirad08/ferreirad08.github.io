@@ -5,6 +5,35 @@
   <meta charset="UTF-8"/>
   <title>Hash</title>
   <style>
+    @keyframes dots {
+      50% {
+        transform: translateY(-0.5rem);
+      }
+    }
+    .d {
+      animation: dots 1.5s ease-out infinite;
+    }
+    .d-2 {
+      animation-delay: .5s;
+    }
+    .d-3 {
+      animation-delay: 1s;
+    }
+    .lock {
+      position: absolute;
+      background-color: rgba(0,0,0,0.5);
+      top: 0%;
+      left: 0%;
+      right: 0%;
+      height: 719px;
+
+      font-size: 1rem;
+      font-family: system-ui;
+      font-weight: bolder;
+      align-items: center;
+      justify-content: center;
+      color: blue;
+    }
     .label-radio {
       font: 1.2rem 'Fira Sans', sans-serif;
       font-weight: bolder;
@@ -29,7 +58,7 @@
       height: 80px;
     }
     .number {
-      width: 150px;
+      width: 200px;
       height: 30px;
       border-radius: 6px;
       font-size: 17px;
@@ -63,11 +92,13 @@
     </form>
 
     <br>
-    <input type='button' class='button' value='New game' onClick='newGame()'>
+    <input id="newgame-id" type='button' class='button' value='New game' onClick='newGame()'>
     <br><br>
     Opponent:
-    <select name='oponent-select' id='oponent-select' class='number' onchange="setOpponent(this.value)">
+    <select name='oponent-select' id='oponent-select' class='number' onchange="setOpponent(this)">
       <option value='human' selected>Human</option>
+      <option value='remote'>Remote (participate)</option>
+      <option value='remotecreate'>Remote (create)</option>
       <option value='bot'>Easy bot</option>
       <option value='mediumbot'>Medium bot</option>
       <option value='hardbot'>Hard bot</option>
@@ -102,7 +133,7 @@
     false: []
   };
   var markers = {true: 'X', false: 'O'};
-  var url = 'https://jsonblob.com/api/jsonBlob/943721425269964800';
+  var url = '';
 
   function setValue(obj, value) {
     if (available.includes(value)) {
@@ -118,14 +149,13 @@
       }
 
       if (!player && remote) {
+        setLoading('Sending your choice');
         putData(value);
       }
     }
   }
 
-  async function putData(lastChoice) {
-    console.log('putData');
-
+  async function putData(value) {
     var res = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -133,31 +163,85 @@
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify({value:lastChoice})
+      body: JSON.stringify({value: value})
     });
     if (res.status === 200 && res.headers.get('Content-Type') === 'application/json') {
-      setTimeout(() => { getData(lastChoice) }, 1000);
+      closeLoading();
+      if (available.length > 0) {
+        setLoading('Wait for the opponent');
+        getData();
+      }
     } else {
-      alert('Tentando reconectar.');
-      setTimeout(() => { putData(lastChoice) }, 1000);
+      alert('Trying to reconnect.');
+      setTimeout(() => { putData(value) }, 1000);
     }
   }
 
-  async function getData(lastChoice) {
-    console.log('getData');
+  async function getData() {
+    var res = await fetch(url);
+    if (res.status === 200 && res.headers.get('Content-Type') === 'application/json') {
+      var data = await res.json();
+      console.log('value:', data['value']);
+      if (available.includes(data['value'])) {
+        setTimeout(closeLoading, 0);
+        obj = document.getElementById(`${data['value']}`);
+        setValue(obj, data['value']);
+      } else {
+        setTimeout(getData, 1000);
+      }
+    } else {
+      alert('Trying to reconnect.');
+      setTimeout(getData, 1000);
+    }
+  }
+
+  async function postData() {
+    setLoading('Generating a new code');
+    var res = await fetch('https://jsonblob.com/api/jsonBlob', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({value: null})
+    });
+    if (res.status === 201 && res.headers.get('Content-Type') === 'application/json') {
+      url = res.headers.get('Location').replace('http:', 'https:');
+      closeLoading();
+      setLoading(`<a href="whatsapp://send?abid=phonenumber&text=${url.split('/')[5]}" style="text-decoration:none";>Click to share code: ${url.split('/')[5]}</a>`);
+      waitAccept();
+    } else {
+      alert('Trying to reconnect.');
+      setTimeout(postData, 1000);
+    }
+  }
+
+  async function deleteData() {
+    var res = await fetch(url, {
+      method: 'DELETE'
+    });
+    console.log(res.status === 200);
+  }
+
+  async function waitAccept() {
+    // Wait for someone to accept
+    console.log("url:", url);
 
     var res = await fetch(url);
     if (res.status === 200 && res.headers.get('Content-Type') === 'application/json') {
       var data = await res.json();
-      if (data['value'] === lastChoice) {
-        setTimeout(() => { getData(lastChoice) }, 1000);
+      console.log('value:', data['value']);
+      if (data['value'] === 'accept') {
+        closeLoading();
+        alert('Ok, aceitaram! Você começa o jogo.');
+        machine = false;
+        remote = true;
       } else {
-        obj = document.getElementById(`${data['value']}`);
-        setValue(obj, data['value']);
+        setTimeout(waitAccept, 1000);
       }
     } else {
-      alert('Tentando reconectar.');
-      setTimeout(() => { getData(lastChoice) }, 1000);
+      alert('Trying to reconnect.');
+      setTimeout(waitAccept, 1000);
     }
   }
 
@@ -171,7 +255,7 @@
       }
     }
 
-    if (available.length == 0) {
+    if (available.length === 0) {
       blink([0, 1, 2, 3, 4, 5, 6, 7, 8]);
     }
   }
@@ -235,17 +319,78 @@
     } else if (obj.value == 'O') {
       player = false;
       markers = {true: "O", false: "X"};
-      auto();
+      if (machine) auto();
     }
   }
 
-  function setOpponent(value) {
-    if (value == 'human') {
+  function setRemoteOpponent(obj) {
+    var code = prompt('Enter code.');
+    if (code === null) {
+      setHumanOpponent(obj);
+      return;
+    }
+
+    setLoading('Validating the code');
+    // https://jsonblob.com/api/jsonBlob/943721425269964800
+    // https://jsonblob.com/api/jsonBlob/943680517434523648
+    url = `https://jsonblob.com/api/jsonBlob/${code}`;
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'mode': 'no-cors',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({value:'accept'})
+    }).then(res => {
+      if (res.status !== 200)
+        throw new Error('');
+      closeLoading();
       machine = false;
-      setDisabled(['X', 'O'], true);
+      remote = true;
+      var sel = document.getElementById('O');
+      sel.checked = true;
+      setMarker(sel);
+
+      /*setInterval(() => {
+        fetch(url, {
+          method: 'PUT',
+          headers: {
+            'mode': 'no-cors',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({value: choice([0,1,2,3,4,5,6,7,8])})
+        });
+      }, 2000);*/
+
+      setLoading('Wait for the opponent');
+      getData();
+    }).catch(err => {
+      closeLoading();
+      alert('Invalid code');
+      setHumanOpponent(obj);
+    });
+  }
+
+  function setHumanOpponent(obj) {
+    obj.value = 'human';
+    machine = false;
+    remote = false;
+    setDisabled(['X', 'O'], true);
+  }
+
+  function setOpponent(obj) {
+    if (obj.value === 'remote') {
+      setRemoteOpponent(obj);
+    } else if (obj.value === 'remotecreate') {
+      postData();
+    } else if (obj.value === 'human') {
+      setHumanOpponent(obj);
     } else {
-      level = value;
+      level = obj.value;
       machine = true;
+      remote = false;
       setDisabled(['X', 'O'], false);
     }
   }
@@ -256,14 +401,16 @@
       setDisabled(['X', 'O'], false);
       document.getElementById('X').checked = true;
       markers = {true: 'X', false: 'O'};
+    } else if (remote) {
+      document.location.reload(true);
     }
 
     available = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-    available.forEach((element) => {
+    available.forEach(element => {
       obj = document.getElementById(`${element}`);
       obj.setAttribute('style', 'color:white;');
-      obj.value = 'X';
-      obj.style.backgroundColor = 'white';
+      obj.value = 'N';
+      // obj.style.backgroundColor = 'white';
     });
 
     player = true;
@@ -299,11 +446,28 @@
   }
 
   function blink(ids) {
+    setDisabled(['newgame-id'], true);
     setTimeout(() => { changeColor(ids, 'red') }, 400);
     setTimeout(() => { changeColor(ids, 'black') }, 800);
     setTimeout(() => { changeColor(ids, 'red') }, 1200);
     setTimeout(() => { changeColor(ids, 'black') }, 1600);
-    setTimeout(() => { changeColor(ids, 'red') }, 2000);
+    setTimeout(() => { changeColor(ids, 'red'); setDisabled(['newgame-id'], false) }, 2000);
+  }
+
+  function closeLoading() {
+    if (( obj = document.getElementById('lock-id') )) {
+      // obj.style.display = 'none';
+      obj.remove();
+    }
+  }
+
+  function setLoading(message) {
+    var obj = document.createElement('div');
+    obj.setAttribute('class', 'lock');
+    obj.setAttribute('id', 'lock-id');
+    document.body.insertBefore(obj, document.firstElement);
+    obj.innerHTML = message + '<span class="d">.</span><span class="d d-2">.</span><span class="d d-3">.</span>';
+    obj.style.display = 'flex';
   }
 
   const scenarios = [
@@ -376,6 +540,12 @@
     [[2, 7], [6, 8], [0]],
     [[0, 5], [2, 8], [6]],
     [[0, 7], [6, 8], [2]],
+
+    // without Y 45 degree
+    [[1, 3], [4], [0, 2, 6]],
+    [[1, 5], [4], [0, 2, 8]],
+    [[3, 7], [4], [0, 6, 8]],
+    [[5, 7], [4], [2, 6, 8]],
 
     // Primeira jogada
     [[], [], [0, 2, 6, 8]],
