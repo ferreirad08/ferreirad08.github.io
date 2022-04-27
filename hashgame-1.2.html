@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8"/>
+  <title>Hash</title>
+  <style>
+    @keyframes dots {
+      50% {
+        transform: translateY(-0.5rem);
+      }
+    }
+    .d {
+      animation: dots 1.5s ease-out infinite;
+    }
+    .d-2 {
+      animation-delay: .5s;
+    }
+    .d-3 {
+      animation-delay: 1s;
+    }
+    .lock {
+      position: absolute;
+      background-color: rgba(0,0,0,0.5);
+      top: 0%;
+      left: 0%;
+      right: 0%;
+      height: 719px;
+
+      font-size: 1rem;
+      font-family: system-ui;
+      font-weight: bolder;
+      align-items: center;
+      justify-content: center;
+      color: blue;
+    }
+    .label-radio {
+      font: 1.2rem 'Fira Sans', sans-serif;
+      font-weight: bolder;
+      // font-weight: bold;
+    }
+    .button {
+      width: 120.5px;
+      height: 30px;
+      border-radius: 6px;
+      font-size: 17px;
+      background: #077290;
+      border: none;
+      color: #FFFFFF;
+    }
+    .btnOp {
+      font: 4rem 'Fira Sans', sans-serif;
+      font-weight: bold;
+      color: white;
+      background: white;
+      border: none;
+      width: 80px;
+      height: 80px;
+    }
+    .number {
+      width: 200px;
+      height: 30px;
+      border-radius: 6px;
+      font-size: 17px;
+      background: white;
+      color: #5f6774;
+      border: none;
+    }
+  </style>
+</head>
+<body style="background: linear-gradient(#b5e48c, #457b9d)">
+  <div style="background-color:#077290; height:60px; position:fixed; top:0%; left:0%; right:0%; z-index:99999">
+    <img src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/assets/menu.png" height="35px" style="position:absolute; top:13px; left:15px;" value='options' onclick="document.getElementById('options-id').style.display = document.getElementById('options-id').style.display === 'none' ? 'block' : 'none';">
+    <h1 style='color:#FFFFFF; text-align:center; font-size:25px;'><a href='/index.html' style='text-decoration:none; color:#FFFFFF;'>ferreirad08</a></h1>
+    <table id="options-id" style="display:none; background-color:#077290; border:1px solid #077290;" hidden>
+      <tr>
+        <td><p><a href='/usefullinks.html' style='text-decoration:none; color:#FFFFFF; font-weight:bold;'>&nbsp;&nbsp;&nbsp;Links úteis</a></p></td>
+      </tr>
+      <tr>
+        <td><p><a href='/hashgame-1.2.html' style='text-decoration:none; color:#FFFFFF; font-weight:bold;'>&nbsp;&nbsp;&nbsp;Hash game</a></p></td>
+      </tr>
+      <tr>
+        <td><p><a href='/about.html' style='text-decoration:none; color:#FFFFFF; font-weight:bold;'>&nbsp;&nbsp;&nbsp;Sobre mim</a></p></td>
+      </tr>
+    </table>
+  </div>
+
+  <br><br><br>
+
+  <h1 style='color:#5F6774;'>Hash game</h1>
+
+  <form name='Hash'>
+    <table>
+      <tr>
+        <td><input id='0' type='button' class='btnOp' value='X' onClick='setValue(this, 0)'></td>
+        <td><input id='1' type='button' class='btnOp' value='X' onClick='setValue(this, 1)'></td>
+        <td><input id='2' type='button' class='btnOp' value='X' onClick='setValue(this, 2)'></td>
+      </tr>
+      <tr>
+        <td><input id='3' type='button' class='btnOp' value='X' onClick='setValue(this, 3)'></td>
+        <td><input id='4' type='button' class='btnOp' value='X' onClick='setValue(this, 4)'></td>
+        <td><input id='5' type='button' class='btnOp' value='X' onClick='setValue(this, 5)'></td>
+      </tr>
+      <tr>
+        <td><input id='6' type='button' class='btnOp' value='X' onClick='setValue(this, 6)'></td>
+        <td><input id='7' type='button' class='btnOp' value='X' onClick='setValue(this, 7)'></td>
+        <td><input id='8' type='button' class='btnOp' value='X' onClick='setValue(this, 8)'></td>
+      </tr>
+    </table>
+  </form>
+
+  <br>
+  <input id="newgame-id" type='button' class='button' value='New game' onClick='newGame()'>
+  <br><br>
+  Opponent:
+  <select name='oponent-select' id='oponent-select' class='number' onchange="setOpponent(this)">
+    <option value='human' selected>Human</option>
+    <option value='remote'>Remote (participate)</option>
+    <option value='remotecreate'>Remote (create)</option>
+    <option value='bot'>Easy bot</option>
+    <option value='mediumbot'>Medium bot</option>
+    <option value='hardbot'>Hard bot</option>
+  </select>
+
+  <br><br>
+  Your symbol:
+  <input type='radio' id='X' name='marker' value='X' onClick='setMarker(this)' checked>
+  <img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAsCAYAAAATmipGAAAAinpUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjaXY7dDcMwCITfmaIj8OfDjFNZidQNOn6xHSlKvwc4ELqDju/npNdE2MlbdCTAhaenvkt03hizKMvsVTdXNymlNV4zmW6B7MF+H7rzg2boOMMj0DAwtNz1MFtVjGldTbP5St5G67MV/bcfzwD6Af6qLTs9CB6RAAAKAmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNC40LjAtRXhpdjIiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iCiAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgZXhpZjpQaXhlbFhEaW1lbnNpb249IjQyIgogICBleGlmOlBpeGVsWURpbWVuc2lvbj0iNDQiCiAgIHRpZmY6SW1hZ2VXaWR0aD0iNDIiCiAgIHRpZmY6SW1hZ2VIZWlnaHQ9IjQ0IgogICB0aWZmOk9yaWVudGF0aW9uPSIxIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg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'/>
+  <input type='radio' id='O' name='marker' value='O' onClick='setMarker(this)'>
+  <img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAsCAYAAAAJpsrIAAAAiXpUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjaXY7dDcMwCITfmaIj8OfDjFNZiZQNOn5xnCpKv4fjQOiAts+x02si7OQtOhLgwtNT32U6L4xZlGXW0sVVTcpptVdPpssge7Dfi+78oBk69vAINAwMrXTdzE4VYzq3Zth8Je8gxe+rv/l4HqAv9/ItEDIS9X8AAAoCaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA0LjQuMC1FeGl2MiI+CiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyIKICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICBleGlmOlBpeGVsWERpbWVuc2lvbj0iMzgiCiAgIGV4aWY6UGl4ZWxZRGltZW5zaW9uPSI0NCIKICAgdGlmZjpJbWFnZVdpZHRoPSIzOCIKICAgdGlmZjpJbWFnZUhlaWdodD0iNDQiCiAgIHRpZmY6T3JpZW50YXRpb249IjEiLz4KIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg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'/>
+
+  <br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br>
+
+  <div style="height:60px; background-color:#077290; position:absolute; left:0%; right:0%;">
+    <p style="color:#FFFFFF; font-family:sans-serif; font-size:12px; line-height:36px; text-align:center;">ferreirad08. Todos os direitos reservados. &copy; 2022.</p>
+  </div>
+</body>
+<script>
+  const combinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+  setDisabled(['X', 'O'], true);
+  var level = null;
+  var machine = false;
+  var remote = false;
+  var available = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  var player = true;
+  var choices = {
+    true: [],
+    false: []
+  };
+  var markers = {true: 'X', false: 'O'};
+  var url = '';
+
+  function setValue(obj, value) {
+    if (available.includes(value)) {
+      obj.value = markers[player];
+      obj.setAttribute('style', 'color:black;');
+      available = available.filter(item => item !== value);
+      choices[player].push(value);
+      verify(player);
+      player = !player;
+
+      if (!player && machine) {
+        auto();
+      }
+
+      if (!player && remote) {
+        setLoading('Sending your choice');
+        putData(value);
+      }
+    }
+  }
+
+  async function putData(value) {
+    var res = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'mode': 'no-cors',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({value: value})
+    });
+    if (res.status === 200 && res.headers.get('Content-Type') === 'application/json') {
+      closeLoading();
+      if (available.length > 0) {
+        setLoading('Wait for the opponent');
+        getData();
+      }
+    } else {
+      alert('Trying to reconnect.');
+      setTimeout(() => { putData(value) }, 1000);
+    }
+  }
+
+  async function getData() {
+    var res = await fetch(url);
+    if (res.status === 200 && res.headers.get('Content-Type') === 'application/json') {
+      var data = await res.json();
+      console.log('value:', data['value']);
+      if (available.includes(data['value'])) {
+        setTimeout(closeLoading, 0);
+        obj = document.getElementById(`${data['value']}`);
+        setValue(obj, data['value']);
+      } else {
+        setTimeout(getData, 1000);
+      }
+    } else {
+      alert('Trying to reconnect.');
+      setTimeout(getData, 1000);
+    }
+  }
+
+  async function postData() {
+    setLoading('Generating a new code');
+    var res = await fetch('https://jsonblob.com/api/jsonBlob', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({value: null})
+    });
+    if (res.status === 201 && res.headers.get('Content-Type') === 'application/json') {
+      url = res.headers.get('Location').replace('http:', 'https:');
+      closeLoading();
+      setLoading(`<a href="whatsapp://send?abid=phonenumber&text=${url.split('/')[5]}" style="text-decoration:none";>Click to share code: ${url.split('/')[5]}</a>`);
+      waitAccept();
+    } else {
+      alert('Trying to reconnect.');
+      setTimeout(postData, 1000);
+    }
+  }
+
+  async function deleteData() {
+    var res = await fetch(url, {
+      method: 'DELETE'
+    });
+    console.log(res.status === 200);
+  }
+
+  async function waitAccept() {
+    // Wait for someone to accept
+    console.log("url:", url);
+
+    var res = await fetch(url);
+    if (res.status === 200 && res.headers.get('Content-Type') === 'application/json') {
+      var data = await res.json();
+      console.log('value:', data['value']);
+      if (data['value'] === 'accept') {
+        closeLoading();
+        alert('Ok, aceitaram! Você começa o jogo.');
+        machine = false;
+        remote = true;
+      } else {
+        setTimeout(waitAccept, 1000);
+      }
+    } else {
+      alert('Trying to reconnect.');
+      setTimeout(waitAccept, 1000);
+    }
+  }
+
+  function verify(player) {
+    setDisabled(['X', 'O', 'oponent-select'], true);
+    for (var i = 0; i < combinations.length; i++) {
+      if (combinations[i].every(e => choices[player].indexOf(e) !== -1)) {
+        available = [];
+        blink(combinations[i]);
+        return;
+      }
+    }
+
+    if (available.length === 0) {
+      blink([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+    }
+  }
+
+  function verifyOriginal(_choices) {
+    for (var i = 0; i < combinations.length; i++) {
+      if (combinations[i].every(e => _choices.indexOf(e) !== -1)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function auto() {
+    if (level !== 'bot') {
+      for (var i = 0; i < available.length; i++) {
+        var temp = choices[false].slice();
+        temp.push(available[i]);
+        if (verifyOriginal(temp)) {
+          value = available[i];
+          obj = document.getElementById(`${value}`);
+          setValue(obj, value);
+          return;
+        }
+      }
+
+      for (var i = 0; i < available.length; i++) {
+        var temp = choices[true].slice();
+        temp.push(available[i]);
+        if (verifyOriginal(temp)) {
+          value = available[i];
+          obj = document.getElementById(`${value}`);
+          setValue(obj, value);
+          return;
+        }
+      }
+    }
+
+    if (level === 'hardbot') {
+      for (var i = 0; i < scenarios.length; i++) {
+        var [A, B, C] = scenarios[i];
+        if (isEqual(A, choices[true]) && isEqual(B, choices[false])) {
+          value = choice(C);
+          obj = document.getElementById(`${value}`);
+          setValue(obj, value);
+          return;
+        }
+      }
+    }
+
+    value = choice(available);
+    obj = document.getElementById(`${value}`);
+    setValue(obj, value);
+    return;
+  }
+
+  function setMarker(obj) {
+    setDisabled(['X', 'O'], true);
+    if (obj.value == 'X') {
+      player = true;
+    } else if (obj.value == 'O') {
+      player = false;
+      markers = {true: "O", false: "X"};
+      if (machine) auto();
+    }
+  }
+
+  function setRemoteOpponent(obj) {
+    var code = prompt('Enter code.');
+    if (code === null) {
+      setHumanOpponent(obj);
+      return;
+    }
+
+    setLoading('Validating the code');
+    // https://jsonblob.com/api/jsonBlob/943721425269964800
+    // https://jsonblob.com/api/jsonBlob/943680517434523648
+    url = `https://jsonblob.com/api/jsonBlob/${code}`;
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'mode': 'no-cors',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({value:'accept'})
+    }).then(res => {
+      if (res.status !== 200)
+        throw new Error('');
+      closeLoading();
+      machine = false;
+      remote = true;
+      var sel = document.getElementById('O');
+      sel.checked = true;
+      setMarker(sel);
+
+      /*setInterval(() => {
+        fetch(url, {
+          method: 'PUT',
+          headers: {
+            'mode': 'no-cors',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({value: choice([0,1,2,3,4,5,6,7,8])})
+        });
+      }, 2000);*/
+
+      setLoading('Wait for the opponent');
+      getData();
+    }).catch(err => {
+      closeLoading();
+      alert('Invalid code');
+      setHumanOpponent(obj);
+    });
+  }
+
+  function setHumanOpponent(obj) {
+    obj.value = 'human';
+    machine = false;
+    remote = false;
+    setDisabled(['X', 'O'], true);
+  }
+
+  function setOpponent(obj) {
+    if (obj.value === 'remote') {
+      setRemoteOpponent(obj);
+    } else if (obj.value === 'remotecreate') {
+      postData();
+    } else if (obj.value === 'human') {
+      setHumanOpponent(obj);
+    } else {
+      level = obj.value;
+      machine = true;
+      remote = false;
+      setDisabled(['X', 'O'], false);
+    }
+  }
+
+  function newGame() {
+    setDisabled(['oponent-select'], false);
+    if (machine) {
+      setDisabled(['X', 'O'], false);
+      document.getElementById('X').checked = true;
+      markers = {true: 'X', false: 'O'};
+    } else if (remote) {
+      document.location.reload(true);
+    }
+
+    available = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    available.forEach(element => {
+      obj = document.getElementById(`${element}`);
+      obj.setAttribute('style', 'color:white;');
+      obj.value = 'N';
+      // obj.style.backgroundColor = 'white';
+    });
+
+    player = true;
+    choices = {
+      true: [],
+      false: []
+    };
+  }
+
+  function setDisabled(ids, status) {
+    ids.forEach(id => {
+      document.getElementById(id).disabled = status;
+    });
+  }
+
+  function isEqual(arr1, arr2) {
+    if (arr1.length === arr2.length) {
+      return arr1.every(x => arr2.includes(x));
+    }
+    return false;
+  }
+
+  function choice(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function changeColor(ids, color) {
+    ids.forEach(id => {
+      document.getElementById(`${id}`)
+        .setAttribute('style', `color:${color};`);
+      // document.getElementById(`${id}`).style.backgroundColor = color;
+    });
+  }
+
+  function blink(ids) {
+    setDisabled(['newgame-id'], true);
+    setTimeout(() => { changeColor(ids, 'red') }, 400);
+    setTimeout(() => { changeColor(ids, 'black') }, 800);
+    setTimeout(() => { changeColor(ids, 'red') }, 1200);
+    setTimeout(() => { changeColor(ids, 'black') }, 1600);
+    setTimeout(() => { changeColor(ids, 'red'); setDisabled(['newgame-id'], false) }, 2000);
+  }
+
+  function closeLoading() {
+    if (( obj = document.getElementById('lock-id') )) {
+      // obj.style.display = 'none';
+      obj.remove();
+    }
+  }
+
+  function setLoading(message) {
+    var obj = document.createElement('div');
+    obj.setAttribute('class', 'lock');
+    obj.setAttribute('id', 'lock-id');
+    document.body.insertBefore(obj, document.firstElement);
+    obj.innerHTML = message + '<span class="d">.</span><span class="d d-2">.</span><span class="d d-3">.</span>';
+    obj.style.display = 'flex';
+  }
+
+  const scenarios = [
+    // Y list
+    [[1, 6], [4], [2]],
+    [[1, 8], [4], [0]],
+    [[2, 3], [4], [6]],
+    [[3, 8], [4], [0]],
+    [[0, 5], [4], [8]],
+    [[5, 6], [4], [2]],
+    [[0, 7], [4], [8]],
+    [[2, 7], [4], [6]],
+
+    // diagonals
+    [[4, 8], [0], [2, 6]],
+    [[0, 8], [4], [1, 3, 5, 7]],
+    [[0, 4], [8], [2, 6]],
+    [[4, 6], [2], [0, 8]],
+    [[2, 6], [4], [1, 3, 5, 7]],
+    [[2, 4], [6], [0, 8]],
+
+    // V attack
+    [[5], [0], [6]],
+    [[3], [2], [8]],
+    [[1], [6], [8]],
+    [[1], [8], [6]],
+    [[7], [0], [2]],
+    [[7], [2], [0]],
+    [[5], [6], [0]],
+    [[3], [8], [2]],
+
+    // Vizinho lados
+    [[1], [0], [4]],
+    [[1], [2], [4]],
+    [[3], [6], [4]],
+    [[5], [8], [4]],
+    [[3], [0], [4]],
+    [[5], [2], [4]],
+    [[7], [6], [4]],
+    [[7], [8], [4]],
+    [[0, 5], [4, 8], [6]],
+    [[0, 7], [4, 8], [2]],
+    [[2, 3], [4, 6], [8]],
+    [[2, 7], [4, 6], [0]],
+    [[6, 1], [4, 2], [8]],
+    [[6, 5], [4, 2], [0]],
+    [[8, 1], [4, 0], [6]],
+    [[8, 3], [4, 0], [2]],
+
+    // Mais aberto
+    [[2], [0], [8]],
+    [[6], [0], [8]],
+    [[0], [2], [6]],
+    [[8], [2], [6]],
+    [[0], [6], [2]],
+    [[8], [6], [2]],
+    [[2], [8], [0]],
+    [[6], [8], [0]],
+
+    // Opostos
+    [[8], [0], [2, 6]],
+    [[6], [2], [0, 8]],
+    [[2], [6], [0, 8]],
+    [[0], [8], [2, 6]],
+    [[3, 8], [0, 6], [2]],
+    [[1, 8], [0, 2], [6]],
+    [[1, 6], [2, 0], [8]],
+    [[5, 6], [2, 8], [0]],
+    [[2, 3], [0, 6], [8]],
+    [[2, 7], [6, 8], [0]],
+    [[0, 5], [2, 8], [6]],
+    [[0, 7], [6, 8], [2]],
+
+    // without Y 45 degree
+    [[1, 3], [4], [0, 2, 6]],
+    [[1, 5], [4], [0, 2, 8]],
+    [[3, 7], [4], [0, 6, 8]],
+    [[5, 7], [4], [2, 6, 8]],
+
+    // Primeira jogada
+    [[], [], [0, 2, 6, 8]],
+    [[0], [], [4]],
+    [[1], [], [4]],
+    [[2], [], [4]],
+    [[3], [], [4]],
+    [[4], [], [0, 2, 6, 8]],
+    [[5], [], [4]],
+    [[6], [], [4]],
+    [[7], [], [4]],
+    [[8], [], [4]]
+  ]
+</script>
+</html>
