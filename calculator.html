@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculator</title>
+  <style>
+    .txt {
+      font: 2rem 'Fira Sans', sans-serif;
+      color: orange;
+      width: 370px;
+      height: 70px;
+    }
+    .btnValue {
+      font: 2rem 'Fira Sans', sans-serif;
+      background: white;
+      border: none;
+      width: 90px;
+      height: 90px;
+    }
+    .btnCalcu {
+      font: 2rem 'Fira Sans', sans-serif;
+      color: white;
+      background: orange;
+      border: none;
+      width: 90px;
+      height: 90px;
+    }
+    .btnOpera {
+      font: 2rem 'Fira Sans', sans-serif;
+      color: orange;
+      border: none;
+      width: 90px;
+      height: 90px;
+    }
+  </style>
+</head>
+<body style="background: linear-gradient(#b5e48c, #457b9d)">
+  <div style="background-color:#077290; height:60px; position:fixed; top:0%; left:0%; right:0%; z-index:99999">
+    <img src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/assets/menu.png" height="35px" style="position:absolute; top:13px; left:15px;" value='options' onclick="document.getElementById('options-id').style.display = document.getElementById('options-id').style.display === 'none' ? 'block' : 'none';">
+    <h1 style='color:#FFFFFF; text-align:center; font-size:25px;'><a href='/index.html' style='text-decoration:none; color:#FFFFFF;'>ferreirad08</a></h1>
+    <table id="options-id" style="display:none; background-color:#077290; border:1px solid #077290;" hidden>
+      <tr>
+        <td><p><a href='/usefullinks.html' style='text-decoration:none; color:#FFFFFF; font-weight:bold;'>&nbsp;&nbsp;&nbsp;Links úteis</a></p></td>
+      </tr>
+      <tr>
+        <td><p><a href='/hashgame-1.2.html' style='text-decoration:none; color:#FFFFFF; font-weight:bold;'>&nbsp;&nbsp;&nbsp;Hash game</a></p></td>
+      </tr>
+      <tr>
+        <td><p><a href='/calculator.html' style='text-decoration:none; color:#FFFFFF; font-weight:bold;'>&nbsp;&nbsp;&nbsp;Calculator</a></p></td>
+      </tr>
+      <tr>
+        <td><p><a href='/about.html' style='text-decoration:none; color:#FFFFFF; font-weight:bold;'>&nbsp;&nbsp;&nbsp;Sobre mim</a></p></td>
+      </tr>
+    </table>
+  </div>
+
+  <br><br><br>
+
+  <h1 style='color:#5F6774;'>Calculator</h1>
+
+  <div id="calculator-page-id" style="display:block">
+    <form name='Calculator'>
+      <input name='Input' class='txt' disabled>
+      <table>
+        <tr>
+          <td><input type='button' class='btnValue' value='C' onClick='Calculator.Input.value = ""'></td>
+          <td><input type='button' class='btnValue' value='e' onClick='Calculator.Input.value += "e"'></td>
+          <td><input type='button' class='btnValue' value='(' onClick='Calculator.Input.value += "("'></td>
+          <td><input type='button' class='btnValue' value=')' onClick='Calculator.Input.value += ")"'></td>
+        </tr>
+        <tr>
+          <td><input type='button' class='btnValue' value='7' onClick='Calculator.Input.value += "7"'></td>
+          <td><input type='button' class='btnValue' value='8' onClick='Calculator.Input.value += "8"'></td>
+          <td><input type='button' class='btnValue' value='9' onClick='Calculator.Input.value += "9"'></td>
+          <td><input type='button' class='btnOpera' value='/' onClick='Calculator.Input.value += "/"'></td>
+        </tr>
+        <tr>
+          <td><input type='button' class='btnValue' value='4' onClick='Calculator.Input.value += "4"'></td>
+          <td><input type='button' class='btnValue' value='5' onClick='Calculator.Input.value += "5"'></td>
+          <td><input type='button' class='btnValue' value='6' onClick='Calculator.Input.value += "6"'></td>
+          <td><input type='button' class='btnOpera' value='*' onClick='Calculator.Input.value += "*"'></td>
+        </tr>
+        <tr>
+          <td><input type='button' class='btnValue' value='1' onClick='Calculator.Input.value += "1"'></td>
+          <td><input type='button' class='btnValue' value='2' onClick='Calculator.Input.value += "2"'></td>
+          <td><input type='button' class='btnValue' value='3' onClick='Calculator.Input.value += "3"'></td>
+          <td><input type='button' class='btnOpera' value='-' onClick='Calculator.Input.value += "-"'></td>
+        </tr>
+        <tr>
+          <td><input type='button' class='btnValue' value='0' onClick='Calculator.Input.value += "0"'></td>
+          <td><input type='button' class='btnValue' value='.' onClick='Calculator.Input.value += "."'></td>
+          <td><input type='button' class='btnCalcu' value='=' onClick='Calculator.Input.value = eval(Calculator.Input.value)'></td>
+          <td><input type='button' class='btnOpera' value='+' onClick='Calculator.Input.value += "+"'></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <br><br><br><br><br><br>
+  <br><br><br><br><br><br>
+
+  <div style="height:60px; background-color:#077290; position:absolute; left:0%; right:0%;">
+    <p style="color:#FFFFFF; font-family:sans-serif; font-size:12px; line-height:36px; text-align:center;">ferreirad08. Todos os direitos reservados. &copy; 2022.</p>
+  </div>
+</body>
+</html>
