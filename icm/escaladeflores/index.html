@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <style>
+    body {
+      text-align: center;
+    }
+
+    button {
+      height: 70px;
+      width: 40%;
+      font-size: 30px;
+      color: #ffffff;
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      border-radius: 40px;
+      margin-top: 10px;
+    }
+  </style>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+  <canvas id="canvas" width=960 height=720></canvas>
+  <button onclick="downloadJPG()">Baixar imagem</button>
+  <script src="background.js"></script>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'black';
+
+    const img = new Image();
+    img.onload = populate;
+    img.src = background;
+
+    const template = [];
+
+    for (let i = 0; i < 12; i++) {
+      template.push({
+        index: i,
+        text: 'DD.MM - Nome',
+        position: [canvas.width/4, canvas.height/16*(i+1)+canvas.height/5]
+      });
+    }
+
+    let fields = window.localStorage.getItem("escaladeflores");
+    fields = fields === null ? template : JSON.parse(fields);
+
+    canvas.addEventListener('mousemove', e => {
+      let smaller = 1e90, index = null;
+
+      for (let field of fields) {
+        const x = e.offsetX - field.position[0];
+        const y = e.offsetY - field.position[1];
+        const norm = Math.sqrt(x**2 + y**2);
+        if (norm < smaller) {
+          smaller = norm;
+          index = field.index;
+        }
+      }
+
+      const text = window.prompt("Digite o texto (DD.MM - Nome)", fields[index].text);
+
+      if (text) {
+        fields[index].text = text;
+        window.localStorage.setItem("escaladeflores", JSON.stringify(fields));
+        populate();
+      }
+    });
+
+    function populate() {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      
+      ctx.font = '50px Times New Roman';
+      ctx.fillText(' ESCALA DE FLORES', canvas.width/4, canvas.height/10);
+      ctx.fillText('      ICM - MANOA', canvas.width/4, canvas.height/6);
+
+      ctx.font = 'bolder 50px Courier';
+      for (let field of fields) {
+        ctx.fillText(field.text, ...field.position);
+      }
+    }
+
+    function downloadJPG() {
+      const a = document.createElement('a');
+      a.download = 'escaladeflores.jpg';
+      a.href = canvas.toDataURL('image/jpeg');
+      a.click();
+    }
+  </script>
+</body>
+</html>
