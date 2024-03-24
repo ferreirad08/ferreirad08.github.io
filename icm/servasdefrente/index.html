@@ -11,7 +11,7 @@
       table {
         font-family: "Fira Sans", sans-serif;
         border-collapse: collapse;
-        width: 90%;
+        width: 92%;
         margin-left: 3.75%;
       }
 
@@ -24,17 +24,18 @@
         border: 1px solid green;
         text-align: center;
         width: calc(100% / 6);
-        height: 30px;
+        height: 25px;
         font-size: 18px;
         background-color: rgba(255, 255, 255, 0.5);
       }
 
       div {
         font-family: "Fira Sans", sans-serif;
-        width: 500px;
-        font-size: 20px;
-        background-color: white;
-        color: red;
+        width: 350px;
+        height: 25px;
+        font-size: 18px;
+        background-color: red;
+        color: black;
         font-weight: bolder;
         margin-left: 35px;
         text-align: center;
@@ -44,6 +45,12 @@
         font-family: "Fira Sans", sans-serif;
         width: 100%;
         text-align: center;
+      }
+
+      .space {
+        background-color: transparent;
+        border-left: none;
+        border-right: none;
       }
     </style>
     <meta charset="utf-8" />
@@ -89,6 +96,9 @@
         <td onclick="set(this)" id="td20">Insira um nome</td>
       </tr>
       <tr>
+        <td colspan="6" class="space"></td>
+      </tr>
+      <tr>
         <th colspan="6" onclick="set(this)" id="mes2">Insira um MÊS</th>
       </tr>
       <tr>
@@ -122,6 +132,9 @@
         <td onclick="set(this)" id="td38">Insira um nome</td>
         <td onclick="set(this)" id="td39">Insira um nome</td>
         <td onclick="set(this)" id="td40">Insira um nome</td>
+      </tr>
+      <tr>
+        <td colspan="6" class="space"></td>
       </tr>
       <tr>
         <th colspan="6" onclick="set(this)" id="mes3">Insira um MÊS</th>
@@ -160,8 +173,14 @@
       </tr>
     </table>
     <br />
-    <div>Reunião quinzenal com duração de 20 minutos</div>
+    <div>REUNIÃO QUINZENAL - 20 MINUTOS</div>
     <script>
+      const dateIds = [
+        "td1", "td2", "td3", "td4", "td5",
+        "td21", "td22", "td23", "td24", "td25",
+        "td41", "td42", "td43", "td44", "td45"
+      ];
+
       let data = window.localStorage.getItem("servasdefrente");
       data = data === null ? {} : JSON.parse(data);
 
@@ -170,9 +189,15 @@
       }
 
       function set(obj) {
-        if ((name = window.prompt("Insira um nome", obj.innerHTML)) !== null) {
+        if ((name = window.prompt("Insira um texto", obj.innerHTML)) !== null) {
           obj.innerHTML = name;
           data[obj.id] = name;
+
+          if (dateIds.includes(obj.id)) {
+            const result = window.confirm("Marcar reunião quinzenal neste dia?");
+            obj.style.backgroundColor = result ? "red" : "rgba(255, 255, 255, 0.5)";
+          }
+
           window.localStorage.setItem("servasdefrente", JSON.stringify(data));
         }
       }
