@@ -223,7 +223,9 @@
       }
 
       function downloadJpg() {
-        html2canvas(document.body).then(function(canvas) {
+        html2canvas(document.body, {
+          height: 665,
+        }).then(function(canvas) {
           // document.body.appendChild(canvas);
           const a = document.createElement("a");
           a.download = "servasdefrente.jpg";
