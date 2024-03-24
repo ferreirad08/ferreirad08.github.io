@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background-size: 105%;
+        background-repeat: no-repeat;
+        background-position: -23px -15px;
+      }
+
+      table {
+        font-family: "Fira Sans", sans-serif;
+        border-collapse: collapse;
+        width: 92%;
+        margin-left: 3.75%;
+      }
+
+      tr:nth-child(2n + 1) {
+        background-color: #ddd;
+      }
+
+      td,
+      th {
+        border: 1px solid green;
+        text-align: center;
+        width: calc(100% / 6);
+        height: 25px;
+        font-size: 18px;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      div {
+        font-family: "Fira Sans", sans-serif;
+        width: 350px;
+        height: 25px;
+        font-size: 18px;
+        background-color: #ff584f;
+        color: black;
+        font-weight: bolder;
+        margin-left: 35px;
+        text-align: center;
+      }
+
+      h1 {
+        font-family: "Fira Sans", sans-serif;
+        width: 100%;
+        text-align: center;
+      }
+
+      .space {
+        background-color: transparent;
+        border-left: none;
+        border-right: none;
+      }
+    
+      button {
+        height: 70px;
+        width: 40%;
+        font-size: 30px;
+        color: #ffffff;
+        background-color: rgba(0, 0, 0, 0.5);
+        border: none;
+        border-radius: 40px;
+        margin-top: 10px;
+        margin-left: 30%;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body>
+    <br />
+    <h1>ESCALA DE SERVAS RESPONSÁVEIS</h1>
+    <br />
+    <table>
+      <tr>
+        <th colspan="6" onclick="set(this)" id="mes1">Insira um MÊS</th>
+      </tr>
+      <tr>
+        <th>DATA</th>
+        <td onclick="set(this)" id="td1">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td2">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td3">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td4">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td5">DD/MM/AAAA</td>
+      </tr>
+      <tr>
+        <th>PALAVRA</th>
+        <td onclick="set(this)" id="td6">Insira um nome</td>
+        <td onclick="set(this)" id="td7">Insira um nome</td>
+        <td onclick="set(this)" id="td8">Insira um nome</td>
+        <td onclick="set(this)" id="td9">Insira um nome</td>
+        <td onclick="set(this)" id="td10">Insira um nome</td>
+      </tr>
+      <tr>
+        <th>LOUVOR</th>
+        <td onclick="set(this)" id="td11">Insira um nome</td>
+        <td onclick="set(this)" id="td12">Insira um nome</td>
+        <td onclick="set(this)" id="td13">Insira um nome</td>
+        <td onclick="set(this)" id="td14">Insira um nome</td>
+        <td onclick="set(this)" id="td15">Insira um nome</td>
+      </tr>
+      <tr>
+        <th>PREPARO</th>
+        <td onclick="set(this)" id="td16">Insira um nome</td>
+        <td onclick="set(this)" id="td17">Insira um nome</td>
+        <td onclick="set(this)" id="td18">Insira um nome</td>
+        <td onclick="set(this)" id="td19">Insira um nome</td>
+        <td onclick="set(this)" id="td20">Insira um nome</td>
+      </tr>
+      <tr>
+        <td colspan="6" class="space"></td>
+      </tr>
+      <tr>
+        <th colspan="6" onclick="set(this)" id="mes2">Insira um MÊS</th>
+      </tr>
+      <tr>
+        <th>DATA</th>
+        <td onclick="set(this)" id="td21">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td22">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td23">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td24">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td25">DD/MM/AAAA</td>
+      </tr>
+      <tr>
+        <th>PALAVRA</th>
+        <td onclick="set(this)" id="td26">Insira um nome</td>
+        <td onclick="set(this)" id="td27">Insira um nome</td>
+        <td onclick="set(this)" id="td28">Insira um nome</td>
+        <td onclick="set(this)" id="td29">Insira um nome</td>
+        <td onclick="set(this)" id="td30">Insira um nome</td>
+      </tr>
+      <tr>
+        <th>LOUVOR</th>
+        <td onclick="set(this)" id="td31">Insira um nome</td>
+        <td onclick="set(this)" id="td32">Insira um nome</td>
+        <td onclick="set(this)" id="td33">Insira um nome</td>
+        <td onclick="set(this)" id="td34">Insira um nome</td>
+        <td onclick="set(this)" id="td35">Insira um nome</td>
+      </tr>
+      <tr>
+        <th>PREPARO</th>
+        <td onclick="set(this)" id="td36">Insira um nome</td>
+        <td onclick="set(this)" id="td37">Insira um nome</td>
+        <td onclick="set(this)" id="td38">Insira um nome</td>
+        <td onclick="set(this)" id="td39">Insira um nome</td>
+        <td onclick="set(this)" id="td40">Insira um nome</td>
+      </tr>
+      <tr>
+        <td colspan="6" class="space"></td>
+      </tr>
+      <tr>
+        <th colspan="6" onclick="set(this)" id="mes3">Insira um MÊS</th>
+      </tr>
+      <tr>
+        <th>DATA</th>
+        <td onclick="set(this)" id="td41">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td42">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td43">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td44">DD/MM/AAAA</td>
+        <td onclick="set(this)" id="td45">DD/MM/AAAA</td>
+      </tr>
+      <tr>
+        <th>PALAVRA</th>
+        <td onclick="set(this)" id="td46">Insira um nome</td>
+        <td onclick="set(this)" id="td47">Insira um nome</td>
+        <td onclick="set(this)" id="td48">Insira um nome</td>
+        <td onclick="set(this)" id="td49">Insira um nome</td>
+        <td onclick="set(this)" id="td50">Insira um nome</td>
+      </tr>
+      <tr>
+        <th>LOUVOR</th>
+        <td onclick="set(this)" id="td51">Insira um nome</td>
+        <td onclick="set(this)" id="td52">Insira um nome</td>
+        <td onclick="set(this)" id="td53">Insira um nome</td>
+        <td onclick="set(this)" id="td54">Insira um nome</td>
+        <td onclick="set(this)" id="td55">Insira um nome</td>
+      </tr>
+      <tr>
+        <th>PREPARO</th>
+        <td onclick="set(this)" id="td56">Insira um nome</td>
+        <td onclick="set(this)" id="td57">Insira um nome</td>
+        <td onclick="set(this)" id="td58">Insira um nome</td>
+        <td onclick="set(this)" id="td59">Insira um nome</td>
+        <td onclick="set(this)" id="td60">Insira um nome</td>
+      </tr>
+    </table>
+    <br />
+    <div>REUNIÃO QUINZENAL - 20 MINUTOS</div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <button onclick="downloadJpg()">Baixar Escala</button>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="background.js"></script>
+    <script>
+      document.body.style.backgroundImage = `url(${background})`;
+
+      const dateIds = [
+        "td1", "td2", "td3", "td4", "td5",
+        "td21", "td22", "td23", "td24", "td25",
+        "td41", "td42", "td43", "td44", "td45"
+      ];
+
+      let data = window.localStorage.getItem("servasdefrente");
+      data = data === null ? {} : JSON.parse(data);
+
+      for (const id in data) {
+        document.getElementById(id).innerHTML = data[id];
+      }
+
+      function set(obj) {
+        if ((name = window.prompt("Insira um texto", obj.innerHTML)) !== null) {
+          obj.innerHTML = name;
+          data[obj.id] = name;
+
+          if (dateIds.includes(obj.id)) {
+            const result = window.confirm("Marcar reunião quinzenal neste dia?");
+            obj.style.backgroundColor = result ? "#ff584f" : "rgba(255, 255, 255, 0.5)";
+          }
+
+          window.localStorage.setItem("servasdefrente", JSON.stringify(data));
+        }
+      }
+
+      function downloadJpg() {
+        html2canvas(document.body, {
+          height: 665,
+        }).then(function(canvas) {
+          // document.body.appendChild(canvas);
+          const a = document.createElement("a");
+          a.download = "servasdefrente.jpg";
+          a.href = canvas.toDataURL("image/jpeg");
+          a.click();
+        });
+      }
+    </script>
+  </body>
+</html>
