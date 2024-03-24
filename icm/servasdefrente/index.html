@@ -34,7 +34,7 @@
         width: 350px;
         height: 25px;
         font-size: 18px;
-        background-color: red;
+        background-color: #ff584f;
         color: black;
         font-weight: bolder;
         margin-left: 35px;
@@ -195,7 +195,7 @@
 
           if (dateIds.includes(obj.id)) {
             const result = window.confirm("Marcar reunião quinzenal neste dia?");
-            obj.style.backgroundColor = result ? "red" : "rgba(255, 255, 255, 0.5)";
+            obj.style.backgroundColor = result ? "#ff584f" : "rgba(255, 255, 255, 0.5)";
           }
 
           window.localStorage.setItem("servasdefrente", JSON.stringify(data));
