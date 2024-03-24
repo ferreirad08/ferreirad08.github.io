@@ -204,20 +204,29 @@
       ];
 
       let data = window.localStorage.getItem("servasdefrente");
-      data = data === null ? {} : JSON.parse(data);
+      data = data === null ? { cells: {}, quinzenais: {} } : JSON.parse(data);
 
-      for (const id in data) {
-        document.getElementById(id).innerHTML = data[id];
+      if (!("cells" in data)) {
+        data = { cells: data, quinzenais: {} }
+      }
+
+      for (const id in data.cells) {
+        document.getElementById(id).innerHTML = data.cells[id];
+      }
+
+      for (const id in data.quinzenais) {
+        document.getElementById(id).style.backgroundColor = data.quinzenais[id];
       }
 
       function set(obj) {
         if ((name = window.prompt("Insira um texto", obj.innerHTML)) !== null) {
           obj.innerHTML = name;
-          data[obj.id] = name;
+          data.cells[obj.id] = name;
 
           if (dateIds.includes(obj.id)) {
             const result = window.confirm("Marcar reunião quinzenal neste dia?");
             obj.style.backgroundColor = result ? "#ff584f" : "rgba(255, 255, 255, 0.5)";
+            data.quinzenais[obj.id] = obj.style.backgroundColor;
           }
 
           window.localStorage.setItem("servasdefrente", JSON.stringify(data));
