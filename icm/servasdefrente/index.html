@@ -52,7 +52,7 @@
         border-left: none;
         border-right: none;
       }
-    
+
       button {
         height: 70px;
         width: 40%;
@@ -198,17 +198,25 @@
       document.body.style.backgroundImage = `url(${background})`;
 
       const dateIds = [
-        "td1", "td2", "td3", "td4", "td5",
-        "td21", "td22", "td23", "td24", "td25",
-        "td41", "td42", "td43", "td44", "td45"
+        "td1",
+        "td2",
+        "td3",
+        "td4",
+        "td5",
+        "td21",
+        "td22",
+        "td23",
+        "td24",
+        "td25",
+        "td41",
+        "td42",
+        "td43",
+        "td44",
+        "td45",
       ];
 
       let data = window.localStorage.getItem("servasdefrente");
       data = data === null ? { cells: {}, quinzenais: {} } : JSON.parse(data);
-
-      if (!("cells" in data)) {
-        data = { cells: data, quinzenais: {} }
-      }
 
       for (const id in data.cells) {
         document.getElementById(id).innerHTML = data.cells[id];
@@ -224,8 +232,12 @@
           data.cells[obj.id] = name;
 
           if (dateIds.includes(obj.id)) {
-            const result = window.confirm("Marcar reunião quinzenal neste dia?");
-            obj.style.backgroundColor = result ? "#ff584f" : "rgba(255, 255, 255, 0.5)";
+            const result = window.confirm(
+              "Marcar reunião quinzenal neste dia?"
+            );
+            obj.style.backgroundColor = result
+              ? "#ff584f"
+              : "rgba(255, 255, 255, 0.5)";
             data.quinzenais[obj.id] = obj.style.backgroundColor;
           }
 
@@ -236,7 +248,7 @@
       function downloadJpg() {
         html2canvas(document.body, {
           height: 665,
-        }).then(function(canvas) {
+        }).then(function (canvas) {
           // document.body.appendChild(canvas);
           const a = document.createElement("a");
           a.download = "servasdefrente.jpg";
