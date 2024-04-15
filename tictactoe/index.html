@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      color: rgb(255, 255, 255);
+      background-color: rgba(30, 50, 80, 255);
+    }
+
+    table {
+      padding-left: calc(50% - 128px);
+    }
+
+    @keyframes dots {
+      50% {
+        transform: translateY(-0.5rem);
+      }
+    }
+
+    .d {
+      animation: dots 1.5s ease-out infinite;
+    }
+
+    .d-2 {
+      animation-delay: .5s;
+    }
+
+    .d-3 {
+      animation-delay: 1s;
+    }
+
+    #lock {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.5);
+      top: 0%;
+      left: 0%;
+      right: 0%;
+      height: 719px;
+
+      font-size: 1rem;
+      font-family: system-ui;
+      font-weight: bolder;
+      align-items: center;
+      justify-content: center;
+      color: yellow;
+    }
+
+    .label-radio {
+      font: 1.2rem 'Fira Sans', sans-serif;
+      font-weight: bolder;
+    }
+
+    #label {
+      width: 120.5px;
+      height: 42px;
+      font-size: 17px;
+      border: none;
+      color: rgba(255, 255, 255, 255);
+    }
+
+    .button {
+      width: 120.5px;
+      height: 42px;
+      border-radius: 42px;
+      font-size: 17px;
+      background-color: transparent;
+      border: 2px solid rgba(255, 255, 255, 255);
+      color: rgba(255, 255, 255, 255);
+    }
+
+    .btnOp {
+      font: 4rem 'Fira Sans', sans-serif;
+      font-weight: bold;
+      color: white;
+      background: white;
+      border: none;
+      width: 80px;
+      height: 80px;
+    }
+
+    .number {
+      width: 200px;
+      height: 42px;
+      border-radius: 0px;
+      text-align: center;
+      font-size: 17px;
+      background: white;
+      color: black;
+      border: none;
+    }
+  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  <h1>
+    Tic-Tac-Toe
+  </h1>
+
+  <table>
+    <tr>
+      <td><input id='0' type='button' class='btnOp' value='X' onClick='setValue(this, 0)'></td>
+      <td><input id='1' type='button' class='btnOp' value='X' onClick='setValue(this, 1)'></td>
+      <td><input id='2' type='button' class='btnOp' value='X' onClick='setValue(this, 2)'></td>
+    </tr>
+    <tr>
+      <td><input id='3' type='button' class='btnOp' value='X' onClick='setValue(this, 3)'></td>
+      <td><input id='4' type='button' class='btnOp' value='X' onClick='setValue(this, 4)'></td>
+      <td><input id='5' type='button' class='btnOp' value='X' onClick='setValue(this, 5)'></td>
+    </tr>
+    <tr>
+      <td><input id='6' type='button' class='btnOp' value='X' onClick='setValue(this, 6)'></td>
+      <td><input id='7' type='button' class='btnOp' value='X' onClick='setValue(this, 7)'></td>
+      <td><input id='8' type='button' class='btnOp' value='X' onClick='setValue(this, 8)'></td>
+    </tr>
+  </table>
+
+  <br>
+  <input id="newgame-id" type='button' class='button' value='New game' onClick="document.location.reload(true);">
+  <br><br>
+  <a id="label">Settings (opponent/symbol)</a>
+  <br><br>
+  <select id='oponent-select' class='number' onchange="setOpponent(this.value)">
+    <option value='human' selected>Human</option>
+    <option value='remotecreate'>Remote/X</option>
+    <option value='remote'>Remote/O</option>
+    <option value='robotX'>Robot/X</option>
+    <option value='robotO'>Robot/O</option>
+  </select>
+  <script>
+    class Event {
+
+      #event = false;
+
+      set() {
+        this.#event = true;
+      }
+
+      clear() {
+        this.#event = false;
+      }
+
+      is_set() {
+        return this.#event;
+      }
+
+      wait(timeout = 1000) {
+        const start = Date.now();
+        while (
+          !this.#event &&
+          Date.now() - start < timeout
+        ) {
+          // pass
+        }
+        return this.#event;
+      }
+    }
+
+    const requests = {
+      codes: {
+        HTTP_200_OK: 200,
+        HTTP_201_CREATED: 201,
+        HTTP_400_BAD_REQUEST: 400,
+        HTTP_403_FORBIDDEN: 403,
+        HTTP_404_NOT_FOUND: 404,
+        HTTP_422_UNPROCESSABLE_ENTITY: 422,
+        HTTP_500_INTERNAL_SERVER_ERROR: 500,
+      },
+      headers: {
+        'mode': 'no-cors',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      async post(url, json) {
+        return await fetch(url, {
+          method: 'POST',
+          headers: requests.headers,
+          body: JSON.stringify(json)
+        });
+      },
+      async get(url) {
+        return await fetch(url);
+      },
+      async put(url, json) {
+        return await fetch(url, {
+          method: 'PUT',
+          headers: requests.headers,
+          body: JSON.stringify(json)
+        });
+      },
+    };
+
+    const combinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+    const machine = new Event();
+    const remote = new Event();
+    let available = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    let player = true;
+    let choices = {
+      true: [],
+      false: []
+    };
+    let url = '';
+    const headers = {
+      'mode': 'no-cors',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    };
+
+    const elements = {
+      select: document.getElementById("oponent-select"),
+      button: document.getElementById("newgame-id"),
+
+      disableSelect(status = true) {
+        elements.select.disabled = status;
+      },
+
+      disableButton(status = true) {
+        elements.button.disabled = status;
+      },
+    };
+
+    let markers = { true: 'X', false: 'O' };
+
+    function setValue(obj, value) {
+      if (available.includes(value)) {
+        obj.value = markers[player];
+        obj.setAttribute('style', 'color:black;');
+        available = available.filter(item => item !== value);
+        choices[player].push(value);
+        verify(player);
+        player = !player;
+
+        if (!player && machine.is_set()) {
+          auto();
+        }
+
+        if (!player && remote.is_set()) {
+          setLoading('Sending your choice');
+          putData(value);
+        }
+      }
+    }
+
+    async function putData(value) {
+      const res = await requests.put(url, { value });
+
+      if (
+        res.status === requests.codes.HTTP_200_OK &&
+        res.headers.get('Content-Type') === 'application/json'
+      ) {
+        closeLoading();
+        if (available.length > 0) {
+          setLoading('Wait for the opponent');
+          getData();
+        }
+      } else {
+        alert('Trying to reconnect.');
+        setTimeout(() => { putData(value) }, 1000);
+      }
+    }
+
+    async function getData() {
+      const res = await requests.get(url);
+
+      if (
+        res.status === requests.codes.HTTP_200_OK &&
+        res.headers.get('Content-Type') === 'application/json'
+      ) {
+        let data = await res.json();
+        console.log('value:', data['value']);
+        if (available.includes(data['value'])) {
+          setTimeout(closeLoading, 0);
+          obj = document.getElementById(`${data['value']}`);
+          setValue(obj, data['value']);
+        } else {
+          setTimeout(getData, 1000);
+        }
+      } else {
+        window.alert('Trying to reconnect.');
+        setTimeout(getData, 1000);
+      }
+    }
+
+    async function postData() {
+      setLoading('Generating a new code');
+
+      const res = await requests.post('https://jsonblob.com/api/jsonBlob', { value: null });
+
+      if (res.status === requests.codes.HTTP_201_CREATED && res.headers.get('Content-Type') === 'application/json') {
+        url = res.headers.get('Location').replace('http:', 'https:');
+        closeLoading();
+        setLoading(`<a href="whatsapp://send?abid=phonenumber&text=${url.split('/')[5]}" style="text-decoration:none";>Click to share code: ${url.split('/')[5]}</a>`);
+        waitAccept();
+      } else {
+        alert('Trying to reconnect.');
+        setTimeout(postData, 1000);
+      }
+    }
+
+    async function deleteData() {
+      let res = await fetch(url, {
+        method: 'DELETE'
+      });
+      console.log(res.status === requests.codes.HTTP_200_OK);
+    }
+
+    async function waitAccept() {
+      // Wait for someone to accept
+      console.log("url:", url);
+
+      let res = await fetch(url);
+      if (
+        res.status === requests.codes.HTTP_200_OK &&
+        res.headers.get('Content-Type') === 'application/json'
+      ) {
+        let data = await res.json();
+        console.log('value:', data['value']);
+        if (data['value'] === 'accept') {
+          closeLoading();
+          alert('Ok, aceitaram! Você começa o jogo.');
+          machine.clear();
+          remote.set();
+        } else {
+          setTimeout(waitAccept, 1000);
+        }
+      } else {
+        alert('Trying to reconnect.');
+        setTimeout(waitAccept, 1000);
+      }
+    }
+
+    const verify = (player) => {
+      elements.disableSelect();
+
+      for (let comb of combinations) {
+        if (comb.every(el => choices[player].indexOf(el) !== -1)) {
+          available = [];
+          blink(comb);
+          return;
+        }
+      }
+
+      if (available.length === 0) {
+        blink([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+      }
+    }
+
+    const verifyOriginal = (_choices) => {
+      for (let comb of combinations) {
+        if (comb.every(e => _choices.indexOf(e) !== -1)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function auto() {
+      for (let key of [false, true]) {
+        for (let item of available) {
+          let temp = choices[key].slice();
+          temp.push(item);
+          if (verifyOriginal(temp)) {
+            const obj = document.getElementById(`${item}`);
+            setValue(obj, item);
+            return;
+          }
+        }
+      }
+
+      for (let scenary of scenarios) {
+        let [A, B, C] = scenary;
+        if (isEqual(A, choices[true]) && isEqual(B, choices[false])) {
+          const value = choice(C);
+          const obj = document.getElementById(`${value}`);
+          setValue(obj, value);
+          return;
+        }
+      }
+
+      const value = choice(available);
+      const obj = document.getElementById(`${value}`);
+      setValue(obj, value);
+      return;
+    }
+
+    const setMarker = (symbol) => {
+      player = symbol === "X";
+
+      if (!player) markers = { true: "O", false: "X" };
+    };
+
+    const setOpponent = (optionValue) => {
+      if (optionValue === 'remote') {
+        setRemoteOpponent();
+      } else if (optionValue === 'remotecreate') {
+        postData();
+      } else if (optionValue === 'human') {
+        machine.clear();
+        remote.clear();
+      } else if (optionValue === 'robotX') {
+        machine.set();
+        remote.clear();
+        setMarker("X");
+      } else if (optionValue === 'robotO') {
+        machine.set();
+        remote.clear();
+        setMarker("O");
+        auto();
+      }
+    };
+
+    function setRemoteOpponent() {
+      if ((code = window.prompt('Enter code.')) === null) {
+        return document.location.reload(true);
+      }
+
+      setLoading('Validating the code');
+      url = `https://jsonblob.com/api/jsonBlob/${code}`;
+
+      fetch(url, {
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify({ value: 'accept' })
+      }).then((res) => {
+        if (res.status !== 200) {
+          throw new Error('');
+        }
+
+        closeLoading();
+        machine.clear();
+        remote.set();
+        setMarker("O");
+
+        // Mocked
+        /* setInterval(() => {
+          requests.put(url, { value: choice(available) });
+        }, 2000); */
+
+        setLoading('Wait for the opponent');
+        getData();
+      }).catch(err => {
+        closeLoading();
+        window.alert('Invalid code');
+        document.location.reload(true);
+      });
+    }
+
+    function isEqual(arr1, arr2) {
+      if (arr1.length === arr2.length) {
+        return arr1.every(x => arr2.includes(x));
+      }
+      return false;
+    }
+
+    const choice = (arr) => {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function changeColor(ids, color) {
+      ids.forEach((id) => {
+        document.getElementById(`${id}`).setAttribute('style', `color:${color};`);
+      });
+    }
+
+    function blink(ids) {
+      elements.disableButton();
+      setTimeout(() => { changeColor(ids, 'red') }, 400);
+      setTimeout(() => { changeColor(ids, 'black') }, 800);
+      setTimeout(() => { changeColor(ids, 'red') }, 1200);
+      setTimeout(() => { changeColor(ids, 'black') }, 1600);
+      setTimeout(() => { changeColor(ids, 'red'); elements.disableButton(false) }, 2000);
+    }
+
+    function closeLoading() {
+      if ((obj = document.getElementById('lock'))) {
+        obj.remove();
+      }
+    }
+
+    function setLoading(message) {
+      const div = document.createElement('div');
+      div.id = 'lock';
+      document.body.insertBefore(div, document.firstElement);
+      div.innerHTML = message + '<span class="d">.</span><span class="d d-2">.</span><span class="d d-3">.</span>';
+      div.style.display = 'flex';
+    }
+
+    const scenarios = [
+      // Y list
+      [[1, 6], [4], [2]],
+      [[1, 8], [4], [0]],
+      [[2, 3], [4], [6]],
+      [[3, 8], [4], [0]],
+      [[0, 5], [4], [8]],
+      [[5, 6], [4], [2]],
+      [[0, 7], [4], [8]],
+      [[2, 7], [4], [6]],
+
+      // diagonals
+      [[4, 8], [0], [2, 6]],
+      [[0, 8], [4], [1, 3, 5, 7]],
+      [[0, 4], [8], [2, 6]],
+      [[4, 6], [2], [0, 8]],
+      [[2, 6], [4], [1, 3, 5, 7]],
+      [[2, 4], [6], [0, 8]],
+
+      // V attack
+      [[5], [0], [6]],
+      [[3], [2], [8]],
+      [[1], [6], [8]],
+      [[1], [8], [6]],
+      [[7], [0], [2]],
+      [[7], [2], [0]],
+      [[5], [6], [0]],
+      [[3], [8], [2]],
+
+      // Vizinho lados
+      [[1], [0], [4]],
+      [[1], [2], [4]],
+      [[3], [6], [4]],
+      [[5], [8], [4]],
+      [[3], [0], [4]],
+      [[5], [2], [4]],
+      [[7], [6], [4]],
+      [[7], [8], [4]],
+      [[0, 5], [4, 8], [6]],
+      [[0, 7], [4, 8], [2]],
+      [[2, 3], [4, 6], [8]],
+      [[2, 7], [4, 6], [0]],
+      [[6, 1], [4, 2], [8]],
+      [[6, 5], [4, 2], [0]],
+      [[8, 1], [4, 0], [6]],
+      [[8, 3], [4, 0], [2]],
+
+      // Mais aberto
+      [[2], [0], [8]],
+      [[6], [0], [8]],
+      [[0], [2], [6]],
+      [[8], [2], [6]],
+      [[0], [6], [2]],
+      [[8], [6], [2]],
+      [[2], [8], [0]],
+      [[6], [8], [0]],
+
+      // Opostos
+      [[8], [0], [2, 6]],
+      [[6], [2], [0, 8]],
+      [[2], [6], [0, 8]],
+      [[0], [8], [2, 6]],
+      [[3, 8], [0, 6], [2]],
+      [[1, 8], [0, 2], [6]],
+      [[1, 6], [2, 0], [8]],
+      [[5, 6], [2, 8], [0]],
+      [[2, 3], [0, 6], [8]],
+      [[2, 7], [6, 8], [0]],
+      [[0, 5], [2, 8], [6]],
+      [[0, 7], [6, 8], [2]],
+
+      // without Y 45 degree
+      [[1, 3], [4], [0, 2, 6]],
+      [[1, 5], [4], [0, 2, 8]],
+      [[3, 7], [4], [0, 6, 8]],
+      [[5, 7], [4], [2, 6, 8]],
+
+      // Primeira jogada
+      [[], [], [0, 2, 6, 8]],
+      [[0], [], [4]],
+      [[1], [], [4]],
+      [[2], [], [4]],
+      [[3], [], [4]],
+      [[4], [], [0, 2, 6, 8]],
+      [[5], [], [4]],
+      [[6], [], [4]],
+      [[7], [], [4]],
+      [[8], [], [4]]
+    ];
+  </script>
+</body>
+
+</html>
