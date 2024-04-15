@@ -1,3 +1,3 @@
 # Tic-Tac-Toe
 
-[Jogar](ferreirad08.github.io/tictactoe)
+[Play](ferreirad08.github.io/tictactoe)
