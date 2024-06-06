@@ -271,6 +271,21 @@
         },
       };
 
+      function queryString() {
+        const parameters = {};
+        for (const item of window.location.search.slice(1).split("&")) {
+          const [key, value] = item.split("=");
+          parameters[key] = value;
+        }
+        return parameters;
+      }
+
+      const query = queryString();
+
+      if (query.code) {
+        window.alert(query.code);
+      }
+
       const combinations = [
         [0, 1, 2],
         [3, 4, 5],
@@ -534,11 +549,6 @@
             machine.clear();
             remote.set();
             setMarker("O");
-
-            // Mocked
-            /* setInterval(() => {
-          requests.put(url, { value: choice(available) });
-        }, 2000); */
 
             setLoading("Wait for the opponent");
             getData();
