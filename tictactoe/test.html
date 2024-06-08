@@ -402,7 +402,7 @@
         ) {
           url = res.headers.get("Location").replace("http:", "https:");
           const _code = url.split("/")[5];
-          const _link = `https://ferreirad08.github.io/tictactoe/test.html?code=${_code}`;
+          const _link = `https://ferreirad08.github.io/tictactoe/test?code=${_code}`;
 
           closeLoading();
           setLoading(
