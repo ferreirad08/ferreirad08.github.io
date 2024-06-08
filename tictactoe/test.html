@@ -280,12 +280,6 @@
         return parameters;
       }
 
-      const query = queryString();
-
-      if (query.code) {
-        window.alert(query.code);
-      }
-
       const combinations = [
         [0, 1, 2],
         [3, 4, 5],
@@ -296,6 +290,7 @@
         [0, 4, 8],
         [2, 4, 6],
       ];
+
       const machine = new Event();
       const remote = new Event();
       let available = [0, 1, 2, 3, 4, 5, 6, 7, 8];
@@ -325,6 +320,12 @@
       };
 
       let markers = { true: "X", false: "O" };
+
+      const query = queryString();
+
+      if (query.code) {
+        setRemoteOpponent(query.code);
+      }
 
       function setValue(obj, value) {
         if (available.includes(value)) {
@@ -400,13 +401,12 @@
           res.headers.get("Content-Type") === "application/json"
         ) {
           url = res.headers.get("Location").replace("http:", "https:");
+          const _code = url.split("/")[5];
+          const _link = `https://ferreirad08.github.io/tictactoe/test.html?code=${_code}`;
+
           closeLoading();
           setLoading(
-            `<a href="whatsapp://send?abid=phonenumber&text=${
-              url.split("/")[5]
-            }" style="text-decoration:none";>Click to share code: ${
-              url.split("/")[5]
-            }</a>`
+            `<a href="whatsapp://send?abid=phonenumber&text=${_code}" style="text-decoration:none";>Click to share link:<br>${_link}</a>`
           );
           waitAccept();
         } else {
@@ -527,13 +527,18 @@
         }
       };
 
-      function setRemoteOpponent() {
-        if ((code = window.prompt("Enter code.")) === null) {
+      function setRemoteOpponent(code = null) {
+        if (code === null) {
+          code = window.prompt("Enter code.");
+        }
+
+        if (code === null) {
           return document.location.reload(true);
         }
 
         setLoading("Validating the code");
         url = `https://jsonblob.com/api/jsonBlob/${code}`;
+        console.log(url);
 
         fetch(url, {
           method: "PUT",
