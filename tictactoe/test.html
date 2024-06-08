@@ -437,10 +437,11 @@
           url = res.headers.get("Location").replace("http:", "https:");
           const _code = url.split("/")[5];
           const _link = `https://ferreirad08.github.io/tictactoe/test?code=${_code}`;
-
+          const message = `Para jogar a partida no Tic-Tac-Toe, clique neste link: ${_link} Ou abra o Tic-Tac-Toe e digite este código: ${_code};
+  
           closeLoading();
           setLoading(
-            `<a href="whatsapp://send?abid=phonenumber&text=${_link}" style="text-decoration:none"><i class="fa fa-share-alt"></i> Share link</a>`
+            `<a href="whatsapp://send?abid=phonenumber&text=${message}" style="text-decoration:none"><i class="fa fa-share-alt"></i> Share link</a>`
           );
           waitAccept();
         } else {
