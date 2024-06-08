@@ -4,10 +4,21 @@
   <head>
     <style>
       body {
-        font-family: Arial;
+        font-family: Arial, Helvetica, sans-serif;
         text-align: center;
-        color: rgb(255, 255, 255);
-        background-color: rgba(30, 50, 80, 255);
+      }
+
+      h1 {
+        text-align: center;
+        color: #151b54;
+      }
+
+      label {
+        width: 346px;
+        margin-left: calc(50% - 440px);
+        font-size: 10px;
+        color: #151b54;
+        height: 30px;
       }
 
       table {
@@ -45,7 +56,7 @@
         font-weight: bolder;
         align-items: center;
         justify-content: center;
-        color: yellow;
+        color: #0000ff;
       }
 
       .label-radio {
@@ -53,22 +64,16 @@
         font-weight: bolder;
       }
 
-      #label {
-        width: 120.5px;
-        height: 42px;
-        font-size: 17px;
-        border: none;
-        color: rgba(255, 255, 255, 255);
-      }
-
       .button {
-        width: 120.5px;
-        height: 42px;
-        border-radius: 42px;
-        font-size: 17px;
-        background-color: transparent;
-        border: 2px solid rgba(255, 255, 255, 255);
-        color: rgba(255, 255, 255, 255);
+        background-color: #151b54;
+        color: #ffffff;
+        border: none;
+        width: calc(346px + 6px);
+        height: 40px;
+        border-radius: 40px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 10px;
       }
 
       .btnOp {
@@ -76,20 +81,42 @@
         font-weight: bold;
         color: white;
         background: white;
-        border: none;
+        border: 1px solid #151b54;
         width: 80px;
         height: 80px;
       }
 
-      .number {
-        width: 200px;
-        height: 42px;
-        border-radius: 0px;
-        text-align: center;
-        font-size: 17px;
-        background: white;
-        color: black;
+      select {
+        width: calc(346px + 4px);
+        height: 30px;
         border: none;
+        border-bottom: 1px solid gray;
+        background-color: transparent;
+        margin-bottom: 10px;
+      }
+
+      input[type="button"][id="0"],
+      input[type="button"][id="1"],
+      input[type="button"][id="2"] {
+        border-top: none;
+      }
+
+      input[type="button"][id="0"],
+      input[type="button"][id="3"],
+      input[type="button"][id="6"] {
+        border-left: none;
+      }
+
+      input[type="button"][id="2"],
+      input[type="button"][id="5"],
+      input[type="button"][id="8"] {
+        border-right: none;
+      }
+
+      input[type="button"][id="6"],
+      input[type="button"][id="7"],
+      input[type="button"][id="8"] {
+        border-bottom: none;
       }
     </style>
     <meta charset="utf-8" />
@@ -99,6 +126,8 @@
 
   <body>
     <h1>Tic-Tac-Toe</h1>
+
+    <br /><br />
 
     <table>
       <tr>
@@ -191,26 +220,30 @@
     </table>
 
     <br />
+
     <input
-      id="newgame-id"
       type="button"
+      id="newgame-id"
       class="button"
       value="New game"
       onClick="document.location.reload(true);"
     />
+
     <br /><br />
-    <a id="label">Settings (opponent/symbol)</a>
+
+    <label>Opponent, Symbol</label>
+
     <br /><br />
+
     <select
       id="oponent-select"
-      class="number"
       onchange="setOpponent(this.value)"
     >
       <option value="human" selected>Human</option>
-      <option value="remotecreate">Remote/X</option>
-      <option value="remote">Remote/O</option>
-      <option value="robotX">Robot/X</option>
-      <option value="robotO">Robot/O</option>
+      <option value="remotecreate">Remote, X</option>
+      <option value="remote">Remote, O</option>
+      <option value="robotX">Robot, X</option>
+      <option value="robotO">Robot, O</option>
     </select>
     <script>
       class Event {
