@@ -25,7 +25,11 @@
 
 <body>
   <canvas id="canvas" width=960 height=720></canvas>
-  <button onclick="downloadJPG()">Baixar imagem</button>
+  <input
+    type="button"
+    onclick="downloadJPG()"
+    value="Baixar imagem"
+  />
   <script src="background.js"></script>
   <script>
     const canvas = document.getElementById('canvas');
