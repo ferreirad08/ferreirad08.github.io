@@ -241,8 +241,8 @@
       onchange="setOpponent(this.value)"
     >
       <option value="human" selected>Human</option>
-      <option value="remotecreate">Remote, X</option>
-      <option value="remote">Remote, O</option>
+      <option value="remoteX">Remote, X</option>
+      <option value="remoteO">Remote, O</option>
       <option value="robotX">Robot, X</option>
       <option value="robotO">Robot, O</option>
     </select>
@@ -543,9 +543,9 @@
       };
 
       const setOpponent = (optionValue) => {
-        if (optionValue === "remote") {
+        if (optionValue === "remoteO") {
           setRemoteOpponent();
-        } else if (optionValue === "remotecreate") {
+        } else if (optionValue === "remoteX") {
           postData();
         } else if (optionValue === "human") {
           machine.clear();
