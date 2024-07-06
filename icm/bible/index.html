@@ -86,11 +86,14 @@
   <br />
 
   <p id="text"></p>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="background0.js"></script>
   <script>
     const books = document.getElementById("books");
     const chapters = document.getElementById("chapters");
     const button = document.getElementById("button");
     const text = document.getElementById("text");
+    text.style.backgroundImage = `url(${img.src})`;
     const url = "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/bible/ARC.json";
     let arc, formatted;
 
@@ -129,11 +132,17 @@
     }
 
     function createImage() {
-      alert(formatted.replaceAll("<br />", "\n"));
+      html2canvas(text, {
+        height: text.clientHeight + 20,
+      }).then(function (canvas) {
+        const a = document.createElement("a");
+        a.download = "text.jpg";
+        a.href = canvas.toDataURL("image/jpeg");
+        a.click();
+      });
     }
 
     main();
   </script>
 </body>
 </html>
-
