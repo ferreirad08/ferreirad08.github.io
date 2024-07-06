@@ -55,13 +55,14 @@
       p {
         text-align: center;
         font-weight: bold;
+        font-size: 12px;
         padding-top: 35px;
         padding-left: 5px;
         padding-right: 5px;
         padding-bottom: 40px;
         min-height: 390px;
-        width: 348px;
-        margin-left: calc(50% - (348px / 2));
+        width: 340px;
+        margin-left: calc(50% - (350px / 2));
         color: #3f3f3f;
       }
     </style>
@@ -72,19 +73,25 @@
   <body>
     <h1>Bíblia Online - ARC</h1>
     <label>Livro</label>
-    <select id="books" onchange="selectBook(this)">
+    <select id="books" onchange="selectBook()">
       <option></option>
     </select>
     <br />
 
     <label>Capítulo</label>
-    <select id="chapters" onchange="selectChapter(this)">
+    <select id="chapters" onchange="selectChapter()">
       <option></option>
     </select>
     <br />
 
-    <label>Versículo</label>
-    <select id="verses" onchange="selectVerse(this)">
+    <label>Versículo inicial</label>
+    <select id="verses" onchange="selectVerse()">
+      <option></option>
+    </select>
+    <br />
+
+    <label>Versículo final</label>
+    <select id="verses-final" onchange="selectVerseFinal()">
       <option></option>
     </select>
     <br />
@@ -105,6 +112,7 @@
       const books = document.getElementById("books");
       const chapters = document.getElementById("chapters");
       const verses = document.getElementById("verses");
+      const versesFinal = document.getElementById("verses-final");
       const button = document.getElementById("button");
       const text = document.getElementById("text");
       text.style.backgroundImage = `url(${background})`;
@@ -122,44 +130,61 @@
         }
       }
 
-      function selectBook(obj) {
+      function selectBook() {
         chapters.innerHTML = "<option></option>";
-        formatted = "";
-        text.innerHTML = "";
+        verses.innerHTML = "<option></option>";
+        versesFinal.innerHTML = "<option></option>";
         button.disabled = true;
+        text.innerHTML = "";
 
-        for (const chapter in arc[obj.value]) {
+        for (const chapter in arc[books.value]) {
           const option = document.createElement("option");
           option.text = Number(chapter) + 1;
           chapters.add(option);
         }
       }
 
-      function selectChapter(obj) {
+      function selectChapter() {
         verses.innerHTML = "<option></option>";
-        formatted = "";
+        versesFinal.innerHTML = "<option></option>";
+        button.disabled = true;
+        text.innerHTML = "";
 
-        for (const verse in arc[books.value][obj.value - 1]) {
+        for (const verse in arc[books.value][chapters.value - 1]) {
           const option = document.createElement("option");
           option.text = Number(verse) + 1;
           verses.add(option);
         }
-
-        for (const [i, verse] of Object.entries(
-          arc[books.value][obj.value - 1]
-        )) {
-          formatted += `<br />${Number(i) + 1}. ` + verse;
-        }
-
-        button.disabled = false;
-        text.innerHTML = formatted;
       }
 
-      function selectVerse(obj) {
-        formatted =
-          `${Number(obj.value)}. ` +
-          arc[books.value][chapters.value - 1][obj.value - 1];
-        text.innerHTML = formatted;
+      function selectVerse() {
+        versesFinal.innerHTML = verses.innerHTML;
+        button.disabled = true;
+        text.innerHTML = "";
+      }
+
+      function selectVerseFinal() {
+        button.disabled = false;
+        text.innerHTML = "";
+
+        let i = Number(verses.value),
+          j = Number(versesFinal.value);
+
+        if (i > j) {
+          return window.alert(
+            "O verso final deve ser maior ou igual ao inicial."
+          );
+        }
+
+        for (const verse of arc[books.value][chapters.value - 1].slice(
+          i - 1,
+          j
+        )) {
+          text.innerHTML += `<br />${i}. ` + verse;
+          i++;
+        }
+
+        text.innerHTML += `<br /><br /><a style="font-size: 20px">${books.value} ${chapters.value}</a>`;
       }
 
       function createImage() {
