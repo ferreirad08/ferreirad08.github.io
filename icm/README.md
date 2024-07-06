@@ -6,4 +6,4 @@
 
 [servasdefrente](https://ferreirad08.github.io/icm/servasdefrente/)
 
-[bible](https://ferreirad08.github.io/icm/bible/)
+[biblia](https://ferreirad08.github.io/icm/biblia/)
