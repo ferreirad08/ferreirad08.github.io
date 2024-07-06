@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-  <style>
+  <head>
+    <style>
       body {
         font-family: Arial, Helvetica, sans-serif;
       }
@@ -57,115 +57,120 @@
         font-weight: bold;
         padding-top: 35px;
         padding-bottom: 40px;
-        min-height: 390px;
+        height: calc(1920px / 3);
+        width: calc(1080px / 3);
+        margin-left: calc(50% - (1080px / 6));
         color: #3f3f3f;
       }
-  </style>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bíblia Online - ARC</title>
-</head>
-<body>
-  <h1>
-    Bíblia Online - ARC
-  </h1>
-  <label>Livro</label>
-  <select id="books" onchange="selectBook(this)">
-    <option></option>
-  </select>
-  <br />
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bíblia Online - ARC</title>
+  </head>
+  <body>
+    <h1>Bíblia Online - ARC</h1>
+    <label>Livro</label>
+    <select id="books" onchange="selectBook(this)">
+      <option></option>
+    </select>
+    <br />
 
-  <label>Capítulo</label>
-  <select id="chapters" onchange="selectChapter(this)">
-    <option></option>
-  </select>
-  <br />
+    <label>Capítulo</label>
+    <select id="chapters" onchange="selectChapter(this)">
+      <option></option>
+    </select>
+    <br />
 
-  <label>Versículo</label>
-  <select id="verses" onchange="selectVerse(this)">
-    <option></option>
-  </select>
-  <br />
+    <label>Versículo</label>
+    <select id="verses" onchange="selectVerse(this)">
+      <option></option>
+    </select>
+    <br />
 
-  <input
-    type="button"
-    id="button"
-    value="Criar imagem"
-    onclick="createImage()"
-    disabled
-  />
-  <br />
+    <input
+      type="button"
+      id="button"
+      value="Criar imagem"
+      onclick="createImage()"
+      disabled
+    />
+    <br />
 
-  <p id="text"></p>
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  <script>
-    const books = document.getElementById("books");
-    const chapters = document.getElementById("chapters");
-    const verses = document.getElementById("verses");
-    const button = document.getElementById("button");
-    const text = document.getElementById("text");
-    text.style.backgroundImage = `url("https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/bible/background.jpg")`;
-    const url = "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/bible/ARC.json";
-    let arc, formatted;
+    <p id="text"></p>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+      const books = document.getElementById("books");
+      const chapters = document.getElementById("chapters");
+      const verses = document.getElementById("verses");
+      const button = document.getElementById("button");
+      const text = document.getElementById("text");
+      text.style.backgroundImage = `url("https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/bible/background.jpg")`;
+      const url =
+        "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/bible/ARC.json";
+      let arc, formatted;
 
-    async function main() {
-      arc = await (await fetch(url)).json();
+      async function main() {
+        arc = await (await fetch(url)).json();
 
-      for (const book in arc) {
-        const option = document.createElement("option");
-        option.text = book;
-        books.add(option);
-      }
-    }
-
-    function selectBook(obj) {
-      chapters.innerHTML = "<option></option>";
-      formatted = "";
-      text.innerHTML = "";
-      button.disabled = true;
-
-      for (const chapter in arc[obj.value]) {
-        const option = document.createElement("option");
-        option.text = Number(chapter) + 1;
-        chapters.add(option);
-      }
-    }
-
-    function selectChapter(obj) {
-      verses.innerHTML = "<option></option>";
-      formatted = "";
-
-      for (const verse in arc[books.value][obj.value - 1]) {
-        const option = document.createElement("option");
-        option.text = Number(verse) + 1;
-        verses.add(option);
+        for (const book in arc) {
+          const option = document.createElement("option");
+          option.text = book;
+          books.add(option);
+        }
       }
 
-      for (const [i, verse] of Object.entries(arc[books.value][obj.value - 1])) {
-        formatted += `<br />${Number(i) + 1}. ` + verse;
+      function selectBook(obj) {
+        chapters.innerHTML = "<option></option>";
+        formatted = "";
+        text.innerHTML = "";
+        button.disabled = true;
+
+        for (const chapter in arc[obj.value]) {
+          const option = document.createElement("option");
+          option.text = Number(chapter) + 1;
+          chapters.add(option);
+        }
       }
 
-      button.disabled = false;
-      text.innerHTML = formatted;
-    }
+      function selectChapter(obj) {
+        verses.innerHTML = "<option></option>";
+        formatted = "";
 
-    function selectVerse(obj) {
-      formatted = `${Number(obj.value)}. ` + arc[books.value][chapters.value - 1][obj.value - 1];
-      text.innerHTML = formatted;
-    }
+        for (const verse in arc[books.value][obj.value - 1]) {
+          const option = document.createElement("option");
+          option.text = Number(verse) + 1;
+          verses.add(option);
+        }
 
-    function createImage() {
-      html2canvas(text, {
-        height: text.clientHeight,
-      }).then(function (canvas) {
-        const a = document.createElement("a");
-        a.download = "text.jpg";
-        a.href = canvas.toDataURL("image/jpeg");
-        a.click();
-      });
-    }
+        for (const [i, verse] of Object.entries(
+          arc[books.value][obj.value - 1]
+        )) {
+          formatted += `<br />${Number(i) + 1}. ` + verse;
+        }
 
-    main();
-  </script>
-</body>
+        button.disabled = false;
+        text.innerHTML = formatted;
+      }
+
+      function selectVerse(obj) {
+        formatted =
+          `${Number(obj.value)}. ` +
+          arc[books.value][chapters.value - 1][obj.value - 1];
+        text.innerHTML = formatted;
+      }
+
+      function createImage() {
+        html2canvas(text, {
+          height: text.clientHeight,
+        }).then(function (canvas) {
+          const a = document.createElement("a");
+          a.download = "text.jpg";
+          a.href = canvas.toDataURL("image/jpeg");
+          a.click();
+        });
+      }
+
+      main();
+    </script>
+  </body>
 </html>
