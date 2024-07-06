@@ -54,6 +54,9 @@
 
       p {
         text-align: center;
+        font-weight: bold;
+        padding-top: 35px;
+        padding-bottom: 40px;
       }
   </style>
   <meta charset="utf-8" />
@@ -76,6 +79,12 @@
   </select>
   <br />
 
+  <label>Versículo</label>
+  <select id="verses" onchange="selectVerse(this)">
+    <option></option>
+  </select>
+  <br />
+
   <input
     type="button"
     id="button"
@@ -90,6 +99,7 @@
   <script>
     const books = document.getElementById("books");
     const chapters = document.getElementById("chapters");
+    const verses = document.getElementById("verses");
     const button = document.getElementById("button");
     const text = document.getElementById("text");
     text.style.backgroundImage = `url("https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/bible/background.jpg")`;
@@ -120,7 +130,14 @@
     }
 
     function selectChapter(obj) {
+      verses.innerHTML = "<option></option>";
       formatted = "";
+
+      for (const verse in arc[books.value][obj.value - 1]) {
+        const option = document.createElement("option");
+        option.text = Number(verse) + 1;
+        verses.add(option);
+      }
 
       for (const [i, verse] of Object.entries(arc[books.value][obj.value - 1])) {
         formatted += `<br />${Number(i) + 1}. ` + verse;
@@ -130,9 +147,14 @@
       text.innerHTML = formatted;
     }
 
+    function selectVerse(obj) {
+      formatted = `${Number(obj.value)}. ` + arc[books.value][chapters.value - 1][obj.value - 1];
+      text.innerHTML = formatted;
+    }
+
     function createImage() {
       html2canvas(text, {
-        height: text.clientHeight + 20,
+        height: text.clientHeight,
       }).then(function (canvas) {
         const a = document.createElement("a");
         a.download = "text.jpg";
