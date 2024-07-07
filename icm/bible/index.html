@@ -52,6 +52,22 @@
         margin-bottom: 25px;
       }
 
+      input[type="range"] {
+        appearance: none;
+        background: #151b54;
+        width: calc(346px + 4px);
+        height: 1px;
+        margin-left: calc(50% - 175px);
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        appearance: none;
+        background: #151b54;
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+      }
+
       p {
         text-align: center;
         font-weight: bold;
@@ -96,6 +112,19 @@
     </select>
     <br />
 
+    <label>Tamanho da fonte</label>
+    <br />
+    <input
+      type="range"
+      id="range"
+      min="8"
+      max="18"
+      step="1"
+      value="12"
+      onchange="text.style.fontSize = this.value + 'px'"
+    />
+    <br />
+
     <input
       type="button"
       id="button"
@@ -115,7 +144,7 @@
       const versesFinal = document.getElementById("verses-final");
       const button = document.getElementById("button");
       const text = document.getElementById("text");
-      text.style.backgroundImage = `url(${background})`;
+      // text.style.backgroundImage = `url(${background})`;
       const url =
         "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/bible/ARC.json";
       let arc, formatted;
