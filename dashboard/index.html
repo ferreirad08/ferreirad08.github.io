@@ -121,7 +121,8 @@
         luminosity.update();
       }
 
-      setInterval(main, 60000);
+      main();
+      setInterval(main, Number(query.refresh) * 1000);
     </script>
   </body>
 </html>
