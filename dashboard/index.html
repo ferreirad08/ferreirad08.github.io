@@ -100,6 +100,15 @@
 
       const query = queryString();
 
+      function saveData() {
+        window.localStorage.setItem("dashboard", JSON.stringify({
+          time: humidity.data.labels,
+          temperature: temperature.data.datasets[0].data,
+          humidity: humidity.data.datasets[0].data,
+          luminosity: luminosity.data.datasets[0].data
+        }));
+      }
+
       function restoreData() {
         let data = window.localStorage.getItem("dashboard");
         data = data === null ? { time: [], humidity: [], temperature: [], luminosity: [] } : JSON.parse(data);
@@ -136,6 +145,8 @@
         luminosity.data.labels.push(time);
         luminosity.data.datasets[0].data.push(data.luminosity);
         luminosity.update();
+
+        saveData();
       }
 
       restoreData();
