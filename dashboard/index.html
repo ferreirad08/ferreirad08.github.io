@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      canvas {
+        max-width: 500px;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard</title>
+  </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <body>
+    <canvas id="humidity"></canvas>
+    <canvas id="temperature"></canvas>
+    <canvas id="luminosity"></canvas>
+    <script>
+      function getOptions(title) {
+        return {
+          type: "line",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                label: title,
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgb(108,145,61)",
+                borderColor: "rgb(108,145,61)",
+                radius: 0,
+                borderWidth: 1,
+                data: [],
+              },
+            ],
+          },
+          options: {
+            title: {
+              display: true,
+              text: title,
+              position: "top",
+              align: "start",
+            },
+            legend: {
+              display: false,
+              position: "top",
+              align: "start",
+            },
+            scales: {
+              xAxes: [
+                {
+                  gridLines: {
+                    display: false,
+                  },
+                  ticks: {
+                    autoSkip: true,
+                    maxRotation: 90,
+                    minRotation: 90,
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: "Tempo",
+                  },
+                },
+              ],
+              yAxes: [
+                {
+                  gridLines: {
+                    borderDash: [4, 4],
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                  },
+                },
+              ],
+            },
+          },
+        };
+      }
+
+      function queryString() {
+        const parameters = {};
+        for (const item of window.location.search.slice(1).split("&")) {
+          const [key, value] = item.split("=");
+          parameters[key] = value;
+        }
+        return parameters;
+      }
+
+      const humidity = new Chart("humidity", getOptions("Umidade do Ar (%)"));
+      const temperature = new Chart(
+        "temperature",
+        getOptions("Temperatura do Ar (°C)")
+      );
+      const luminosity = new Chart(
+        "luminosity",
+        getOptions("Luminosidade (lx)")
+      );
+
+      const query = queryString();
+
+      async function main() {
+        const data = await (
+          await fetch(`https://jsonblob.com/api/jsonBlob/${query.code}`)
+        ).json();
+
+        console.log(data);
+        const time = new Date(data.time * 60000).toISOString();
+
+        humidity.data.labels.push(time);
+        humidity.data.datasets[0].data.push(data.humidity);
+        humidity.update();
+
+        temperature.data.labels.push(time);
+        temperature.data.datasets[0].data.push(data.temperature);
+        temperature.update();
+
+        luminosity.data.labels.push(time);
+        luminosity.data.datasets[0].data.push(data.luminosity);
+        luminosity.update();
+      }
+
+      setInterval(main, 60000);
+    </script>
+  </body>
+</html>
