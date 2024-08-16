@@ -133,21 +133,21 @@
 
         const time = new Date(data.time * 60000).toISOString();
 
-        if (humidity.data.labels[0] === time) return;
+        if (humidity.data.labels[0] !== time) {
+          humidity.data.labels.push(time);
+          humidity.data.datasets[0].data.push(data.humidity);
+          humidity.update();
 
-        humidity.data.labels.push(time);
-        humidity.data.datasets[0].data.push(data.humidity);
-        humidity.update();
+          temperature.data.labels.push(time);
+          temperature.data.datasets[0].data.push(data.temperature);
+          temperature.update();
 
-        temperature.data.labels.push(time);
-        temperature.data.datasets[0].data.push(data.temperature);
-        temperature.update();
+          luminosity.data.labels.push(time);
+          luminosity.data.datasets[0].data.push(data.luminosity);
+          luminosity.update();
 
-        luminosity.data.labels.push(time);
-        luminosity.data.datasets[0].data.push(data.luminosity);
-        luminosity.update();
-
-        saveData();
+          saveData();
+        }
       }
 
       restoreData();
