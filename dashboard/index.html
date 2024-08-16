@@ -100,6 +100,23 @@
 
       const query = queryString();
 
+      function restoreData() {
+        let data = window.localStorage.getItem("dashboard");
+        data = data === null ? { time: [], humidity: [], temperature: [], luminosity: [] } : JSON.parse(data);
+
+        humidity.data.labels = data.time;
+        humidity.data.datasets[0].data = data.humidity;
+        humidity.update();
+
+        temperature.data.labels = data.time;
+        temperature.data.datasets[0].data = data.temperature;
+        temperature.update();
+
+        luminosity.data.labels = data.time;
+        luminosity.data.datasets[0].data = data.luminosity;
+        luminosity.update();
+      }
+
       async function main() {
         const data = await (
           await fetch(`https://jsonblob.com/api/jsonBlob/${query.code}`)
@@ -121,6 +138,7 @@
         luminosity.update();
       }
 
+      restoreData();
       main();
       setInterval(main, Number(query.refresh) * 1000);
     </script>
