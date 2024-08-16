@@ -133,7 +133,7 @@
 
         const time = new Date(data.time * 60000).toISOString();
 
-        if (humidity.data.labels[0] >= time) return;
+        if (humidity.data.labels[0] === time) return;
 
         humidity.data.labels.push(time);
         humidity.data.datasets[0].data.push(data.humidity);
