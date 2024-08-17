@@ -5,6 +5,7 @@
     <style>
       canvas {
         max-width: 500px;
+        margin-left: calc(50% - 250px);
       }
     </style>
     <meta charset="utf-8" />
@@ -19,8 +20,31 @@
     <br />
     <canvas id="luminosity"></canvas>
     <br />
-    <button onclick="window.localStorage.clear('dashboard')">Limpar dados</button>
+    <button onclick="window.localStorage.clear('dashboard')">
+      Limpar dados
+    </button>
     <script>
+      const humidity = new Chart("humidity", getOptions("Umidade do Ar (%)"));
+      const temperature = new Chart(
+        "temperature",
+        getOptions("Temperatura do Ar (°C)")
+      );
+      const luminosity = new Chart(
+        "luminosity",
+        getOptions("Luminosidade (lx)")
+      );
+
+      const query = queryString();
+
+      let data = window.localStorage.getItem("dashboard");
+      data =
+        data === null
+          ? { time: [], humidity: [], temperature: [], luminosity: [] }
+          : JSON.parse(data);
+
+      populate();
+      run();
+
       function getOptions(title) {
         return {
           type: "line",
@@ -92,31 +116,7 @@
         return parameters;
       }
 
-      const humidity = new Chart("humidity", getOptions("Umidade do Ar (%)"));
-      const temperature = new Chart(
-        "temperature",
-        getOptions("Temperatura do Ar (°C)")
-      );
-      const luminosity = new Chart(
-        "luminosity",
-        getOptions("Luminosidade (lx)")
-      );
-
-      const query = queryString();
-
-      function saveData() {
-        window.localStorage.setItem("dashboard", JSON.stringify({
-          time: humidity.data.labels,
-          temperature: temperature.data.datasets[0].data,
-          humidity: humidity.data.datasets[0].data,
-          luminosity: luminosity.data.datasets[0].data
-        }));
-      }
-
-      function restoreData() {
-        let data = window.localStorage.getItem("dashboard");
-        data = data === null ? { time: [], humidity: [], temperature: [], luminosity: [] } : JSON.parse(data);
-
+      async function populate() {
         humidity.data.labels = data.time;
         humidity.data.datasets[0].data = data.humidity;
         humidity.update();
@@ -130,33 +130,28 @@
         luminosity.update();
       }
 
-      async function main() {
-        const data = await (
+      async function run() {
+        const payload = await (
           await fetch(`https://jsonblob.com/api/jsonBlob/${query.code}`)
         ).json();
 
-        const time = new Date(data.time * 60000).toISOString();
+        const time = new Date(payload.time * 60000).toISOString();
 
-        if (humidity.data.labels[0] !== time) {
-          humidity.data.labels.push(time);
-          humidity.data.datasets[0].data.push(data.humidity);
-          humidity.update();
+        if (data.time.at(-1) !== time) {
+          console.log(payload);
 
-          temperature.data.labels.push(time);
-          temperature.data.datasets[0].data.push(data.temperature);
-          temperature.update();
+          data.time.push(time);
+          data.humidity.push(payload.humidity);
+          data.temperature.push(payload.temperature);
+          data.luminosity.push(payload.luminosity);
 
-          luminosity.data.labels.push(time);
-          luminosity.data.datasets[0].data.push(data.luminosity);
-          luminosity.update();
+          window.localStorage.setItem("dashboard", JSON.stringify(data));
 
-          saveData();
+          await populate();
         }
-      }
 
-      restoreData();
-      main();
-      setInterval(main, Number(query.refresh) * 1000);
+        window.setTimeout(run, Number(query.refresh) * 1000);
+      }
     </script>
   </body>
 </html>
