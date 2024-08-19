@@ -129,12 +129,25 @@
         luminosity.update();
       }
 
+      const timeOptions = {
+        timeZone: "UTC",
+        day: "2-digit",
+        month: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      };
+
       async function run() {
         const payload = await (
           await fetch(`https://jsonblob.com/api/jsonBlob/${query.code}`)
         ).json();
 
-        const time = new Date(payload.time * 60000).toISOString();
+        const time = new Date(payload.time * 60000).toLocaleString(
+          "pt-BR",
+          timeOptions
+        );
 
         if (data.time.at(-1) !== time) {
           console.log(payload);
