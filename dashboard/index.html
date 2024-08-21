@@ -144,18 +144,21 @@
           await fetch(`https://jsonblob.com/api/jsonBlob/${query.code}`)
         ).json();
 
-        const time = new Date(payload.time * 60000).toLocaleString(
+        const time = new Date(payload.data[0].time / 1000).toLocaleString(
           "pt-BR",
           timeOptions
         );
 
+        meas = {};
+        for (item of payload.data) meas[item.ref] = item.value;
+
         if (data.time.at(-1) !== time) {
-          console.log(payload);
+          console.log(meas);
 
           data.time.push(time);
-          data.humidity.push(payload.humidity);
-          data.temperature.push(payload.temperature);
-          data.luminosity.push(payload.luminosity);
+          data.humidity.push(meas.emw_humidity_humidity);
+          data.temperature.push(meas.emw_temperature_temperature);
+          data.luminosity.push(meas.emw_luminosity_lux);
 
           window.localStorage.setItem("dashboard", JSON.stringify(data));
 
