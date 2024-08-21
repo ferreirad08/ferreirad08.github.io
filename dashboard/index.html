@@ -5,6 +5,7 @@
     <style>
       canvas {
         max-width: 500px;
+        border: 1px solid #000000;
       }
     </style>
     <meta charset="utf-8" />
@@ -143,7 +144,6 @@
         const payload = await (
           await fetch(`https://jsonblob.com/api/jsonBlob/${query.code}`)
         ).json();
-        console.log(JSON.stringify(payload, null, 4));
 
         const time = new Date(payload.data[0].time / 1000).toLocaleString(
           "pt-BR",
@@ -154,6 +154,8 @@
         for (item of payload.data) measurements[item.ref] = item.value;
 
         if (data.time.at(-1) !== time) {
+          console.log(JSON.stringify(payload, null, 4));
+
           data.time.push(time);
           data.humidity.push(measurements.emw_humidity_humidity);
           data.temperature.push(
