@@ -156,7 +156,9 @@
         if (data.time.at(-1) !== time) {
           data.time.push(time);
           data.humidity.push(measurements.emw_humidity_humidity);
-          data.temperature.push(measurements.emw_temperature_temperature);
+          data.temperature.push(
+            measurements.emw_temperature_temperature - 273.15
+          );
           data.luminosity.push(measurements.emw_luminosity_lux);
 
           window.localStorage.setItem("dashboard", JSON.stringify(data));
