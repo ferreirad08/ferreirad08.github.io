@@ -149,16 +149,16 @@
           timeOptions
         );
 
-        meas = {};
-        for (item of payload.data) meas[item.ref] = item.value;
+        measurements = {};
+        for (item of payload.data) measurements[item.ref] = item.value;
 
         if (data.time.at(-1) !== time) {
-          console.log(meas);
+          console.log(measurements);
 
           data.time.push(time);
-          data.humidity.push(meas.emw_humidity_humidity);
-          data.temperature.push(meas.emw_temperature_temperature);
-          data.luminosity.push(meas.emw_luminosity_lux);
+          data.humidity.push(measurements.emw_humidity_humidity);
+          data.temperature.push(measurements.emw_temperature_temperature);
+          data.luminosity.push(measurements.emw_luminosity_lux);
 
           window.localStorage.setItem("dashboard", JSON.stringify(data));
 
