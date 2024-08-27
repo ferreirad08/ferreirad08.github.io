@@ -5,7 +5,9 @@
     <style>
       canvas {
         max-width: 500px;
-        border: 1px solid #000000;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        box-shadow: -1px 1px 4px 0px grey;
       }
     </style>
     <meta charset="utf-8" />
@@ -15,11 +17,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   <body>
     <canvas id="humidity"></canvas>
-    <br />
     <canvas id="temperature"></canvas>
-    <br />
     <canvas id="luminosity"></canvas>
-    <br />
     <button
       onclick="window.localStorage.clear('dashboard'); window.location.reload()"
     >
