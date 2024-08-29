@@ -16,32 +16,73 @@
   </head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   <body>
-    <canvas id="humidity"></canvas>
-    <canvas id="temperature"></canvas>
-    <canvas id="luminosity"></canvas>
+    <div>
+      <canvas id="emw_humidity_humidity"></canvas>
+      <canvas id="emw_temperature_temperature"></canvas>
+      <canvas id="emw_luminosity_lux"></canvas>
+      <canvas id="emw_average_wind_speed_velocity"></canvas>
+      <canvas id="emw_wind_direction_angle"></canvas>
+    </div>
     <button
       onclick="window.localStorage.clear('dashboard'); window.location.reload()"
     >
       Limpar dados
     </button>
     <script>
-      const humidity = new Chart("humidity", getOptions("Umidade do Ar (%)"));
-      const temperature = new Chart(
-        "temperature",
-        getOptions("Temperatura do Ar (°C)")
-      );
-      const luminosity = new Chart(
-        "luminosity",
-        getOptions("Luminosidade (lx)")
-      );
+      const timeOptions = {
+        timeZone: "UTC",
+        day: "2-digit",
+        month: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      };
+
+      const sensorReferences = [
+        "emw_humidity_humidity",
+        "emw_temperature_temperature",
+        "emw_luminosity_lux",
+        "emw_average_wind_speed_velocity",
+        "emw_wind_direction_angle",
+      ];
+
+      const charts = {
+        emw_humidity_humidity: new Chart(
+          "emw_humidity_humidity",
+          getOptions("Umidade do Ar (%)")
+        ),
+        emw_temperature_temperature: new Chart(
+          "emw_temperature_temperature",
+          getOptions("Temperatura do Ar (°C)")
+        ),
+        emw_luminosity_lux: new Chart(
+          "emw_luminosity_lux",
+          getOptions("Luminosidade (lx)")
+        ),
+        emw_average_wind_speed_velocity: new Chart(
+          "emw_average_wind_speed_velocity",
+          getOptions("Velocidade do Vento (km/h)")
+        ),
+        emw_wind_direction_angle: new Chart(
+          "emw_wind_direction_angle",
+          getOptions("Direção do Vento (°)")
+        ),
+      };
 
       const query = queryString();
 
+      const template = {
+        time: [],
+        emw_humidity_humidity: [],
+        emw_temperature_temperature: [],
+        emw_luminosity_lux: [],
+        emw_average_wind_speed_velocity: [],
+        emw_wind_direction_angle: [],
+      };
+
       let data = window.localStorage.getItem("dashboard");
-      data =
-        data === null
-          ? { time: [], humidity: [], temperature: [], luminosity: [] }
-          : JSON.parse(data);
+      data = data === null ? template : JSON.parse(data);
 
       populate();
       run();
@@ -118,28 +159,12 @@
       }
 
       async function populate() {
-        humidity.data.labels = data.time;
-        humidity.data.datasets[0].data = data.humidity;
-        humidity.update();
-
-        temperature.data.labels = data.time;
-        temperature.data.datasets[0].data = data.temperature;
-        temperature.update();
-
-        luminosity.data.labels = data.time;
-        luminosity.data.datasets[0].data = data.luminosity;
-        luminosity.update();
+        for (const ref of sensorReferences) {
+          charts[ref].data.labels = data.time;
+          charts[ref].data.datasets[0].data = data[ref];
+          charts[ref].update();
+        }
       }
-
-      const timeOptions = {
-        timeZone: "UTC",
-        day: "2-digit",
-        month: "numeric",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      };
 
       async function run() {
         const payload = await (
@@ -156,13 +181,14 @@
 
         if (data.time.at(-1) !== time) {
           console.log(JSON.stringify(payload, null, 4));
-
           data.time.push(time);
-          data.humidity.push(measurements.emw_humidity_humidity);
-          data.temperature.push(
-            measurements.emw_temperature_temperature - 273.15
-          );
-          data.luminosity.push(measurements.emw_luminosity_lux);
+
+          for (const ref of sensorReferences) {
+            if (ref === "emw_temperature_temperature")
+              measurements[ref] - 273.15; // Kelvin To Celsius
+
+            data[ref].push(measurements[ref]);
+          }
 
           window.localStorage.setItem("dashboard", JSON.stringify(data));
 
