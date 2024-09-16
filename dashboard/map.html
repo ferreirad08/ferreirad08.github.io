@@ -45,7 +45,7 @@
 
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          addPoint("ICM Manoa", pos.coords.latitude, pos.coords.longitude);
+          addPoint("Atual", pos.coords.latitude, pos.coords.longitude);
 
           const polyline = L.polyline(
             [icm, [pos.coords.latitude, pos.coords.longitude]],
