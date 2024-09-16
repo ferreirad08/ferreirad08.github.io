@@ -40,25 +40,21 @@
         refresh = 60,
         dashboardUrl = `https://ferreirad08.github.io/dashboard/?code=${code}&refresh=${refresh}`;
 
-      const icm = ["-3.031482", "-60.002318"];
-
-      const target = L.latLng(...icm);
-      map.setView(target, 18);
-      L.marker(target, { icon })
-        .addTo(map)
-        .bindPopup(
-          `<b>ICM Manoa</b><br />Weather Station<br /> <a href="${dashboardUrl}" target="_blank">Dashboard</a>`
-        );
+      const icm = [-3.031482, -60.002318];
+      addPoint("ICM Manoa", ...icm);
 
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          const { latitude, longitude } = pos.coords;
+          addPoint("ICM Manoa", pos.coords.latitude, pos.coords.longitude);
 
-          const polyline = L.polyline([icm, [latitude, longitude]], {
-            color: "red",
-            weight: 1,
-            opacity: 0.5,
-          }).addTo(map);
+          const polyline = L.polyline(
+            [icm, [pos.coords.latitude, pos.coords.longitude]],
+            {
+              color: "red",
+              weight: 1,
+              opacity: 0.5,
+            }
+          ).addTo(map);
           map.fitBounds(polyline.getBounds());
 
           // window.alert(pos.coords.accuracy);
@@ -67,6 +63,16 @@
           window.alert(err.message);
         }
       );
+
+      function addPoint(name, latitude, longitude) {
+        const target = L.latLng([latitude, longitude]);
+        map.setView(target, 18);
+        L.marker(target, { icon })
+          .addTo(map)
+          .bindPopup(
+            `<b>${name}</b><br />Weather Station<br /> <a href="${dashboardUrl}" target="_blank">Dashboard</a>`
+          );
+      }
     </script>
   </body>
 </html>
