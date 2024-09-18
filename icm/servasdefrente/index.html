@@ -254,7 +254,8 @@
         ) {
           const reader = new FileReader();
           reader.onload = async (evt) => {
-            alert(evt.target.result);
+            // alert(evt.target.result);
+            document.body.style.backgroundImage = `url(${evt.target.result})`;
           }
           reader.readAsDataURL(files[0]);
           document.getElementById('upload').value = null;
