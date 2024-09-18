@@ -30,6 +30,8 @@
     value="Baixar imagem"
     onclick="downloadJPG()"
   />
+  <br>
+  <input type="file" id="root" accept="image/png, image/jpeg" onchange="loadFile(files)" />
   <script src="background.js"></script>
   <script>
     const canvas = document.getElementById('canvas');
@@ -93,6 +95,20 @@
       a.download = 'escaladeflores.jpg';
       a.href = canvas.toDataURL('image/jpeg');
       a.click();
+    }
+
+    function loadFile(files) {
+      if (
+        files[0].type === 'image/png' ||
+        files[0].type === 'image/jpeg'
+      ) {
+        const reader = new FileReader();
+        reader.onload = async (evt) => {
+          alert(evt.target.result);
+        }
+        reader.readAsDataURL(files[0]);
+        document.getElementById('root').value = null;
+      }
     }
   </script>
 </body>
