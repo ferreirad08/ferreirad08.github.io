@@ -47,7 +47,7 @@
   <script>
     // Carregar os valores do LocalStorage ou usar os valores padrão
     function carregarValores() {
-      const valoresSalvos = null//localStorage.getItem('tabelaValores');
+      const valoresSalvos = localStorage.getItem('tabelaValores');
       if (valoresSalvos) {
         tabelaValores = JSON.parse(valoresSalvos);
       }
