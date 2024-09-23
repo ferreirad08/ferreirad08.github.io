@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tabela com Eventos</title>
+  <style>
+    body {
+      font-family: "Fira Sans", sans-serif;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      background-color: rgba(255, 255, 255, 0.5);
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      padding-top: 14px;
+      height: 40px;
+    }
+
+    button {
+      height: 50px;
+    }
+
+    label,
+    button {
+      width: 300px;
+      font-size: 20px;
+      color: #ffffff;
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      border-radius: 40px;
+      margin-left: calc(50% - 65px);
+      text-align: center;
+    }
+  </style>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    // Carregar os valores do LocalStorage ou usar os valores padrão
+    function carregarValores() {
+      const valoresSalvos = localStorage.getItem('tabelaValores');
+      if (valoresSalvos) {
+        tabelaValores = JSON.parse(valoresSalvos);
+      }
+      for (const id in tabelaValores) {
+        const cell = document.getElementById(id);
+        if (cell) {
+          cell.innerHTML = tabelaValores[id]; // Carrega o valor padrão
+        }
+      }
+    }
+
+    let tabelaValores = {
+      "td_0_1": "Alice",
+      "td_0_2": "Bob",
+      "td_0_3": "Charlie",
+      "td_0_4": "David",
+      "td_0_5": "01/09/2024",
+      "td_1_1": "Eva",
+      "td_1_2": "Frank",
+      "td_1_3": "Grace",
+      "td_1_4": "Hannah",
+      "td_1_5": "02/09/2024",
+      "td_2_1": "Ivy",
+      "td_2_2": "Jack",
+      "td_2_3": "Kevin",
+      "td_2_4": "Laura",
+      "td_2_5": "03/09/2024",
+      "td_3_1": "Mike",
+      "td_3_2": "Nina",
+      "td_3_3": "Oscar",
+      "td_3_4": "Paul",
+      "td_3_5": "04/09/2024",
+      "td_4_1": "Quinn",
+      "td_4_2": "Ray",
+      "td_4_3": "Sara",
+      "td_4_4": "Tom",
+      "td_4_5": "05/09/2024",
+      "td_5_1": "Uma",
+      "td_5_2": "Vera",
+      "td_5_3": "Will",
+      "td_5_4": "Xena",
+      "td_5_5": "06/09/2024",
+      "td_6_1": "Yara",
+      "td_6_2": "Zane",
+      "td_6_3": "",
+      "td_6_4": "",
+      "td_6_5": "07/09/2024"
+    };
+
+    function handleClick(cell) {
+      const valorAtual = cell.innerHTML.trim();
+      const valor = prompt("Insira ou edite o valor:", valorAtual);
+
+      if (valor !== null && valor.trim() !== "") {
+        cell.innerHTML = valor;
+        tabelaValores[cell.id] = valor; // Atualiza o valor no JSON
+        localStorage.setItem('tabelaValores', JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
+      }
+    }
+
+      function loadFile(files) {
+        if (
+          files[0].type === 'image/png' ||
+          files[0].type === 'image/jpeg'
+        ) {
+          const reader = new FileReader();
+          reader.onload = async (evt) => {
+            // alert(evt.target.result);
+            document.getElementById("table").style.backgroundImage = `url(${evt.target.result})`;
+          }
+          reader.readAsDataURL(files[0]);
+          document.getElementById('upload').value = null;
+        }
+      }
+
+      function downloadJpg() {
+        html2canvas(document.getElementById("table")).then(function (canvas) {
+          // document.body.appendChild(canvas);
+          const a = document.createElement("a");
+          a.download = "instrumentistas.jpg";
+          a.href = canvas.toDataURL("image/jpeg");
+          a.click();
+        });
+      }
+
+    window.onload = carregarValores; // Carrega os valores ao iniciar a página
+  </script>
+</head>
+
+<body>
+  <table id="table">
+    <thead>
+      <tr>
+        <th>Dia da Semana</th>
+        <th>Teclado</th>
+        <th>Violão</th>
+        <th>Baixo</th>
+        <th>Bateria</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="td_0_0">Segunda-feira</td>
+        <td id="td_0_1" onclick="handleClick(this)"></td>
+        <td id="td_0_2" onclick="handleClick(this)"></td>
+        <td id="td_0_3" onclick="handleClick(this)"></td>
+        <td id="td_0_4" onclick="handleClick(this)"></td>
+        <td id="td_0_5" onclick="handleClick(this)"></td>
+      </tr>
+      <tr>
+        <td id="td_1_0">Terça-feira</td>
+        <td id="td_1_1" onclick="handleClick(this)"></td>
+        <td id="td_1_2" onclick="handleClick(this)"></td>
+        <td id="td_1_3" onclick="handleClick(this)"></td>
+        <td id="td_1_4" onclick="handleClick(this)"></td>
+        <td id="td_1_5" onclick="handleClick(this)"></td>
+      </tr>
+      <tr>
+        <td id="td_2_0">Quarta-feira</td>
+        <td id="td_2_1" onclick="handleClick(this)"></td>
+        <td id="td_2_2" onclick="handleClick(this)"></td>
+        <td id="td_2_3" onclick="handleClick(this)"></td>
+        <td id="td_2_4" onclick="handleClick(this)"></td>
+        <td id="td_2_5" onclick="handleClick(this)"></td>
+      </tr>
+      <tr>
+        <td id="td_3_0">Quinta-feira</td>
+        <td id="td_3_1" onclick="handleClick(this)"></td>
+        <td id="td_3_2" onclick="handleClick(this)"></td>
+        <td id="td_3_3" onclick="handleClick(this)"></td>
+        <td id="td_3_4" onclick="handleClick(this)"></td>
+        <td id="td_3_5" onclick="handleClick(this)"></td>
+      </tr>
+      <tr>
+        <td id="td_4_0">Sábado</td>
+        <td id="td_4_1" onclick="handleClick(this)"></td>
+        <td id="td_4_2" onclick="handleClick(this)"></td>
+        <td id="td_4_3" onclick="handleClick(this)"></td>
+        <td id="td_4_4" onclick="handleClick(this)"></td>
+        <td id="td_4_5" onclick="handleClick(this)"></td>
+      </tr>
+      <tr>
+        <td id="td_5_0">Domingo (Manhã)</td>
+        <td id="td_5_1" onclick="handleClick(this)"></td>
+        <td id="td_5_2" onclick="handleClick(this)"></td>
+        <td id="td_5_3" onclick="handleClick(this)"></td>
+        <td id="td_5_4" onclick="handleClick(this)"></td>
+        <td id="td_5_5" onclick="handleClick(this)"></td>
+      </tr>
+      <tr>
+        <td id="td_6_0">Domingo (Noite)</td>
+        <td id="td_6_1" onclick="handleClick(this)"></td>
+        <td id="td_6_2" onclick="handleClick(this)"></td>
+        <td id="td_6_3" onclick="handleClick(this)"></td>
+        <td id="td_6_4" onclick="handleClick(this)"></td>
+        <td id="td_6_5" onclick="handleClick(this)"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br />
+  <br />
+  <button onclick="downloadJpg()">Baixar escala</button>
+  <br />
+  <br />
+  <br />
+  <label>
+    <input style="display: none" type="file" id="upload" accept="image/png, image/jpeg" onchange="loadFile(files)" />
+    <div>Trocar imagem de fundo</div>
+  </label>
+</body>
+</html>
