@@ -47,7 +47,7 @@
   <script>
     // Carregar os valores do LocalStorage ou usar os valores padrão
     function carregarValores() {
-      const valoresSalvos = localStorage.getItem('tabelaValores');
+      const valoresSalvos = null//localStorage.getItem('tabelaValores');
       if (valoresSalvos) {
         tabelaValores = JSON.parse(valoresSalvos);
       }
@@ -59,43 +59,43 @@
       }
     }
 
-    let tabelaValores = {
-      "td_0_1": "Alice",
-      "td_0_2": "Bob",
-      "td_0_3": "Charlie",
-      "td_0_4": "David",
-      "td_0_5": "01/09/2024",
-      "td_1_1": "Eva",
-      "td_1_2": "Frank",
-      "td_1_3": "Grace",
-      "td_1_4": "Hannah",
-      "td_1_5": "02/09/2024",
-      "td_2_1": "Ivy",
-      "td_2_2": "Jack",
-      "td_2_3": "Kevin",
-      "td_2_4": "Laura",
-      "td_2_5": "03/09/2024",
-      "td_3_1": "Mike",
-      "td_3_2": "Nina",
-      "td_3_3": "Oscar",
-      "td_3_4": "Paul",
-      "td_3_5": "04/09/2024",
-      "td_4_1": "Quinn",
-      "td_4_2": "Ray",
-      "td_4_3": "Sara",
-      "td_4_4": "Tom",
-      "td_4_5": "05/09/2024",
-      "td_5_1": "Uma",
-      "td_5_2": "Vera",
-      "td_5_3": "Will",
-      "td_5_4": "Xena",
-      "td_5_5": "06/09/2024",
-      "td_6_1": "Yara",
-      "td_6_2": "Zane",
-      "td_6_3": "",
-      "td_6_4": "",
-      "td_6_5": "07/09/2024"
-    };
+let tabelaValores = {
+  "td_0_1": "Rebeca",
+  "td_0_2": "Shirley",
+  "td_0_3": "Patrícia",
+  "td_0_4": "Paulo",
+  "td_0_5": "23/09/2024",
+  "td_1_1": "Gabriela",
+  "td_1_2": "Patrícia",
+  "td_1_3": "",
+  "td_1_4": "Samuel",
+  "td_1_5": "24/09/2024",
+  "td_2_1": "Dayane",
+  "td_2_2": "Jussara",
+  "td_2_3": "",
+  "td_2_4": "",
+  "td_2_5": "25/09/2024",
+  "td_3_1": "Patrícia",
+  "td_3_2": "Rafhaela",
+  "td_3_3": "Allan",
+  "td_3_4": "Felipe",
+  "td_3_5": "26/09/2024",
+  "td_4_1": "Allan",
+  "td_4_2": "Gabriela",
+  "td_4_3": "Patrícia",
+  "td_4_4": "Paulo",
+  "td_4_5": "28/09/2024",
+  "td_5_1": "Breno",
+  "td_5_2": "Heitor/Ana",
+  "td_5_3": "",
+  "td_5_4": "Ryan",
+  "td_5_5": "29/09/2024",
+  "td_6_1": "Dayane",
+  "td_6_2": "Aylon",
+  "td_6_3": "Allan",
+  "td_6_4": "Felipe",
+  "td_6_5": "29/09/2024"
+};
 
     function handleClick(cell) {
       const valorAtual = cell.innerHTML.trim();
