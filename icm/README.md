@@ -6,4 +6,4 @@
 
 [servasdefrente](https://ferreirad08.github.io/icm/servasdefrente/)
 
-[escalainstrumentistas](https://ferreirad08.github.io/icm/escalainstrumentistas/)
+[escaladeinstrumentistas](https://ferreirad08.github.io/icm/escaladeinstrumentistas/)
