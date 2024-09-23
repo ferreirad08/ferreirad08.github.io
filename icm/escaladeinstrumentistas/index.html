@@ -14,6 +14,7 @@
         border-collapse: collapse;
         width: 100%;
         max-width: 650px;
+        margin-left: calc(50% - 350px);
       }
 
       th,
@@ -27,24 +28,24 @@
 
       label {
         display: block;
-        padding-top: 14px;
-        height: 40px;
+        padding-top: 10px;
+        height: 30px;
       }
 
       button {
-        height: 50px;
+        height: 40px;
       }
 
       label,
       button {
-        width: 300px;
-        font-size: 20px;
+        background-color: #151b54;
         color: #ffffff;
-        background-color: rgba(0, 0, 0, 0.5);
         border: none;
+        width: 300px;
         border-radius: 40px;
-        margin-left: calc(50% - 65px);
         text-align: center;
+        font-size: 18px;
+        margin-left: calc(50% - 150px);
       }
     </style>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -214,10 +215,6 @@
 
     <br />
     <br />
-    <button onclick="downloadJpg()">Baixar escala</button>
-    <br />
-    <br />
-    <br />
     <label>
       <input
         style="display: none"
@@ -228,5 +225,8 @@
       />
       <div>Trocar imagem de fundo</div>
     </label>
+    <br />
+    <br />
+    <button onclick="downloadJpg()">Baixar escala</button>
   </body>
 </html>
