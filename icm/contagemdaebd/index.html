@@ -56,7 +56,7 @@
     <script>
       let tabelaValores = {
         td_0_1: "Nome da Igreja",
-        input_1_1: "DD/MM/AAAA",
+        input_1_1: getFormattedDate(),
         td_3_1: "0",
         td_3_2: "0",
         td_4_1: "0",
@@ -150,6 +150,13 @@
           a.href = canvas.toDataURL("image/jpeg");
           a.click();
         });
+      }
+
+      function getFormattedDate() {
+        const today = new Date();
+        return today.getFullYear() + '-' +
+          String(today.getMonth() + 1).padStart(2, '0') + '-' +
+          String(today.getDate()).padStart(2, '0');
       }
 
       window.onload = carregarValores; // Carrega os valores ao iniciar a página
