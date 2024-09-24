@@ -44,12 +44,18 @@
         font-size: 16px;
         margin-left: 25%;
       }
+
+      input {
+        font-family: "Fira Sans", sans-serif;
+        font-size: 16px;
+        border: none;
+      }
     </style>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
       let tabelaValores = {
         td_0_1: "Nome da Igreja",
-        td_1_1: "DD/MM/AAAA",
+        input_1_1: "DD/MM/AAAA",
         td_3_1: "0",
         td_3_2: "0",
         td_4_1: "0",
@@ -71,13 +77,22 @@
           tabelaValores = JSON.parse(valoresSalvos);
         }
         for (const id in tabelaValores) {
-          const cell = document.getElementById(id);
-          if (cell) {
-            cell.innerHTML = tabelaValores[id]; // Carrega o valor padrão
+          const element = document.getElementById(id);
+          if (element) {
+            if (id.includes("input")) {
+              element.value = tabelaValores[id]; // Carrega o valor padrão
+            } else {
+              element.innerHTML = tabelaValores[id]; // Carrega o valor padrão
+            }
           }
         }
 
         soma();
+      }
+
+      function handleChange(element) {
+        tabelaValores[element.id] = element.value; // Atualiza o valor no JSON
+        localStorage.setItem("contagemdaebd", JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
       }
 
       function handleClick(cell) {
@@ -158,7 +173,9 @@
         </tr>
         <tr>
           <th>DATA DO CULTO:</th>
-          <td colspan="3" id="td_1_1" onclick="handleClick(this)"></td>
+          <td colspan="3">
+            <input type="date" id="input_1_1" onchange="handleChange(this)" />
+          </td>
         </tr>
         <tr>
           <th></th>
