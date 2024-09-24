@@ -69,7 +69,7 @@
 
       // Carregar os valores do LocalStorage ou usar os valores padrão
       function carregarValores() {
-        const valoresSalvos = localStorage.getItem("tabelaValores");
+        const valoresSalvos = localStorage.getItem("contagemdaebd");
         if (valoresSalvos) {
           tabelaValores = JSON.parse(valoresSalvos);
         }
@@ -90,7 +90,7 @@
         if (valor !== null && valor.trim() !== "") {
           cell.innerHTML = valor;
           tabelaValores[cell.id] = valor; // Atualiza o valor no JSON
-          localStorage.setItem("tabelaValores", JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
+          localStorage.setItem("contagemdaebd", JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
         }
 
         soma();
