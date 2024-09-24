@@ -142,7 +142,7 @@
         }
       }
 
-      function downloadJpg() {
+      function share() {
         html2canvas(document.getElementById("table")).then(function (canvas) {
           fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
             res.blob().then(function (blob) {
@@ -241,10 +241,10 @@
 
     <br />
     <br />
-    <button onclick="clean()">Limpar contagem</button>
+    <button onclick="clean()">Limpar</button>
 
     <br />
     <br />
-    <button onclick="downloadJpg()">Baixar contagem</button>
+    <button onclick="share()">Compartilhar</button>
   </body>
 </html>
