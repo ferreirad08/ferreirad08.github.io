@@ -120,6 +120,15 @@
         }
       }
 
+      function clean() {
+        if (
+          window.prompt('Insira "1234" para confirmar a limpeza:') == "1234"
+        ) {
+          localStorage.removeItem("contagemdaebd");
+          window.location.reload();
+        }
+      }
+
       function downloadJpg() {
         html2canvas(document.getElementById("table")).then(function (canvas) {
           // document.body.appendChild(canvas);
@@ -206,6 +215,10 @@
         </tr>
       </tbody>
     </table>
+
+    <br />
+    <br />
+    <button onclick="clean()">Limpar contagem</button>
 
     <br />
     <br />
