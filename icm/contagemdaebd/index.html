@@ -119,7 +119,7 @@
 
       function clean() {
         if (
-          window.prompt('Insira "1234" para confirmar a limpeza:') == "1234"
+          window.confirm("Todos os dados serão apagados. Confirmar limpeza?")
         ) {
           localStorage.removeItem("contagemdaebd");
           window.location.reload();
