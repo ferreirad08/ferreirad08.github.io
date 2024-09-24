@@ -144,11 +144,12 @@
 
       function downloadJpg() {
         html2canvas(document.getElementById("table")).then(function (canvas) {
-          // document.body.appendChild(canvas);
-          const a = document.createElement("a");
-          a.download = "contagemdaebd.jpg";
-          a.href = canvas.toDataURL("image/jpeg");
-          a.click();
+          fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
+            res.blob().then(function (blob) {
+              files = [new File([blob], "contagemdaebd.jpg", blob)];
+              navigator.share({ files });
+            });
+          });
         });
       }
 
