@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      label {
+        width: 346px;
+        margin-left: calc(50% - 173px);
+        font-size: 10px;
+        color: #151b54;
+        height: 30px;
+      }
+
+      input[type="text"]:focus,
+      select:focus {
+        outline: none;
+        border-bottom: 2px solid #151b54;
+      }
+
+      input[type="text"] {
+        height: 30px;
+        width: 346px;
+        margin-left: calc(50% - 174px);
+        border: none;
+        border-bottom: 1px solid gray;
+        margin-bottom: 12px;
+      }
+
+      select {
+        width: calc(346px + 4px);
+        margin-left: calc(50% - 175px);
+        height: 30px;
+        border: none;
+        border-bottom: 1px solid gray;
+        background-color: transparent;
+        margin-bottom: 10px;
+      }
+
+      input[type="button"]:disabled {
+        background-color: #999999;
+      }
+
+      img {
+        width: 200px;
+        margin-left: calc(50% - 100px);
+      }
+
+      input[type="button"] {
+        background-color: #151b54;
+        color: #ffffff;
+        border: none;
+        width: calc(346px + 4px);
+        margin-left: calc(50% - 175px);
+        height: 40px;
+        border-radius: 40px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 25px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #ddd;
+      }
+
+      th {
+        background-color: #151b54;
+        color: #fff;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        font-size: 13px;
+      }
+
+      table {
+        border-collapse: collapse;
+        border-radius: 4px;
+        overflow: hidden;
+        width: calc(346px + 4px);
+        margin-left: calc(50% - 175px);
+        box-shadow: -1px 1px 4px 0px grey;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      href="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/grupododia/assets/icm-logo.png"
+      type="image/png"
+    />
+    <title></title>
+  </head>
+  <body>
+    <div id="client-page" hidden>
+      <label>Nome</label>
+      <br />
+      <input
+        type="text"
+        id="name-input"
+        oninput="this.value = this.value.slice(0, 20).toUpperCase()"
+      />
+      <br />
+      <label>Horários disponíveis</label>
+      <br />
+      <select id="interval-select"></select>
+      <br />
+      <input
+        type="button"
+        id="button-register"
+        value="Enviar"
+        onclick="register()"
+        disabled
+      />
+      <br />
+    </div>
+
+    <div id="server-page" hidden>
+      <img id="qrcode" />
+
+      <br />
+
+      <input
+        type="button"
+        id="button-clear"
+        value="Limpar tabela"
+        onclick="clearRegisters()"
+      />
+    </div>
+
+    <table>
+      <thead>
+        <!-- <tr>
+          <th colspan="2">ORAÇÃO ININTERRUPTA</th>
+        </tr> -->
+        <tr>
+          <th>Horário</th>
+          <th>Nome</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr>
+          <td colspan="2" style="color: orange">
+            Aguardando conexão com o servidor...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script>
+      const intervals = [
+        "00:00 às 00:15",
+        "00:15 às 00:30",
+        "00:30 às 00:45",
+        "00:45 às 01:00",
+        "01:00 às 01:15",
+        "01:15 às 01:30",
+        "01:30 às 01:45",
+        "01:45 às 02:00",
+        "02:00 às 02:15",
+        "02:15 às 02:30",
+        "02:30 às 02:45",
+        "02:45 às 03:00",
+        "03:00 às 03:15",
+        "03:15 às 03:30",
+        "03:30 às 03:45",
+        "03:45 às 04:00",
+        "04:00 às 04:15",
+        "04:15 às 04:30",
+        "04:30 às 04:45",
+        "04:45 às 05:00",
+        "05:00 às 05:15",
+        "05:15 às 05:30",
+        "05:30 às 05:45",
+        "05:45 às 06:00",
+        "06:00 às 06:15",
+        "06:15 às 06:30",
+        "06:30 às 06:45",
+        "06:45 às 07:00",
+        "07:00 às 07:15",
+        "07:15 às 07:30",
+        "07:30 às 07:45",
+        "07:45 às 08:00",
+        "08:00 às 08:15",
+        "08:15 às 08:30",
+        "08:30 às 08:45",
+        "08:45 às 09:00",
+        "09:00 às 09:15",
+        "09:15 às 09:30",
+        "09:30 às 09:45",
+        "09:45 às 10:00",
+        "10:00 às 10:15",
+        "10:15 às 10:30",
+        "10:30 às 10:45",
+        "10:45 às 11:00",
+        "11:00 às 11:15",
+        "11:15 às 11:30",
+        "11:30 às 11:45",
+        "11:45 às 12:00",
+        "12:00 às 12:15",
+        "12:15 às 12:30",
+        "12:30 às 12:45",
+        "12:45 às 13:00",
+        "13:00 às 13:15",
+        "13:15 às 13:30",
+        "13:30 às 13:45",
+        "13:45 às 14:00",
+        "14:00 às 14:15",
+        "14:15 às 14:30",
+        "14:30 às 14:45",
+        "14:45 às 15:00",
+        "15:00 às 15:15",
+        "15:15 às 15:30",
+        "15:30 às 15:45",
+        "15:45 às 16:00",
+        "16:00 às 16:15",
+        "16:15 às 16:30",
+        "16:30 às 16:45",
+        "16:45 às 17:00",
+        "17:00 às 17:15",
+        "17:15 às 17:30",
+        "17:30 às 17:45",
+        "17:45 às 18:00",
+        "18:00 às 18:15",
+        "18:15 às 18:30",
+        "18:30 às 18:45",
+        "18:45 às 19:00",
+        "19:00 às 19:15",
+        "19:15 às 19:30",
+        "19:30 às 19:45",
+        "19:45 às 20:00",
+        "20:00 às 20:15",
+        "20:15 às 20:30",
+        "20:30 às 20:45",
+        "20:45 às 21:00",
+        "21:00 às 21:15",
+        "21:15 às 21:30",
+        "21:30 às 21:45",
+        "21:45 às 22:00",
+        "22:00 às 22:15",
+        "22:15 às 22:30",
+        "22:30 às 22:45",
+        "22:45 às 23:00",
+        "23:00 às 23:15",
+        "23:15 às 23:30",
+        "23:30 às 23:45",
+        "23:45 às 00:00",
+      ];
+
+      const nameInput = document.getElementById("name-input");
+      const intervalSelect = document.getElementById("interval-select");
+      const buttonRegister = document.getElementById("button-register");
+      const buttonClear = document.getElementById("button-clear");
+      const tbody = document.getElementById("tbody");
+      const clientPage = document.getElementById("client-page");
+      const serverPage = document.getElementById("server-page");
+
+      let registers = {};
+      let timeoutID = null;
+      const sessionId = ObjectId();
+      const isServer = window.location.hash === "#server";
+
+      clientPage.hidden = isServer;
+      serverPage.hidden = !isServer;
+
+      const query = queryString();
+
+      if (isServer) {
+        registers = window.localStorage.getItem("oracaoininterrupta");
+        registers = registers === null ? {} : JSON.parse(registers);
+        populateTable();
+
+        document.getElementById(
+          "qrcode"
+        ).src = `https://api.qrserver.com/v1/create-qr-code/?color=151b54&data=https://oracaoininterrupta.vercel.app/?id=${query["id"]}`;
+      }
+
+      const topic = `topic/${query["id"]}`;
+      const client = mqtt.connect("wss://broker.emqx.io:8084/mqtt"); // wss://mqtt.eclipseprojects.io:443/mqtt
+      client.on("message", isServer ? serverController : clientController);
+
+      client.on("connect", function () {
+        client.subscribe(topic, function (err, info) {
+          if (err) {
+            return window.alert("Falha de conexão");
+          }
+
+          send(isServer ? { registers } : { getRegisters: null });
+        });
+      });
+
+      function clientController(topic, message, info) {
+        const data = JSON.parse(message.toString());
+
+        if (data.registers !== undefined) {
+          registers = data.registers;
+          setOptions();
+          populateTable();
+        }
+
+        if (data.destinationId === sessionId) {
+          window.clearTimeout(timeoutID);
+          buttonRegister.disabled = false;
+          buttonRegister.value = "Enviar";
+
+          if (data.accepted === true) {
+            window.alert("Participação registrada com sucesso");
+          } else if (data.accepted === false) {
+            window.alert(
+              `Desculpe, o horário das ${data.interval} não está mais disponível`
+            );
+          }
+        }
+      }
+
+      function serverController(topic, message, info) {
+        const data = JSON.parse(message.toString());
+        console.log(JSON.stringify(data, null, 4));
+
+        if (data.addRegister !== undefined) {
+          const { name, interval } = data.addRegister;
+
+          if (interval in registers) {
+            send({
+              destinationId: data.originId,
+              accepted: false,
+              interval,
+            });
+          } else {
+            setRegister(interval, name);
+            send({
+              destinationId: data.originId,
+              accepted: true,
+            });
+          }
+        }
+
+        if (data.getRegisters !== undefined) {
+          send({
+            destinationId: data.originId,
+            registers,
+          });
+        }
+      }
+
+      function ObjectId() {
+        // https://www.mongodb.com/docs/manual/reference/method/ObjectId/
+        let _id = ((new Date().getTime() / 1000) | 0).toString(16);
+
+        while (_id.length < 24) {
+          _id += ((Math.random() * 15) | 0).toString(16);
+        }
+        return _id;
+      }
+
+      function codeId() {
+        const alphabet = "abcdefghijklmnopqrstuvwxyz";
+        let code = "";
+        for (let i = 0; i < 10; i++) {
+          code += alphabet[Math.floor(Math.random() * alphabet.length)];
+          code += i == 2 || i == 6 ? "-" : "";
+        }
+        return code;
+      }
+
+      function queryString() {
+        const parameters = {};
+        for (const item of window.location.search.slice(1).split("&")) {
+          const [key, value] = item.split("=");
+          parameters[key] = value;
+        }
+        return parameters;
+      }
+
+      function register() {
+        const name = nameInput.value.trim();
+        const interval = intervalSelect.value;
+
+        if (name === "" || interval === "") {
+          return window.alert("Todos os campos são obrigatórios");
+        }
+
+        nameInput.value = "";
+        buttonRegister.disabled = true;
+        buttonRegister.value = "Enviando...";
+
+        send({ addRegister: { name, interval } });
+
+        timeoutID = window.setTimeout(function () {
+          window.alert(
+            "O servidor não está respondendo. Entre em contato com o administrador"
+          );
+          window.location.reload(true);
+        }, 10000);
+      }
+
+      function setOptions() {
+        intervalSelect.innerHTML = "";
+
+        for (let item of intervals) {
+          if (!(item in registers)) {
+            intervalSelect.innerHTML += `<option>${item}</option>`;
+          }
+        }
+      }
+
+      function populateTable() {
+        tbody.innerHTML = "";
+
+        for (let i = 0; i < intervals.length; i++) {
+          const interval = intervals[i];
+
+          const row = tbody.insertRow(i);
+          row.insertCell(0).innerHTML = interval;
+
+          const cell = row.insertCell(1);
+          cell.innerHTML = interval in registers ? registers[interval] : "";
+
+          if (isServer && interval in registers) {
+            cell.setAttribute("onclick", `removeRegister("${interval}")`);
+          }
+        }
+      }
+
+      function populateTableOld() {
+        const arr = Object.entries(registers);
+
+        arr.sort((a, b) => {
+          return a[0] > b[0] ? 1 : b[0] > a[0] ? -1 : 0;
+        });
+
+        tbody.innerHTML = "";
+
+        for (let i = 0; i < arr.length; i++) {
+          const row = tbody.insertRow(i);
+          // row.style.backgroundColor = i % 2 === 0 ? "#999999" : "#ffffff";
+          row.insertCell(0).innerHTML = arr[i][0];
+          const cell = row.insertCell(1);
+          cell.innerHTML = arr[i][1];
+
+          if (isServer) {
+            cell.setAttribute("onclick", `removeRegister("${arr[i][0]}")`);
+          }
+        }
+      }
+
+      function send(message) {
+        message["originId"] = sessionId;
+        client.publish(topic, JSON.stringify(message));
+      }
+
+      function _postUpdate() {
+        window.localStorage.setItem(
+          "oracaoininterrupta",
+          JSON.stringify(registers)
+        );
+        send({ registers });
+        populateTable();
+      }
+
+      function setRegister(interval, name) {
+        registers[interval] = name;
+        _postUpdate();
+      }
+
+      function removeRegister(interval) {
+        if (
+          window.prompt(
+            `Digite "server" para remover o registro das ${interval} feito por ${registers[interval]}`
+          ) === "server"
+        ) {
+          delete registers[interval];
+          _postUpdate();
+        }
+      }
+
+      function clearRegisters() {
+        // Type "flex_db" to drop the database
+        if (
+          window.prompt('Digite "server" para limpar a tabela') === "server"
+        ) {
+          registers = {};
+          _postUpdate();
+        }
+      }
+    </script>
+  </body>
+</html>
