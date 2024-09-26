@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contagem da EBD</title>
+    <style></style>
+    <script>
+      fetch(
+        "https://portal.presbiterio.org.br/gestaoigreja/igreja/ebd/4541/contribuicoes?kfilter=&page=1&perPage=50&mode=grid",
+        {
+          headers: {
+            accept: "application/json, text/plain, */*",
+            "accept-language":
+              "pt-BR,pt;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "sec-ch-ua":
+              '"Microsoft Edge";v="129", "Not=A?Brand";v="8", "Chromium";v="129"',
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": '"Windows"',
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-xsrf-token":
+              "eyJpdiI6IktwemRZRWcwWkdLU0VyNTlaMmlaOEE9PSIsInZhbHVlIjoiRzZzeUIrZ1ZVQlwvTFhKZ2VrR0trd0g2UUhvaXdSM1RQaFwvUGdEUm54Mk1sNW5uaVE4dkRGTmwxT282MG53OHg2cFwvc0xcL1FEb1ZcL2x3Tjlhc0NadU1hZz09IiwibWFjIjoiZmU4YTE1NjRlMTE2NTFmNGFlZjZlOTg0ZGE3MDI3ZTQ5YmRhOTZmYjFlODIyNDM4YjhhOWZlZmMwODNkYmQ0MiJ9",
+          },
+          referrer:
+            "https://portal.presbiterio.org.br/gestaoigreja/igreja/ebd/4541",
+          referrerPolicy: "strict-origin-when-cross-origin",
+          body: null,
+          method: "GET",
+          mode: "cors",
+          credentials: "include",
+        }
+      ).then(function (response) {
+        response.json().then(function (data) {
+          console.log(data);
+        });
+      });
+    </script>
+  </head>
+  <body></body>
+</html>
