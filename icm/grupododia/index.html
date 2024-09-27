@@ -138,7 +138,8 @@
 
     document.getElementById("h2").innerHTML = `${day}/${month}/${year} (${dias[today.getDay()]})`;
 
-    const start = (new Date(year, month - 1, 1)).getDay();
+    const start = getDayOfWeekOfMonth(today.getFullYear(), today.getMonth());
+
     for (let i = 1; i <= getLastDayOfMonth(today.getFullYear(), today.getMonth()); i++) {
       const td = document.getElementById(`td_${start + i}`);
       td.innerHTML = i;
@@ -147,6 +148,10 @@
 
     function getLastDayOfMonth(year, month) {
       return new Date(year, month + 1, 0).getDate();
+    }
+
+    function getDayOfWeekOfMonth(year, month) {
+      return new Date(year, month, 1).getDay();
     }
 
     async function share() {
