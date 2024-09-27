@@ -56,7 +56,7 @@
 </head>
 <body>
   <h1 id="h1"></h1>
-  <h2>Segunda-feira</h2>
+  <h2 id="h2"></h2>
   <img id="img" />
   <input type="button" value="Enviar Imagem" onclick="share()">
   <script>
@@ -67,6 +67,15 @@
     const ngroups = Number.parseInt(window.location.hash.slice(1));
     const group = (days + 1) % ngroups + 1;
 
+    const dias = [
+      "domingo",
+      "segunda-feira",
+      "terça-feira",
+      "quarta-feira",
+      "quinta-feira",
+      "sexta-feira",
+      "Sábado",
+    ];
     const img = document.getElementById("img");
     let files;
 
@@ -82,6 +91,7 @@
     const year = today.getFullYear();
 
     document.getElementById("h1").innerHTML = `${day}/${month}/${year}`;
+    document.getElementById("h2").innerHTML = dias[today.getDay()];
 
     function share() {
       navigator.share({ files });
