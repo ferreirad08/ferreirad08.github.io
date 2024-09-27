@@ -138,10 +138,11 @@
 
     document.getElementById("h2").innerHTML = `${day}/${month}/${year} (${dias[today.getDay()]})`;
 
-    const start = getFirstDayOfWeekOfMonth(today.getFullYear(), today.getMonth());
+    const firstDayOfWeekOfMonth = getFirstDayOfWeekOfMonth(today.getFullYear(), today.getMonth());
+    const lastDayOfMonth = getLastDayOfMonth(today.getFullYear(), today.getMonth());
 
-    for (let i = 1; i <= getLastDayOfMonth(today.getFullYear(), today.getMonth()); i++) {
-      const td = document.getElementById(`td_${start + i}`);
+    for (let i = 1; i <= lastDayOfMonth; i++) {
+      const td = document.getElementById(`td_${firstDayOfWeekOfMonth + i}`);
       td.innerHTML = i;
       td.style.backgroundColor = "#657895";
     }
