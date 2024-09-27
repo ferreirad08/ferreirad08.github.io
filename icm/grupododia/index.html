@@ -120,6 +120,11 @@
     const ngroups = Number.parseInt(window.location.hash.slice(1));
     const group = (days + 1) % ngroups + 1;
     alert(group)
+    alert(getGroupOfDay(today.getFullYear(), today.getMonth(), 23))
+    alert(getGroupOfDay(today.getFullYear(), today.getMonth(), 24))
+    alert(getGroupOfDay(today.getFullYear(), today.getMonth(), 25))
+    alert(getGroupOfDay(today.getFullYear(), today.getMonth(), 26))
+    alert(getGroupOfDay(today.getFullYear(), today.getMonth(), 27))
 
     const dias = [
       "dom",
@@ -154,6 +159,12 @@
 
     function getFirstDayOfWeekOfMonth(year, month) {
       return new Date(year, month, 1).getDay();
+    }
+
+    function getGroupOfDay(year, month, day) {
+      const days = Math.floor(new Date(year, month, day).getTime() / (1000 * 60 * 60 * 24));
+      const groups = Number.parseInt(window.location.hash.slice(1));
+      return (days + 1) % groups + 1;
     }
 
     async function share() {
