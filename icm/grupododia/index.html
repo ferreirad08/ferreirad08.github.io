@@ -149,7 +149,7 @@
     for (let i = 1; i <= lastDayOfMonth; i++) {
       const td = document.getElementById(`td_${firstDayOfWeekOfMonth + i}`);
       const group = getGroupOfDay(today.getFullYear(), today.getMonth(), i);
-      td.innerHTML = `${i}<br />Grupo ${group}`;
+      td.innerHTML = `${i}<br />G${group}`;
       td.style.backgroundColor = i === today.getDate() ? "#4c191d" : "#657895";
     }
 
