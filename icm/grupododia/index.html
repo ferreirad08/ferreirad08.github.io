@@ -8,14 +8,6 @@
       text-align: center;
     }
 
-    h1 {
-      font-family: "Arial Balck";
-      font-weight: 900;
-      font-size: 30px;
-      text-align: left;
-      color: #ffffff;
-    }
-
     h2 {
       font-family: "Fira Sans", sans-serif;
       font-weight: 100;
@@ -55,7 +47,6 @@
   <title>Grupo do Dia</title>
 </head>
 <body>
-  <h1 id="h1"></h1>
   <h2 id="h2"></h2>
   <img id="img" />
   <input type="button" value="Enviar Imagem" onclick="share()">
@@ -74,7 +65,7 @@
       "quarta-feira",
       "quinta-feira",
       "sexta-feira",
-      "Sábado",
+      "sábado",
     ];
     const img = document.getElementById("img");
     let files;
@@ -90,8 +81,8 @@
     const month = (today.getMonth() + 1).toString().padStart(2, "0");
     const year = today.getFullYear();
 
-    document.getElementById("h1").innerHTML = `${day}/${month}/${year}`;
-    document.getElementById("h2").innerHTML = dias[today.getDay()];
+    document.getElementById("h2").innerHTML = `${day}/${month}/${year} - ${dias[today.getDay()]}`;
+
 
     function share() {
       navigator.share({ files });
