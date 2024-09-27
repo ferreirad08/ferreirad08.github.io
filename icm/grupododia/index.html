@@ -138,7 +138,7 @@
 
     document.getElementById("h2").innerHTML = `${day}/${month}/${year} (${dias[today.getDay()]})`;
 
-    const start = getDayOfWeekOfMonth(today.getFullYear(), today.getMonth());
+    const start = getFirstDayOfWeekOfMonth(today.getFullYear(), today.getMonth());
 
     for (let i = 1; i <= getLastDayOfMonth(today.getFullYear(), today.getMonth()); i++) {
       const td = document.getElementById(`td_${start + i}`);
@@ -150,7 +150,7 @@
       return new Date(year, month + 1, 0).getDate();
     }
 
-    function getDayOfWeekOfMonth(year, month) {
+    function getFirstDayOfWeekOfMonth(year, month) {
       return new Date(year, month, 1).getDay();
     }
 
