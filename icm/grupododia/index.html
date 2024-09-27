@@ -42,15 +42,7 @@
       "sexta-feira",
       "sábado",
     ];
-    const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
     const img = document.getElementById("img");
-    let files;
-
-    img.onload = async function () {
-      const blob = await (await fetch(img.src)).blob();
-      files = [new File([blob], "group.jpg", blob)];
-    };
-
     img.src = `https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/grupododia/assets/${group}.jpg`;
 
     const day = today.getDate().toString().padStart(2, "0");
@@ -60,7 +52,9 @@
     document.getElementById("h2").innerHTML = `${day}/${month}/${year} - ${dias[today.getDay()]}`;
 
     async function share() {
-      alert(1)
+      const blob = await (await fetch(img.src)).blob();
+      const files = [new File([blob], "grupododia.jpg", blob)];
+      const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
       navigator.share({ files, url });
     }
   </script>
