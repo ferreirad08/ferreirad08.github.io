@@ -113,19 +113,6 @@
 </table>
 
   <script>
-    const today = new Date();
-    const milliseconds = today.getTime();
-    const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
-
-    const ngroups = Number.parseInt(window.location.hash.slice(1));
-    const group = (days + 1) % ngroups + 1;
-    alert(group)
-    alert(getGroupOfDay(today.getFullYear(), today.getMonth(), 23))
-    alert(getGroupOfDay(today.getFullYear(), today.getMonth(), 24))
-    alert(getGroupOfDay(today.getFullYear(), today.getMonth(), 25))
-    alert(getGroupOfDay(today.getFullYear(), today.getMonth(), 26))
-    alert(getGroupOfDay(today.getFullYear(), today.getMonth(), 27))
-
     const dias = [
       "dom",
       "seg",
@@ -136,6 +123,7 @@
       "sáb",
     ];
     const img = document.getElementById("img");
+    const group = getGroupOfDay(today.getFullYear(), today.getMonth(), today.getDate());
     img.src = `https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/grupododia/assets/${group}.jpg`;
 
     const day = today.getDate().toString().padStart(2, "0");
