@@ -34,13 +34,13 @@
     const group = (days + 1) % ngroups + 1;
 
     const dias = [
-      "domingo",
-      "segunda-feira",
-      "terça-feira",
-      "quarta-feira",
-      "quinta-feira",
-      "sexta-feira",
-      "sábado",
+      "dom",
+      "seg",
+      "ter",
+      "qua",
+      "qui",
+      "sex",
+      "sáb",
     ];
     const img = document.getElementById("img");
     img.src = `https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/grupododia/assets/${group}.jpg`;
@@ -49,7 +49,7 @@
     const month = (today.getMonth() + 1).toString().padStart(2, "0");
     const year = today.getFullYear();
 
-    document.getElementById("h2").innerHTML = `${day}/${month}/${year} - ${dias[today.getDay()]}`;
+    document.getElementById("h2").innerHTML = `${day}/${month}/${year} (${dias[today.getDay()]})`;
 
     async function share() {
       const blob = await (await fetch(img.src)).blob();
