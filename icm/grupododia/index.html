@@ -60,10 +60,10 @@
   <img id="img" />
   <input type="button" value="Enviar Imagem" onclick="share()">
   <script>
-    const now = new Date();
+    const today = new Date();
     const milliseconds = 1000 * 60 * 60 * 24;
     const ngroups = Number.parseInt(window.location.hash.slice(1));
-    const ndays = Math.floor(now.getTime() / milliseconds);
+    const ndays = Math.floor(today.getTime() / milliseconds);
     const group = (ndays + 1) % ngroups + 1;
 
     const img = document.getElementById("img");
@@ -76,9 +76,9 @@
 
     img.src = `https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/grupododia/assets/${group}.jpg`;
 
-    const day = now.getDate().toString().padStart(2, "0");
-    const month = (now.getMonth() + 1).toString().padStart(2, "0");
-    const year = now.getFullYear();
+    const day = today.getDate().toString().padStart(2, "0");
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const year = today.getFullYear();
 
     document.getElementById("h1").innerHTML = `${day}/${month}/${year}`;
 
