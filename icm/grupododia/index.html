@@ -55,58 +55,58 @@
     <th>sáb</th>
   </tr>
   <tr>
-    <td id="td_1">1</td>
-    <td id="td_2">2</td>
-    <td id="td_3">3</td>
-    <td id="td_4">4</td>
-    <td id="td_5">5</td>
-    <td id="td_6">6</td>
-    <td id="td_7">7</td>
+    <td id="td_1"></td>
+    <td id="td_2"></td>
+    <td id="td_3"></td>
+    <td id="td_4"></td>
+    <td id="td_5"></td>
+    <td id="td_6"></td>
+    <td id="td_7"></td>
   </tr>
   <tr>
-    <td id="td_8">8</td>
-    <td id="td_9">9</td>
-    <td id="td_10">10</td>
-    <td id="td_11">11</td>
-    <td id="td_12">12</td>
-    <td id="td_13">13</td>
-    <td id="td_14">14</td>
+    <td id="td_8"></td>
+    <td id="td_9"></td>
+    <td id="td_10"></td>
+    <td id="td_11"></td>
+    <td id="td_12"></td>
+    <td id="td_13"></td>
+    <td id="td_14"></td>
   </tr>
   <tr>
-    <td id="td_15">15</td>
-    <td id="td_16">16</td>
-    <td id="td_17">17</td>
-    <td id="td_18">18</td>
-    <td id="td_19">19</td>
-    <td id="td_20">20</td>
-    <td id="td_21">21</td>
+    <td id="td_15"></td>
+    <td id="td_16"></td>
+    <td id="td_17"></td>
+    <td id="td_18"></td>
+    <td id="td_19"></td>
+    <td id="td_20"></td>
+    <td id="td_21"></td>
   </tr>
   <tr>
-    <td id="td_22">22</td>
-    <td id="td_23">23</td>
-    <td id="td_24">24</td>
-    <td id="td_25">25</td>
-    <td id="td_26">26</td>
-    <td id="td_27">27</td>
-    <td id="td_28">28</td>
+    <td id="td_22"></td>
+    <td id="td_23"></td>
+    <td id="td_24"></td>
+    <td id="td_25"></td>
+    <td id="td_26"></td>
+    <td id="td_27"></td>
+    <td id="td_28"></td>
   </tr>
   <tr>
-    <td id="td_29">29</td>
-    <td id="td_30">30</td>
-    <td id="td_31">31</td>
-    <td id="td_32">32</td>
-    <td id="td_33">33</td>
-    <td id="td_34">34</td>
-    <td id="td_35">35</td>
+    <td id="td_29"></td>
+    <td id="td_30"></td>
+    <td id="td_31"></td>
+    <td id="td_32"></td>
+    <td id="td_33"></td>
+    <td id="td_34"></td>
+    <td id="td_35"></td>
   </tr>
   <tr>
-    <td id="td_36">36</td>
-    <td id="td_37">37</td>
-    <td id="td_38">38</td>
-    <td id="td_39">39</td>
-    <td id="td_40">40</td>
-    <td id="td_41">41</td>
-    <td id="td_42">42</td>
+    <td id="td_36"></td>
+    <td id="td_37"></td>
+    <td id="td_38"></td>
+    <td id="td_39"></td>
+    <td id="td_40"></td>
+    <td id="td_41"></td>
+    <td id="td_42"></td>
   </tr>
 </table>
 
@@ -136,7 +136,10 @@
 
     document.getElementById("h2").innerHTML = `${day}/${month}/${year} (${dias[today.getDay()]})`;
 
-    alert(new Date(`${year}-${month}-01`))
+    const start = (new Date(year, month - 1, 1)).getDay();
+    for (let i = 1; i <= 31; i++) {
+      document.getElementById(`td_${start + i}`).innerHTML = i;
+    }
 
     async function share() {
       const blob = await (await fetch(img.src)).blob();
