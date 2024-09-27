@@ -145,6 +145,15 @@
       td.style.backgroundColor = "#657895";
     }
 
+    function getLastDayOfMonth(year, month) {
+      // O mês em JavaScript é baseado em 0 (0 = janeiro, 11 = dezembro)
+      // Criamos uma data para o primeiro dia do próximo mês, e subtraímos um dia
+      return new Date(year, month + 1, 0).getDate();
+    }
+
+    // Exemplo: obtendo o último dia de setembro de 2024
+    alert(getLastDayOfMonth(2024, 8)); // Retorna 30 (Setembro)
+
     async function share() {
       const blob = await (await fetch(img.src)).blob();
       const files = [new File([blob], "grupododia.jpg", blob)];
