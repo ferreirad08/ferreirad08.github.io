@@ -139,7 +139,7 @@
     for (let i = 1; i <= lastDayOfMonth; i++) {
       const td = document.getElementById(`td_${firstDayOfWeekOfMonth + i}`);
       const group = getGroupOfDay(today.getFullYear(), today.getMonth(), i);
-      td.innerHTML = `G${group}<br />${i}/${month}/${year}`;
+      td.innerHTML = `G${group}<br />${i}/${month}`;
       td.style.backgroundColor = "#657895";
     }
 
