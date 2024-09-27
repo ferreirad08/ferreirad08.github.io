@@ -136,6 +136,8 @@
 
     document.getElementById("h2").innerHTML = `${day}/${month}/${year} (${dias[today.getDay()]})`;
 
+    alert(month)
+
     async function share() {
       const blob = await (await fetch(img.src)).blob();
       const files = [new File([blob], "grupododia.jpg", blob)];
