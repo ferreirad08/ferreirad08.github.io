@@ -27,7 +27,7 @@
       font-size: 13px;
     }
 
-    h2 {
+    h1 {
       text-align: center;
       font-weight: bold;
       font-size: 13px;
@@ -43,7 +43,7 @@
   <title>Grupo do Dia</title>
 </head>
 <body>
-  <h2 id="h2"></h2>
+  <h1 id="h1"></h1>
   <img id="img" alt="" onclick="share()" />
 
 <table border="1">
@@ -131,7 +131,7 @@
     const month = (today.getMonth() + 1).toString().padStart(2, "0");
     const year = today.getFullYear();
 
-    document.getElementById("h2").innerHTML = `${day}/${month}/${year} (${dias[today.getDay()]})`;
+    document.getElementById("h1").innerHTML = year;
 
     const firstDayOfWeekOfMonth = getFirstDayOfWeekOfMonth(today.getFullYear(), today.getMonth());
     const lastDayOfMonth = getLastDayOfMonth(today.getFullYear(), today.getMonth());
