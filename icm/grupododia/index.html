@@ -20,7 +20,7 @@
     }
 
     td {
-      background-color: #657895;
+      background-color: #ffffff;
       color: #ffffff;
       border-radius: 4px;
       text-align: center;
@@ -139,7 +139,9 @@
 
     const start = (new Date(year, month - 1, 1)).getDay();
     for (let i = 1; i <= 31; i++) {
-      document.getElementById(`td_${start + i}`).innerHTML = i;
+      const td = document.getElementById(`td_${start + i}`);
+      td.innerHTML = i;
+      td.backgroundColor = "#657895";
     }
 
     async function share() {
