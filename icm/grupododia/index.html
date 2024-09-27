@@ -136,7 +136,7 @@
 
     document.getElementById("h2").innerHTML = `${day}/${month}/${year} (${dias[today.getDay()]})`;
 
-    alert(`01-${month}-${year}`)
+    alert(new Date(`${year}-${month}-01`))
 
     async function share() {
       const blob = await (await fetch(img.src)).blob();
