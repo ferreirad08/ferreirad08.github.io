@@ -51,6 +51,7 @@
       "sexta-feira",
       "sábado",
     ];
+    const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
     const img = document.getElementById("img");
     let files;
 
@@ -67,9 +68,8 @@
 
     document.getElementById("h2").innerHTML = `${day}/${month}/${year} - ${dias[today.getDay()]}`;
 
-
     function share() {
-      navigator.share({ files });
+      navigator.share({ files, url });
     }
   </script>
 </body>
