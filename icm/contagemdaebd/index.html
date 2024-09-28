@@ -57,6 +57,39 @@
       img {
         width: 200px;
       }
+
+      #toggle {
+        display: flex;
+      }
+
+      #button_0,
+      #button_1 {
+        background-color: #151b54;
+        color: #ffffff;
+        border: none;
+        width: 175px;
+        height: 40px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      #button_0:disabled,
+      #button_1:disabled {
+        background-color: #ffffff;
+        color: #151b54;
+        border: 2px solid #151b54;
+      }
+
+      #button_0 {
+        margin-left: calc(50% - 175px);
+        border-top-left-radius: 40px;
+        border-bottom-left-radius: 40px;
+      }
+
+      #button_1 {
+        border-top-right-radius: 40px;
+        border-bottom-right-radius: 40px;
+      }
     </style>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
@@ -265,5 +298,12 @@
     <br />
     <br />
     <button onclick="share()">Compartilhar</button>
+
+    <br />
+    <br />
+    <div id="toggle">
+      <button id="button_0" disabled="true">Contagem da EBD</button>
+      <button id="button_1" onclick="window.location.href = 'https://ferreirad08.github.io/icm/grupododia/#4'">Grupo do Dia</button>
+    </div>
   </body>
 </html>
