@@ -24,7 +24,6 @@
       }
 
       div {
-        background-color: yellowgreen;
         border-radius: 5px;
         width: 100%;
       }
@@ -160,7 +159,17 @@
       for (let i = 1; i <= lastDayOfMonth; i++) {
         const td = document.getElementById(`td_${firstDayOfWeekOfMonth + i}`);
         const group = getGroupOfDay(today.getFullYear(), today.getMonth(), i);
-        td.innerHTML = `${i}<br /><div>G${group}</div>`;
+        const color =
+          group === 4
+            ? "#c4daf2"
+            : group === 3
+            ? "#fdfb0b"
+            : group === 2
+            ? "#fa9603"
+            : group === 1
+            ? "#69fc3a"
+            : "";
+        td.innerHTML = `${i}<br /><div style="background-color: ${color}">G${group}</div>`;
         td.style.backgroundColor = i === today.getDate() ? "#ddd" : "#fff";
       }
 
