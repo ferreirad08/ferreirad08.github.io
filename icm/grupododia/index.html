@@ -27,11 +27,6 @@
         border-radius: 5px;
         width: 100%;
       }
-
-      img {
-        width: 110px;
-        margin-left: calc(50% - 55px);
-      }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -112,10 +107,6 @@
       </tr>
     </table>
 
-    <br />
-    <br />
-    <img id="img" alt="" onclick="share()" />
-
     <script>
       const meses = [
         "JANEIRO",
@@ -140,9 +131,6 @@
         today.getMonth(),
         today.getDate()
       );
-
-      const img = document.getElementById("img");
-      img.src = `https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/grupododia/assets/${group}.jpg`;
 
       document.getElementById("th_1").innerHTML = `${
         meses[today.getMonth()]
