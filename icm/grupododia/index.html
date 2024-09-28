@@ -132,6 +132,8 @@
         "DEZEMBRO",
       ];
 
+      const colors = [, "#69fc3a", "#fa9603", "#fdfb0b", "#c4daf2"];
+
       const today = new Date();
       const group = getGroupOfDay(
         today.getFullYear(),
@@ -159,17 +161,7 @@
       for (let i = 1; i <= lastDayOfMonth; i++) {
         const td = document.getElementById(`td_${firstDayOfWeekOfMonth + i}`);
         const group = getGroupOfDay(today.getFullYear(), today.getMonth(), i);
-        const color =
-          group === 4
-            ? "#c4daf2"
-            : group === 3
-            ? "#fdfb0b"
-            : group === 2
-            ? "#fa9603"
-            : group === 1
-            ? "#69fc3a"
-            : "";
-        td.innerHTML = `${i}<br /><div style="background-color: ${color}">G${group}</div>`;
+        td.innerHTML = `${i}<br /><div style="background-color: ${colors[group]}">G${group}</div>`;
         td.style.backgroundColor = i === today.getDate() ? "#ddd" : "#fff";
       }
 
