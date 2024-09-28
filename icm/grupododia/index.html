@@ -163,6 +163,10 @@
         const group = getGroupOfDay(today.getFullYear(), today.getMonth(), i);
         td.innerHTML = `${i}<br /><div style="background-color: ${colors[group]}">G${group}</div>`;
         td.style.backgroundColor = i === today.getDate() ? "#ddd" : "#fff";
+
+        td.addEventListener("click", function () {
+          share(group);
+        });
       }
 
       function getLastDayOfMonth(year, month) {
@@ -181,8 +185,9 @@
         return ((days + 1) % groups) + 1;
       }
 
-      async function share() {
-        const blob = await (await fetch(img.src)).blob();
+      async function share(group) {
+        const src = `https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/main/icm/grupododia/assets/${group}.jpg`;
+        const blob = await (await fetch(src)).blob();
         const files = [new File([blob], "grupododia.jpg", blob)];
         const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
         navigator.share({ files, url });
