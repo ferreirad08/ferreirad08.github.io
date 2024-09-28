@@ -23,6 +23,12 @@
         width: calc(350px / 7);
       }
 
+      div {
+        background-color: yellowgreen;
+        border-radius: 5px;
+        width: 100%;
+      }
+
       img {
         width: 350px;
         margin-left: calc(50% - 175px);
@@ -154,7 +160,7 @@
       for (let i = 1; i <= lastDayOfMonth; i++) {
         const td = document.getElementById(`td_${firstDayOfWeekOfMonth + i}`);
         const group = getGroupOfDay(today.getFullYear(), today.getMonth(), i);
-        td.innerHTML = `${i}<br />G${group}`;
+        td.innerHTML = `${i}<br /><div>G${group}</div>`;
         td.style.backgroundColor = i === today.getDate() ? "#ddd" : "#fff";
       }
 
