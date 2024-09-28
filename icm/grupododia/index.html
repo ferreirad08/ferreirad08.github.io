@@ -185,10 +185,18 @@
 
       const colors = [, "#69fc3a", "#fa9603", "#fdfb0b", "#c4daf2"];
 
-      const data = {
+      let data = {
         "igreja": "Nome",
         "num_grupos": 4
       };
+
+      // Carregar os valores do LocalStorage ou usar os valores padrão
+      function carregarValores() {
+        const valoresSalvos = localStorage.getItem("grupododia");
+        if (valoresSalvos) {
+          data = JSON.parse(valoresSalvos);
+        }
+      }
 
       const today = new Date();
 
