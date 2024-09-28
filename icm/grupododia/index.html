@@ -8,24 +8,18 @@
     }
 
     table {
+      border-collapse: collapse;
       width: 350px;
       margin-left: calc(50% - 175px);
-      border: none;
+      box-shadow: -1px 1px 4px 0px grey;
     }
 
     th, td {
-      border: none;
-      height: 20px;
-      width: calc(350px / 7);
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    td {
-      background-color: #ffffff;
-      color: #ffffff;
-      border-radius: 4px;
+      border: 1px solid #000;
+      padding: 8px;
       text-align: center;
       font-size: 13px;
+      width: calc(350px / 7);
     }
 
     img {
@@ -45,13 +39,13 @@
     <th id="h1" colspan="7"></th>
   </tr>
   <tr>
-    <th>dom</th>
-    <th>seg</th>
-    <th>ter</th>
-    <th>qua</th>
-    <th>qui</th>
-    <th>sex</th>
-    <th>sáb</th>
+    <th>DOM</th>
+    <th>SEG</th>
+    <th>TER</th>
+    <th>QUA</th>
+    <th>QUI</th>
+    <th>SEX</th>
+    <th>SÁB</th>
   </tr>
   <tr>
     <td id="td_1"></td>
@@ -110,29 +104,21 @@
 </table>
 
   <script>
-    const dias = [
-      "dom",
-      "seg",
-      "ter",
-      "qua",
-      "qui",
-      "sex",
-      "sáb",
-    ];
-    const meses = [
-      "Janeiro",
-      "Fevereiro",
-      "Março",
-      "Abril",
-      "Maio",
-      "Junho",
-      "Julho",
-      "Agosto",
-      "Setembro",
-      "Outubro",
-      "Novembro",
-      "Dezembro"
-    ];
+const meses = [
+  "JANEIRO",
+  "FEVEREIRO",
+  "MARÇO",
+  "ABRIL",
+  "MAIO",
+  "JUNHO",
+  "JULHO",
+  "AGOSTO",
+  "SETEMBRO",
+  "OUTUBRO",
+  "NOVEMBRO",
+  "DEZEMBRO"
+];
+
     const img = document.getElementById("img");
     const today = new Date();
     const group = getGroupOfDay(today.getFullYear(), today.getMonth(), today.getDate());
@@ -142,7 +128,7 @@
     const month = (today.getMonth() + 1).toString().padStart(2, "0");
     const year = today.getFullYear();
 
-    document.getElementById("h1").innerHTML = `${meses[today.getMonth()]} de ${today.getFullYear()}`;
+    document.getElementById("h1").innerHTML = `${meses[today.getMonth()]} DE ${today.getFullYear()}`;
 
     const firstDayOfWeekOfMonth = getFirstDayOfWeekOfMonth(today.getFullYear(), today.getMonth());
     const lastDayOfMonth = getLastDayOfMonth(today.getFullYear(), today.getMonth());
@@ -151,7 +137,7 @@
       const td = document.getElementById(`td_${firstDayOfWeekOfMonth + i}`);
       const group = getGroupOfDay(today.getFullYear(), today.getMonth(), i);
       td.innerHTML = `${i}<br />G${group}`;
-      td.style.backgroundColor = i === today.getDate() ? "#4c191d" : "#657895";
+      td.style.backgroundColor = i === today.getDate() ? "#ddd" : "#fff";
     }
 
     function getLastDayOfMonth(year, month) {
