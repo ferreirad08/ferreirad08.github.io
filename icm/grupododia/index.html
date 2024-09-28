@@ -83,7 +83,7 @@
       <tr>
         <th colspan="2">QUANTIDADE DE GRUPOS:</th>
         <td colspan="5">
-          <select id="num_grupos">
+          <select id="num_grupos" onclick="handleChange()">
             <option>2</option>
             <option>3</option>
             <option>4</option>
@@ -209,6 +209,10 @@
         }
       }
 
+      function handleChange(element) {
+        data[element.id] = element.value; // Atualiza o valor no JSON
+        localStorage.setItem("grupododia", JSON.stringify(data)); // Salva os valores no LocalStorage
+      }
 
       carregarValores();
 
