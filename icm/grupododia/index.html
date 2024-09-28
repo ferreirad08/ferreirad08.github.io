@@ -196,7 +196,21 @@
         if (valoresSalvos) {
           data = JSON.parse(valoresSalvos);
         }
+
+        for (const id in data) {
+          const element = document.getElementById(id);
+          if (element) {
+            if (id.includes("num")) {
+              element.value = data[id]; // Carrega o valor padrão
+            } else {
+              element.innerHTML = data[id]; // Carrega o valor padrão
+            }
+          }
+        }
       }
+
+
+      carregarValores();
 
       const today = new Date();
 
