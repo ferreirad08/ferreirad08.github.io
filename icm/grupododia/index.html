@@ -83,15 +83,15 @@
       <tr>
         <th colspan="2">QUANTIDADE DE GRUPOS:</th>
         <td colspan="5">
-          <select id="num_grupos" onclick="handleChange(this)">
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-            <option>9</option>
+          <select id="num_grupos" onchange="handleSelection(this)">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
           </select>
         </td>
       </tr>
@@ -209,9 +209,10 @@
         }
       }
 
-      function handleChange(element) {
+      function handleSelection(element) {
         data[element.id] = element.value; // Atualiza o valor no JSON
         localStorage.setItem("grupododia", JSON.stringify(data)); // Salva os valores no LocalStorage
+        window.location.reload();
       }
 
       carregarValores();
@@ -255,8 +256,8 @@
         const days = Math.floor(
           new Date(year, month, day).getTime() / (1000 * 60 * 60 * 24)
         );
-        const groups = 4; // Number.parseInt(window.location.hash.slice(1));
-        return ((days + 1) % groups) + 1;
+        // const groups = 4; // Number.parseInt(window.location.hash.slice(1));
+        return ((days + 1) % data["num_grupos"]) + 1;
       }
 
       async function share(group) {
