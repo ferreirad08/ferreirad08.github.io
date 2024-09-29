@@ -83,7 +83,7 @@
       </tr>
       <tr>
         <th colspan="2">IGREJA:</th>
-        <td id="igreja" colspan="5"></td>
+        <td id="igreja" colspan="5" onclick="handleClick(this)"></td>
       </tr>
       <tr>
         <th colspan="2">QUANTIDADE DE GRUPOS:</th>
@@ -218,6 +218,17 @@
         data[element.id] = element.value; // Atualiza o valor no JSON
         localStorage.setItem("grupododia", JSON.stringify(data)); // Salva os valores no LocalStorage
         window.location.reload();
+      }
+
+      function handleClick(cell) {
+        const valorAtual = cell.innerHTML.trim();
+        const valor = prompt("Insira ou edite o valor:", valorAtual);
+
+        if (valor !== null && valor.trim() !== "") {
+          cell.innerHTML = valor;
+          data[cell.id] = valor; // Atualiza o valor no JSON
+          localStorage.setItem("grupododia", JSON.stringify(data)); // Salva os valores no LocalStorage
+        }
       }
 
       carregarValores();
