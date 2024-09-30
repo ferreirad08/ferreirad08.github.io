@@ -90,9 +90,16 @@
       const books = document.getElementById("books");
       let text = "";
       bible[books.value][element.value - 1].forEach(function (item, index) {
-        text += `<sup>${index + 1}</sup>${item}<br /><br />`
+        text += `<p onclick="selectionVerse(this)"><sup>${index + 1}</sup>${item}</p>`
       });
       document.getElementById("text").innerHTML = text;
+    }
+
+    function selectionVerse(element) {
+      element.style.backgroundColor =
+        element.style.backgroundColor === "rgb(187, 187, 187)"
+        ? "rgb(255, 255, 255)"
+        : "rgb(187, 187, 187)";
     }
   </script>
 </body>
