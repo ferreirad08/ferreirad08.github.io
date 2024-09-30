@@ -92,7 +92,7 @@
       const books = document.getElementById("books");
       let text = "";
       bible[books.value][element.value - 1].forEach(function (item, index) {
-        text += `<p onclick="selectionVerse(this, index)"><sup>${index + 1}</sup>${item}</p>`
+        text += `<p onclick="selectionVerse(this, ${index})"><sup>${index + 1}</sup>${item}</p>`
       });
       document.getElementById("text").innerHTML = text;
     }
