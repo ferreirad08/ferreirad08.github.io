@@ -62,7 +62,7 @@
   </table>
   <script>
     let bible;
-    const verses = [];
+    let verses = [];
     const url = "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/ARC.json";
 
     fetch(url).then(function (res) {
@@ -88,6 +88,7 @@
     }
 
     function selectionChapter(element) {
+      verses = [];
       const books = document.getElementById("books");
       let text = "";
       bible[books.value][element.value - 1].forEach(function (item, index) {
