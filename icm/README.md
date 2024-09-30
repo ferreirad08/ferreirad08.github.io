@@ -1,5 +1,7 @@
 # icm
 
+[bible](https://ferreirad08.github.io/icm/bible/)
+
 [contagemdaebd](https://ferreirad08.github.io/icm/contagemdaebd/)
 
 [escaladeflores](https://ferreirad08.github.io/icm/escaladeflores/)
