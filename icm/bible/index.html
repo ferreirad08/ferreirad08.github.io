@@ -88,7 +88,11 @@
 
     function selectionChapter(element) {
       const books = document.getElementById("books");
-      document.getElementById("text").innerHTML = bible[books.value][element.value - 1].join("<br /><br />");
+      let text = "";
+      bible[books.value][element.value - 1].forEach(function (item, index) {
+        text += `<sup>${index + 1}</sup>${item}<br /><br />`
+      });
+      document.getElementById("text").innerHTML = text;
     }
   </script>
 </body>
