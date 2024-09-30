@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 350px;
+      margin-left: calc(50% - 175px);
+      box-shadow: -1px 1px 4px 0px grey;
+    }
+  
+    th,
+    td {
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    select:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    select {
+      background-color: #fff;
+      width: 100%;
+      border: none;
+      text-align: center;
+    }
+  </style>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title></title>
+</head>
+<body>
+  <table>
+    <tr>
+      <th>
+        LIVRO
+      </th>
+      <td>
+        <select id="books" onchange="selectionBook(this)"></select>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        CAPÍTULO
+      </th>
+      <td>
+        <select id="chapters" onchange="selectionChapter(this)"></select>
+      </td>
+    </tr>
+    <tr>
+      <td id="text" colspan="2"></td>
+    </tr>
+  </table>
+  <script>
+    let bible;
+    const url = "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/ARC.json";
+
+    fetch(url).then(function (res) {
+      res.json().then(function (data) {
+        bible = data;
+        const books = document.getElementById("books");
+        for (const book in bible) {
+          books.innerHTML += `<option>${book}</option>`;
+        }
+
+        selectionBook({ value: "Gênesis" });
+      });
+    });
+
+    function selectionBook(element) {
+      const chapters = document.getElementById("chapters");
+      chapters.innerHTML = "";
+      for (const chapter in bible[element.value]) {
+        chapters.innerHTML += `<option>${Number(chapter) + 1}</option>`;
+      }
+
+      selectionChapter({ value: 1 });
+    }
+
+    function selectionChapter(element) {
+      const books = document.getElementById("books");
+      document.getElementById("text").innerHTML = bible[books.value][element.value - 1].join("<br /><br />");
+    }
+  </script>
+</body>
+</html>
