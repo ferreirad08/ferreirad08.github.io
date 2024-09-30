@@ -62,6 +62,7 @@
   </table>
   <script>
     let bible;
+    const verses = [];
     const url = "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/ARC.json";
 
     fetch(url).then(function (res) {
@@ -90,12 +91,14 @@
       const books = document.getElementById("books");
       let text = "";
       bible[books.value][element.value - 1].forEach(function (item, index) {
-        text += `<p onclick="selectionVerse(this)"><sup>${index + 1}</sup>${item}</p>`
+        text += `<p onclick="selectionVerse(this, index)"><sup>${index + 1}</sup>${item}</p>`
       });
       document.getElementById("text").innerHTML = text;
     }
 
-    function selectionVerse(element) {
+    function selectionVerse(element, index) {
+      verses.push(index);
+      alert(verses);
       element.style.backgroundColor =
         element.style.backgroundColor === "rgb(187, 187, 187)"
         ? "rgb(255, 255, 255)"
