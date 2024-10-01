@@ -103,15 +103,14 @@
         verses.includes(index + 1)
       ) {
         verses.push(index);
+        element.style.backgroundColor = "rgb(187, 187, 187)";
       } else {
+        for (const p of document.getElementsByTagName("p")) {
+          p.style.backgroundColor = "rgb(255, 255, 255)";
+        }
         verses = [index];
+        element.style.backgroundColor = "rgb(187, 187, 187)";
       }
-
-      alert(verses);
-      element.style.backgroundColor =
-        element.style.backgroundColor === "rgb(187, 187, 187)"
-        ? "rgb(255, 255, 255)"
-        : "rgb(187, 187, 187)";
     }
   </script>
 </body>
