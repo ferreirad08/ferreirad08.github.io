@@ -92,25 +92,21 @@
       const books = document.getElementById("books");
       let text = "";
       bible[books.value][element.value - 1].forEach(function (item, index) {
-        text += `<p onclick="selectionVerse(this, ${index})"><sup>${index + 1}</sup>${item}</p>`
+        text += `<p name="${index}" onclick="selectionVerse(this)"><sup>${index + 1}</sup>${item}</p>`
       });
       document.getElementById("text").innerHTML = text;
     }
 
-    function selectionVerse(element, index) {
-      if (
-        verses.includes(index - 1) ||
-        verses.includes(index + 1)
-      ) {
-        verses.push(index);
-        element.style.backgroundColor = "rgb(187, 187, 187)";
-      } else {
-        for (const p of document.getElementsByTagName("p")) {
-          p.style.backgroundColor = "rgb(255, 255, 255)";
-        }
-        verses = [index];
-        element.style.backgroundColor = "rgb(187, 187, 187)";
-      }
+    function selectionVerse(element) {
+      element.style.backgroundColor =
+        element.style.backgroundColor === "rgb(187, 187, 187)"
+        ? "rgb(255, 255, 255)"
+        : "rgb(187, 187, 187)";
+
+      const selected = [...document.getElementsByTagName("p")]
+        .filter((item) => item.style.backgroundColor === "rgb(187, 187, 187)");
+
+      console.log(selected.length);
     }
   </script>
 </body>
