@@ -48,9 +48,16 @@
 
     #result {
       width: 452px;
-      min-height: 300px;
+      height: 678px;
+      background-size: 100%;
+    }
+
+    #result2 {
       font-size: 18px;
+      width: 300px;
       text-align: center;
+      padding-top: 50px;
+      margin-left: 76px;
     }
   </style>
   <meta charset="utf-8" />
@@ -131,17 +138,21 @@
         .filter((item) => item.style.backgroundColor === "rgb(187, 187, 187)");
 
       const div = document.createElement('div');
+      const div2 = document.createElement('div');
       div.id = "result";
+      div2.id = "result2";
 
+      div.style.backgroundImage = `url(https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.jpeg)`;
       for (const verse of selected) {
-        div.innerHTML += `${verse.innerHTML}<br />`;
+        div2.innerHTML += `${verse.innerHTML}<br />`;
       }
 
-      div.innerHTML += `<br /><br /><b>${document.getElementById("books").value} ${document.getElementById("chapters").value}</b>`;
+      div2.innerHTML += `<br /><br /><b>${document.getElementById("books").value} ${document.getElementById("chapters").value}</b>`;
 
+      div.appendChild(div2);
       document.body.appendChild(div);
       html2canvas(div).then(function (canvas) {
-        div.remove();
+        // div.remove();
 
         fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
           res.blob().then(function (blob) {
