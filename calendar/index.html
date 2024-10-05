@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      body {
+        font-family: "Verdana";
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 350px;
+        margin-left: calc(50% - 175px);
+        box-shadow: -1px 1px 4px 0px grey;
+      }
+
+      th,
+      td {
+        border: none;
+        padding: 8px;
+        text-align: center;
+        font-size: 13px;
+        width: calc(350px / 7);
+      }
+
+      #th_1 {
+        text-align: left;
+        border-bottom: 1px solid #000;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th id="th_1" colspan="7"></th>
+      </tr>
+      <tr>
+        <th>D</th>
+        <th>S</th>
+        <th>T</th>
+        <th>Q</th>
+        <th>Q</th>
+        <th>S</th>
+        <th>S</th>
+      </tr>
+      <tr>
+        <td id="td_1"></td>
+        <td id="td_2"></td>
+        <td id="td_3"></td>
+        <td id="td_4"></td>
+        <td id="td_5"></td>
+        <td id="td_6"></td>
+        <td id="td_7"></td>
+      </tr>
+      <tr>
+        <td id="td_8"></td>
+        <td id="td_9"></td>
+        <td id="td_10"></td>
+        <td id="td_11"></td>
+        <td id="td_12"></td>
+        <td id="td_13"></td>
+        <td id="td_14"></td>
+      </tr>
+      <tr>
+        <td id="td_15"></td>
+        <td id="td_16"></td>
+        <td id="td_17"></td>
+        <td id="td_18"></td>
+        <td id="td_19"></td>
+        <td id="td_20"></td>
+        <td id="td_21"></td>
+      </tr>
+      <tr>
+        <td id="td_22"></td>
+        <td id="td_23"></td>
+        <td id="td_24"></td>
+        <td id="td_25"></td>
+        <td id="td_26"></td>
+        <td id="td_27"></td>
+        <td id="td_28"></td>
+      </tr>
+      <tr>
+        <td id="td_29"></td>
+        <td id="td_30"></td>
+        <td id="td_31"></td>
+        <td id="td_32"></td>
+        <td id="td_33"></td>
+        <td id="td_34"></td>
+        <td id="td_35"></td>
+      </tr>
+      <tr>
+        <td id="td_36"></td>
+        <td id="td_37"></td>
+        <td id="td_38"></td>
+        <td id="td_39"></td>
+        <td id="td_40"></td>
+        <td id="td_41"></td>
+        <td id="td_42"></td>
+      </tr>
+    </table>
+    <script>
+      const meses = [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro",
+      ];
+
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+      const day = today.getDate();
+
+      populateCalendar(year, month, day);
+
+      function populateCalendar(year, month, day) {
+        document.getElementById("th_1").innerHTML = `${meses[month]} ${year}`;
+
+        const lastDayOfMonth = getLastDayOfMonth(year, month);
+
+        const firstDayOfWeekOfMonth = getFirstDayOfWeekOfMonth(year, month);
+
+        for (let i = 1; i <= lastDayOfMonth; i++) {
+          const td = document.getElementById(`td_${i + firstDayOfWeekOfMonth}`);
+          td.innerHTML = i;
+          td.style.backgroundColor = i === day ? "#ddd" : "#fff";
+        }
+      }
+
+      function getLastDayOfMonth(year, month) {
+        return new Date(year, month + 1, 0).getDate();
+      }
+
+      function getFirstDayOfWeekOfMonth(year, month) {
+        return new Date(year, month, 1).getDay();
+      }
+    </script>
+  </body>
+</html>
