@@ -123,13 +123,10 @@
         populateCalendar(query["year"], Number(query["month"]) - 1, 1);
       } else {
         const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth();
-        const day = today.getDate();
-        populateCalendar(year, month, day);
+        populateCalendar(today.getFullYear(), today.getMonth());
       }
 
-      function populateCalendar(year, month, day) {
+      function populateCalendar(year, month) {
         document.getElementById("th_1").innerHTML = `${meses[month]} ${year}`;
 
         const lastDayOfMonth = getLastDayOfMonth(year, month);
@@ -139,7 +136,6 @@
         for (let i = 1; i <= lastDayOfMonth; i++) {
           const td = document.getElementById(`td_${i + firstDayOfWeekOfMonth}`);
           td.innerHTML = i;
-          td.style.backgroundColor = i === day ? "#ddd" : "#fff";
         }
       }
 
