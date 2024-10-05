@@ -117,12 +117,17 @@
         "Dezembro",
       ];
 
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = today.getMonth();
-      const day = today.getDate();
+      const query = queryString();
 
-      populateCalendar(year, month, day);
+      if ("month" in query && "year" in query) {
+        populateCalendar(query["year"], Number(query["month"]) - 1, 1);
+      } else {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const day = today.getDate();
+        populateCalendar(year, month, day);
+      }
 
       function populateCalendar(year, month, day) {
         document.getElementById("th_1").innerHTML = `${meses[month]} ${year}`;
@@ -144,6 +149,15 @@
 
       function getFirstDayOfWeekOfMonth(year, month) {
         return new Date(year, month, 1).getDay();
+      }
+
+      function queryString() {
+        const parameters = {};
+        for (const item of window.location.search.slice(1).split("&")) {
+          const [key, value] = item.split("=");
+          parameters[key] = value;
+        }
+        return parameters;
       }
     </script>
   </body>
