@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-  <style>
-    body {
+  <head>
+    <style>
+      body {
         font-family: Arial, Helvetica, sans-serif;
       }
 
-    label {
+      label {
         width: 346px;
         margin-left: calc(50% - 173px);
         font-size: 10px;
@@ -29,7 +29,7 @@
         margin-bottom: 12px;
       }
 
-  input[type="button"]:disabled {
+      input[type="button"]:disabled {
         background-color: #999999;
       }
 
@@ -70,49 +70,34 @@
         margin-left: calc(50% - 175px);
         box-shadow: -1px 1px 4px 0px grey;
       }
-  </style>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title></title>
-</head>
-<body>
-  <label>Instituição</label>
-  <br />
-  <input
-    type="text"
-    id="institution"
-    oninput="this.value = this.value.slice(0, 10).toUpperCase()"
-  />
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+  </head>
+  <body>
+    <label>Instituição</label>
+    <br />
+    <input
+      type="text"
+      id="institution"
+      oninput="this.value = this.value.slice(0, 10).toUpperCase()"
+    />
 
-  <br />
+    <br />
+    <label>Entrada</label>
+    <br />
+    <input type="text" id="entry_time" />
 
-  <label>Entrada</label>
-  <br />
-  <input
-    type="text"
-    id="entry_time"
-  />
+    <br />
+    <label>Saída</label>
+    <br />
+    <input type="text" id="exit_time" />
 
-  <br />
-  
-  <label>Saída</label>
-  <br />
-  <input
-    type="text"
-    id="exit_time"
-  />
+    <br />
+    <input type="button" id="add" value="Salvar" onclick="save()" />
 
-  <br />
-
-      <input
-        type="button"
-        id="add"
-        value="Salvar"
-        onclick="save()"
-      />
-
-      <br />
-  
+    <br />
     <table>
       <thead>
         <tr>
@@ -124,25 +109,22 @@
       </thead>
       <tbody id="tbody">
         <tr>
-          <td colspan="5">
-            Aguarde...
-          </td>
+          <td colspan="5">Aguarde...</td>
         </tr>
       </tbody>
     </table>
-  <script>
-     const institution = document.getElementById("institution");
+    <script>
+      const institution = document.getElementById("institution");
       const entry_time = document.getElementById("entry_time");
       const exit_time = document.getElementById("exit_time");
+      const tbody = document.getElementById("tbody");
 
-    const tbody = document.getElementById("tbody");
+      let data = window.localStorage.getItem("calendar");
+      data = data === null ? [] : JSON.parse(data);
 
-    let data = window.localStorage.getItem("calendar");
-    data = data === null ? [] : JSON.parse(data);
+      populateTable();
 
-    populateTable();
-
-    function populateTable() {
+      function populateTable() {
         tbody.innerHTML = "";
 
         data.forEach(function (item, index) {
@@ -159,48 +141,42 @@
           cell.innerHTML = "🗑️";
           cell.setAttribute("onclick", `remove("${index}")`);
         });
-    }
+      }
 
-    function save() {
-      const obj = {
-        institution: institution.value,
-        entry_time: entry_time.value,
-        exit_time: exit_time.value,
-      };
+      function save() {
+        const obj = {
+          institution: institution.value,
+          entry_time: entry_time.value,
+          exit_time: exit_time.value,
+        };
 
-      if (Object.values(obj).includes(""))
-        return window.alert("Todos os campos são obrigatórios.");
+        if (Object.values(obj).includes(""))
+          return window.alert("Todos os campos são obrigatórios.");
 
-      institution.value = "";
-      entry_time.value = "";
-      exit_time.value = "";
+        institution.value = "";
+        entry_time.value = "";
+        exit_time.value = "";
 
-      data.push(obj);
-      window.localStorage.setItem(
-        "calendar",
-        JSON.stringify(data)
-      );
+        data.push(obj);
 
-      populateTable();
-    }
-
-    function remove(index) {
-      if (window.confirm("Remover o item?")) {
-        data.splice(index, 1);
-        window.localStorage.setItem(
-          "calendar",
-          JSON.stringify(data)
-        );
-
+        window.localStorage.setItem("calendar", JSON.stringify(data));
         populateTable();
       }
-    }
 
-    function edit(index) {
+      function remove(index) {
+        if (window.confirm("Remover o item?")) {
+          data.splice(index, 1);
+
+          window.localStorage.setItem("calendar", JSON.stringify(data));
+          populateTable();
+        }
+      }
+
+      function edit(index) {
         institution.value = data[index].institution;
         entry_time.value = data[index].entry_time;
         exit_time.value = data[index].exit_time;
-    }
-  </script>
-</body>
+      }
+    </script>
+  </body>
 </html>
