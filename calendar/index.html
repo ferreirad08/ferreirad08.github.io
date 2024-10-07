@@ -122,6 +122,8 @@
       if ("month" in query && "year" in query) {
         populateCalendar(query["year"], Number(query["month"]) - 1, 1);
       } else {
+        const url = "https://ferreirad08.github.io/calendar/";
+        window.location.href = `${url}?year=1993&month=4`;
         const today = new Date();
         populateCalendar(today.getFullYear(), today.getMonth());
       }
