@@ -119,14 +119,13 @@
 
       const query = queryString();
 
-      if ("month" in query && "year" in query) {
-        populateCalendar(query["year"], Number(query["month"]) - 1, 1);
-      } else {
+      if (!("month" in query) || !("year" in query)) {
         const url = "https://ferreirad08.github.io/calendar/";
-        window.location.href = `${url}?year=1993&month=4`;
         const today = new Date();
-        populateCalendar(today.getFullYear(), today.getMonth());
+        window.location.href = `${url}?year=${today.getFullYear()}&month=${today.getMonth()}`;
       }
+
+      populateCalendar(query["year"], Number(query["month"]) - 1, 1);
 
       function populateCalendar(year, month) {
         document.getElementById("th_1").innerHTML = `${meses[month]} ${year}`;
