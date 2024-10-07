@@ -125,7 +125,7 @@
         window.location.href = `${url}?year=${today.getFullYear()}&month=${today.getMonth()}`;
       }
 
-      populateCalendar(query["year"], Number(query["month"]) - 1, 1);
+      populateCalendar(query["year"], Number(query["month"]) - 1);
 
       function populateCalendar(year, month) {
         document.getElementById("th_1").innerHTML = `${meses[month]} ${year}`;
