@@ -15,18 +15,24 @@
         height: 30px;
       }
 
-      input[type="text"]:focus {
+      input[type="text"]:focus,
+      input[type="time"]:focus {
         outline: none;
         border-bottom: 2px solid #151b54;
       }
 
-      input[type="text"] {
+      input[type="text"],
+      input[type="time"] {
         height: 30px;
         width: 346px;
         margin-left: calc(50% - 174px);
         border: none;
         border-bottom: 1px solid gray;
         margin-bottom: 12px;
+      }
+
+      input[type="time"] {
+        width: 349px;
       }
 
       input[type="button"]:disabled {
@@ -87,12 +93,12 @@
     <br />
     <label>Entrada</label>
     <br />
-    <input type="text" id="entry_time" />
+    <input type="time" id="entry_time" />
 
     <br />
     <label>Saída</label>
     <br />
-    <input type="text" id="exit_time" />
+    <input type="time" id="exit_time" />
 
     <br />
     <input type="button" id="add" value="Salvar" onclick="save()" />
