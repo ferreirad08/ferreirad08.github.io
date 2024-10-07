@@ -119,18 +119,22 @@
           <th>Instituição</th>
           <th>Entrada</th>
           <th>Saída</th>
-          <th>Ações</th>
+          <th colspan="2">Ações</th>
         </tr>
       </thead>
       <tbody id="tbody">
         <tr>
-          <td colspan="4">
+          <td colspan="5">
             Aguarde...
           </td>
         </tr>
       </tbody>
     </table>
   <script>
+     const institution = document.getElementById("institution");
+      const entry_time = document.getElementById("entry_time");
+      const exit_time = document.getElementById("exit_time");
+
     const tbody = document.getElementById("tbody");
 
     let data = window.localStorage.getItem("calendar");
@@ -147,17 +151,18 @@
           row.insertCell(1).innerHTML = item.entry_time;
           row.insertCell(2).innerHTML = item.exit_time;
 
-          const cell = row.insertCell(3);
-          cell.innerHTML = "🗑️✏️";
+          let cell = row.insertCell(3);
+          cell.innerHTML = "🗑️";
           cell.setAttribute("onclick", `remove("${index}")`);
+
+          cell = row.insertCell(4);
+          cell.innerHTML = "✏️";
+          cell.setAttribute("onclick", `edit("${index}")`);
+
         });
     }
 
     function save() {
-      const institution = document.getElementById("institution");
-      const entry_time = document.getElementById("entry_time");
-      const exit_time = document.getElementById("exit_time");
-
       const obj = {
         institution: institution.value,
         entry_time: entry_time.value,
@@ -190,6 +195,12 @@
 
         populateTable();
       }
+    }
+
+    function edit(index) {
+        institution.value = data[index].institution;
+        entry_time.value = data[index].entry_time;
+        exit_time.value = data[index].exit_time;
     }
   </script>
 </body>
