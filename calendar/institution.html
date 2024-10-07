@@ -152,13 +152,12 @@
           row.insertCell(2).innerHTML = item.exit_time;
 
           let cell = row.insertCell(3);
-          cell.innerHTML = "🗑️";
-          cell.setAttribute("onclick", `remove("${index}")`);
-
-          cell = row.insertCell(4);
           cell.innerHTML = "✏️";
           cell.setAttribute("onclick", `edit("${index}")`);
 
+          cell = row.insertCell(4);
+          cell.innerHTML = "🗑️";
+          cell.setAttribute("onclick", `remove("${index}")`);
         });
     }
 
