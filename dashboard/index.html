@@ -4,7 +4,7 @@
   <head>
     <style>
       canvas {
-        max-width: 500px;
+        width: 500px;
         border-radius: 4px;
         margin-bottom: 10px;
         box-shadow: -1px 1px 4px 0px grey;
@@ -16,13 +16,30 @@
   </head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   <body>
-    <div>
-      <canvas id="emw_humidity_humidity"></canvas>
-      <canvas id="emw_temperature_temperature"></canvas>
-      <canvas id="emw_luminosity_lux"></canvas>
-      <canvas id="emw_average_wind_speed_velocity"></canvas>
-      <canvas id="emw_wind_direction_angle"></canvas>
-    </div>
+    <table>
+      <tr>
+        <td>
+          <canvas id="emw_humidity_humidity"></canvas>
+        </td>
+        <td>
+          <canvas id="emw_temperature_temperature"></canvas>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <canvas id="emw_luminosity_lux"></canvas>
+        </td>
+        <td>
+          <canvas id="emw_average_wind_speed_velocity"></canvas>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <canvas id="emw_wind_direction_angle"></canvas>
+        </td>
+        <td></td>
+      </tr>
+    </table>
     <button
       onclick="window.localStorage.clear('dashboard'); window.location.reload()"
     >
