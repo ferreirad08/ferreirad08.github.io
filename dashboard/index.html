@@ -5,9 +5,27 @@
     <style>
       canvas {
         width: 500px;
+        height: 260px;
         border-radius: 4px;
         margin-bottom: 10px;
         box-shadow: -1px 1px 4px 0px grey;
+      }
+
+      .Number {
+        width: 250px;
+        height: 260px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        box-shadow: -1px 1px 4px 0px grey;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #707070;
+        font-weight: bold;
+        font-size: 13px;
+        text-align: center;
+      }
+
+      a {
+        font-size: 55px;
       }
     </style>
     <meta charset="utf-8" />
@@ -22,7 +40,18 @@
           <canvas id="emw_humidity_humidity"></canvas>
         </td>
         <td>
+          <div class="Number">
+            <br /><br /><br /><br /><br /><a>27,35</a><br />Umidade do Ar (%)
+          </div>
+        </td>
+        <td>
           <canvas id="emw_temperature_temperature"></canvas>
+        </td>
+        <td>
+          <div class="Number">
+            <br /><br /><br /><br /><br /><a>27,35</a><br />Temperatura do Ar
+            (°C)
+          </div>
         </td>
       </tr>
       <tr>
@@ -30,12 +59,28 @@
           <canvas id="emw_luminosity_lux"></canvas>
         </td>
         <td>
+          <div class="Number">
+            <br /><br /><br /><br /><br /><a>27,35</a><br />Luminosidade (lx)
+          </div>
+        </td>
+        <td>
           <canvas id="emw_average_wind_speed_velocity"></canvas>
+        </td>
+        <td>
+          <div class="Number">
+            <br /><br /><br /><br /><br /><a>27,35</a><br />Velocidade do Vento
+            (km/h)
+          </div>
         </td>
       </tr>
       <tr>
         <td>
           <canvas id="emw_wind_direction_angle"></canvas>
+        </td>
+        <td>
+          <div class="Number">
+            <br /><br /><br /><br /><br /><a>27,35</a><br />Direção do Vento (°)
+          </div>
         </td>
         <td></td>
       </tr>
@@ -90,12 +135,18 @@
       const query = queryString();
 
       const template = {
-        time: [],
-        emw_humidity_humidity: [],
-        emw_temperature_temperature: [],
-        emw_luminosity_lux: [],
-        emw_average_wind_speed_velocity: [],
-        emw_wind_direction_angle: [],
+        time: [
+          "09/10/2024, 03:59",
+          "09/10/2024, 04:29",
+          "09/10/2024, 04:59",
+          "09/10/2024, 05:29",
+          "09/10/2024, 05:59",
+        ],
+        emw_humidity_humidity: [40.72, 75.48, 59.28, 63.59, 47.27],
+        emw_temperature_temperature: [16.22, 31.65, 18.98, 25.97, 24.29],
+        emw_luminosity_lux: [1284, 1871, 761, 1667, 154],
+        emw_average_wind_speed_velocity: [9.0, 19.85, 6.81, 5.33, 4.99],
+        emw_wind_direction_angle: [269, 92, 354, 189, 202],
       };
 
       let data = window.localStorage.getItem("dashboard");
