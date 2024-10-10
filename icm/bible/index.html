@@ -65,7 +65,7 @@
         padding-left: 4px;
         padding-right: 4px;
         background-color: rgba(0, 0, 0, 0.3);
-        font-size: auto;
+        font-size: 13px;
         color: #ffffff;
         text-align: center;
         font-weight: bold;
@@ -161,6 +161,9 @@
           document.getElementById("books").value
         } ${document.getElementById("chapters").value}`;
 
+        const x = div2.innerHTML.length / 10;
+        alert(x)
+        div2.style.fontSize = `{x}px`;
         div.appendChild(div2);
         document.body.appendChild(div);
         html2canvas(div).then(function (canvas) {
