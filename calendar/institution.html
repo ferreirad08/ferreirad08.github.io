@@ -136,12 +136,11 @@
 
         data.forEach(function (item, index) {
           const row = tbody.insertRow(index);
-
-          const td = row.insertCell(0);
-          td.style.backgroundColor = "rgba(195, 230, 203, 0.8)";
-          td.style.color = "#145e2b";
-          td.innerHTML = item.institution;
-  
+          row.insertCell(0).innerHTML = `
+            <span style="background-color: 'rgba(195, 230, 203, 0.8)'; color: '#145e2b'>
+              item.institution
+            </span>;
+          `;
           row.insertCell(1).innerHTML = item.entry_time;
           row.insertCell(2).innerHTML = item.exit_time;
 
