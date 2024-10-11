@@ -24,7 +24,7 @@
       }
 
       div {
-        border-radius: 5px;
+        border-radius: 20px;
         width: 100%;
       }
 
@@ -170,7 +170,12 @@
 
     <br />
     <br />
-    <button id="button_0" onclick="window.location.href = 'https://ferreirad08.github.io/icm/contagemdaebd/'">Voltar</button>
+    <button
+      id="button_0"
+      onclick="window.location.href = 'https://ferreirad08.github.io/icm/contagemdaebd/'"
+    >
+      Voltar
+    </button>
 
     <script>
       const meses = [
@@ -188,11 +193,35 @@
         "DEZEMBRO",
       ];
 
-      const colors = [, "#69fc3a", "#fa9603", "#fdfb0b", "#c4daf2", "#ff5733", "#33c4ff", "#a833ff", "#33ff8d", "#ff3381"];
+      const colorsText = [
+        ,
+        "#145e2b",
+        "#8a1c22",
+        "#7a6900",
+        "#0d5261",
+        "#707070",
+        "#ff3381",
+        "#a833ff",
+        "#ff6400",
+        "#33c4ff",
+      ];
+
+      const colors = [
+        ,
+        "rgba(195, 230, 203, 0.8)",
+        "rgba(248, 215, 218, 0.8)",
+        "rgba(255, 238, 186, 0.8)",
+        "rgba(190, 229, 235, 0.8)",
+        "rgba(220, 220, 220, 0.8)",
+        "rgba(255, 51, 129, 0.2)",
+        "rgba(168, 51, 255, 0.2)",
+        "rgba(255, 100, 0, 0.2)",
+        "rgba(51, 196, 255, 0.2)",
+      ];
 
       let data = {
-        "igreja": "Nome",
-        "num_grupos": 4
+        igreja: "Nome",
+        num_grupos: 4,
       };
 
       // Carregar os valores do LocalStorage ou usar os valores padrão
@@ -252,7 +281,7 @@
       for (let i = 1; i <= lastDayOfMonth; i++) {
         const td = document.getElementById(`td_${firstDayOfWeekOfMonth + i}`);
         const group = getGroupOfDay(today.getFullYear(), today.getMonth(), i);
-        td.innerHTML = `${i}<br /><div style="background-color: ${colors[group]}">G${group}</div>`;
+        td.innerHTML = `${i}<br /><div style="color: ${colorsText[group]}; background-color: ${colors[group]}">G${group}</div>`;
         td.style.backgroundColor = i === today.getDate() ? "#ddd" : "#fff";
 
         td.addEventListener("click", function () {
