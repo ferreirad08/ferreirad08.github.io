@@ -13,6 +13,9 @@
         border-collapse: collapse;
         width: 350px;
         margin-left: calc(50% - 175px);
+      }
+
+      #table {
         box-shadow: -1px 1px 4px 0px grey;
       }
 
@@ -62,6 +65,24 @@
         background-color: #ffffff;
         color: #151b54;
         border: 2px solid #151b54;
+      }
+
+      .Number {
+        width: 110px;
+        margin-left: calc(50% - 55px);
+        height: 110px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        box-shadow: -1px 1px 4px 0px grey;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #707070;
+        font-weight: bold;
+        font-size: 9px;
+        text-align: center;
+      }
+
+      a {
+        font-size: 35px;
       }
     </style>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -268,15 +289,21 @@
     </table>
 
     <br />
-    <br />
-    <button onclick="clean()">Limpar tabela</button>
-
-    <br />
-    <br />
     <button onclick="share()">Compartilhar</button>
 
     <br />
     <br />
-    <button id="button_0" onclick="window.location.href = 'https://ferreirad08.github.io/icm/grupododia/#4'">Calendário de grupos</button>
+    <button id="button_0" onclick="clean()">Limpar tabela</button>
+
+    <br />
+    <br />
+    <div
+      class="Number"
+      onclick="window.location.href = 'https://ferreirad08.github.io/icm/grupododia/#4'"
+    >
+      <br /><br />
+      Sexta-feira, 11/10/2024
+      <br /><a>G1</a><br />Grupo do Dia
+    </div>
   </body>
 </html>
