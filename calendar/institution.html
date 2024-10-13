@@ -36,10 +36,6 @@
         /* width: 349px; */
       }
 
-      input[type="button"]:disabled {
-        background-color: #999999;
-      }
-
       input[type="button"] {
         background-color: #151b54;
         color: #ffffff;
@@ -49,8 +45,12 @@
         height: 40px;
         border-radius: 40px;
         font-weight: bold;
-        margin-top: 20px;
-        margin-bottom: 25px;
+      }
+
+      input[type="button"][value="Limpar formulário"] {
+        background-color: #ffffff;
+        color: #151b54;
+        border: 2px solid #151b54;
       }
 
       tr:nth-child(even) {
@@ -101,10 +101,13 @@
     <br />
     <input type="time" id="exit_time" />
 
-    <br />
+    <br /><br />
     <input type="button" id="add" value="Salvar" onclick="save()" />
 
-    <br />
+    <br /><br />
+    <input type="button" value="Limpar formulário" onclick="resetForm()" />
+
+    <br /><br />
     <table>
       <thead>
         <tr>
@@ -125,6 +128,7 @@
       const entry_time = document.getElementById("entry_time");
       const exit_time = document.getElementById("exit_time");
       const tbody = document.getElementById("tbody");
+      let currentIndex = null;
 
       let data = window.localStorage.getItem("calendar");
       data = data === null ? [] : JSON.parse(data);
@@ -137,7 +141,7 @@
         data.forEach(function (item, index) {
           const row = tbody.insertRow(index);
           row.insertCell(0).innerHTML = `
-            <span style="padding: 3px 10px 3px 10px; border-radius: 20px; background-color: rgba(195, 230, 203, 0.8); color: #145e2b">
+            <span style="padding: 1px 8px 1px 8px; border-radius: 20px; background-color: rgba(195, 230, 203, 0.8); color: #145e2b">
               ${item.institution}
             </span>
           `;
@@ -164,11 +168,13 @@
         if (Object.values(obj).includes(""))
           return window.alert("Todos os campos são obrigatórios.");
 
-        institution.value = "";
-        entry_time.value = "";
-        exit_time.value = "";
+        if (currentIndex) {
+          data.splice(currentIndex, 1, obj);
+        } else {
+          data.push(obj);
+        }
 
-        data.push(obj);
+        resetForm();
 
         window.localStorage.setItem("calendar", JSON.stringify(data));
         populateTable();
@@ -187,6 +193,14 @@
         institution.value = data[index].institution;
         entry_time.value = data[index].entry_time;
         exit_time.value = data[index].exit_time;
+        currentIndex = index;
+      }
+
+      function resetForm() {
+        institution.value = "";
+        entry_time.value = "";
+        exit_time.value = "";
+        currentIndex = null;
       }
     </script>
   </body>
