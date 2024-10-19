@@ -134,7 +134,9 @@
         const book = document.getElementById("books").value;
         const chapter = document.getElementById("chapters").value;
 
-        window.alert((selected || all) + `<br /><br />${book} ${chapter}`);
+        const a = document.createElement('a');
+        a.href = "whatsapp://send?abid=phonenumber&text=" + (selected || all) + `<br /><br />${book} ${chapter}`;
+        a.click();
       }
     </script>
   </body>
