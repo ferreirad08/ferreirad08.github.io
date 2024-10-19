@@ -127,7 +127,7 @@
         for (const p of document.getElementsByTagName("p")) {
           const verse = p.innerHTML.replace("<sup>", "%0d%0a_").replace("</sup>", "_ ");
           all += verse;
-          if (verse.style.backgroundColor === "rgb(187, 187, 187)") {
+          if (p.style.backgroundColor === "rgb(187, 187, 187)") {
             selected += verse;
           }
         }
