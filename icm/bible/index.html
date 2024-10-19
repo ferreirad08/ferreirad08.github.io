@@ -124,10 +124,11 @@
         let selected = "";
         let all = "";
 
-        for (const verse of document.getElementsByTagName("p")) {
-          all += `%0d%0a${verse.innerHTML.replace("<sup>", "_").replace("</sup>", "_")}`;
+        for (const p of document.getElementsByTagName("p")) {
+          const verse = p.innerHTML.replace("<sup>", "_").replace("</sup>", "_ ");
+          all += `%0d%0a${verse}`;
           if (verse.style.backgroundColor === "rgb(187, 187, 187)") {
-            selected += `%0d%0a${verse.innerHTML.replace("<sup>", "_").replace("</sup>", "_ ")}`;
+            selected += `%0d%0a${verse}`;
           }
         }
 
