@@ -136,7 +136,7 @@
 
         const a = document.createElement('a');
         a.href = `whatsapp://send?abid=phonenumber&text=*${book} ${chapter}*%0d%0a${selected || all}`;
-        a.href = a.href.replaceAll("<sup>", "_").replaceAll("</sup>", "_")
+        a.href = a.href.replace("<sup>", "_").replace("</sup>", "_");
         a.click();
       }
     </script>
