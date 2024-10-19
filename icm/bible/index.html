@@ -125,9 +125,9 @@
         let all = "";
 
         for (const verse of document.getElementsByTagName("p")) {
-          all += `${verse.innerHTML}%0d%0a`;
+          all += `%0d%0a${verse.innerHTML}`;
           if (verse.style.backgroundColor === "rgb(187, 187, 187)") {
-            selected += `${verse.innerHTML}%0d%0a`;
+            selected += `%0d%0a${verse.innerHTML}`;
           }
         }
 
@@ -135,7 +135,7 @@
         const chapter = document.getElementById("chapters").value;
 
         const a = document.createElement('a');
-        a.href = `whatsapp://send?abid=phonenumber&text=${selected || all}%0d%0a*${book} ${chapter}*`;
+        a.href = `whatsapp://send?abid=phonenumber&text=*${book} ${chapter}*%0d%0a${selected || all}`;
         a.click();
       }
     </script>
