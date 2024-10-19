@@ -125,9 +125,9 @@
         let all = "";
 
         for (const verse of document.getElementsByTagName("p")) {
-          all += `%0d%0a${verse.innerHTML}`;
+          all += `%0d%0a${verse.innerHTML.replace("<sup>", "_").replace("</sup>", "_")}`;
           if (verse.style.backgroundColor === "rgb(187, 187, 187)") {
-            selected += `%0d%0a${verse.innerHTML}`;
+            selected += `%0d%0a${verse.innerHTML.replace("<sup>", "_").replace("</sup>", "_ ")}`;
           }
         }
 
@@ -135,8 +135,7 @@
         const chapter = document.getElementById("chapters").value;
 
         const a = document.createElement('a');
-        a.href = `whatsapp://send?abid=phonenumber&text=*${book} ${chapter}*%0d%0a${selected || all}`;
-        a.href = a.href.replace("<sup>", "_").replace("</sup>", "_");
+        a.href = `whatsapp://send?abid=phonenumber&text=${book} ${chapter}%0d%0a${selected || all}`;
         a.click();
       }
     </script>
