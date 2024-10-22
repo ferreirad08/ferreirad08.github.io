@@ -188,7 +188,7 @@
         let all = "";
 
         for (const p of document.getElementsByTagName("p")) {
-          const verse = p.innerHTML.replace("<sup>", " [").replace("</sup>", "] ");
+          const verse = p.innerHTML.replace("<sup>", "[").replace("</sup>", "] ") + " ";
           all += verse;
           if (p.style.backgroundColor === "rgb(187, 187, 187)") {
             selected += verse;
