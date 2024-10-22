@@ -188,7 +188,7 @@
         let all = "";
 
         for (const p of document.getElementsByTagName("p")) {
-          const verse = p.innerHTML.replace("<sup>", "[").replace("</sup>", "] ");
+          const verse = p.innerHTML.replace("<sup>", " [").replace("</sup>", "] ");
           all += verse;
           if (p.style.backgroundColor === "rgb(187, 187, 187)") {
             selected += verse;
@@ -199,7 +199,7 @@
         const chapter = document.getElementById("chapters").value;
 
         const a = document.createElement('a');
-        a.href = `whatsapp://send?abid=phonenumber&text=${book} ${chapter}%0d%0a${selected || all}%0d%0a%0d%0ahttps://ferreirad08.github.io/icm/bible/`;
+        a.href = `whatsapp://send?abid=phonenumber&text=${book} ${chapter}%0d%0a%0d%0a${selected || all}%0d%0a%0d%0ahttps://ferreirad08.github.io/icm/bible/`;
         a.click();
       }
     </script>
