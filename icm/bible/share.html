@@ -76,15 +76,19 @@
         <label>Imagem</label>
         <br />
         <img
+            onclick="setImage(this)"
+            src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png"
+        >
+        <img
+            onclick="setImage(this)"
+            src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/terra.avif"
+        >
+        <img
+            onclick="setImage(this)"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.png"
         >
         <img
-            src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.png"
-        >
-        <img
-            src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.png"
-        >
-        <img
+            onclick="setImage(this)"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.png"
         >
         <br />
@@ -109,6 +113,10 @@
           } else {
             div.style.fontSize = `${size}px`;
           }
+      }
+
+      function setImage(img) {
+          document.getElementById("img").src = img.src;
       }
     </script>
 </body>
