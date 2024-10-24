@@ -36,7 +36,7 @@
       }
 
       #painel img {
-          height: 80px;
+          height: 60px;
           margin-top: 20px;
           margin-bottom: 25px;
       }
@@ -53,7 +53,7 @@
         background: #151b54;
         margin-top: 20px;
         margin-bottom: 25px;
-        height: 1px;
+        height: 2px;
         width: 100%;
       }
 
@@ -66,6 +66,14 @@
           height: 15px;
           width: 15px;    
       }
+
+      #label_0 div {
+          height: 56px;
+          aspect-ratio: 1 / 1;
+          background-color: transparent;
+          border: 2px solid #151b54;
+          text-align: center;
+      }
     </style>
 </head>
 <body>
@@ -75,22 +83,46 @@
     <div id="painel">
         <label>Imagem</label>
         <br />
-        <img
+        <table>
+            <tr>
+                <td>
+                    <img
             onclick="setImage(this)"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png"
         >
-        <img
+                </td>
+                <td>
+                    <img
             onclick="setImage(this)"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/terra.avif"
         >
-        <img
+                </td>
+                <td>
+                    <img
             onclick="setImage(this)"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/mar.jpeg"
         >
-        <img
+                </td>
+                <td>
+                    <img
             onclick="setImage(this)"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/montanhas.jpeg"
         >
+                </td>
+                <td>
+                    <label id="label_0">
+            <input
+                style="display: none"
+                type="file"
+                id="upload"
+                accept="image/png, image/jpeg"
+                onchange="loadImage(files)"
+            />
+            <div>Arquivos</div>
+        </label>
+                </td>
+            </tr>
+        </table>
         <br />
         <label>Tamanho da fonte</label>
         <br />
@@ -117,6 +149,17 @@
 
       function setImage(img) {
           document.getElementById("img").src = img.src;
+      }
+
+      function loadImage(files) {
+        if (files[0].type === "image/png" || files[0].type === "image/jpeg") {
+          const reader = new FileReader();
+          reader.onload = async (evt) => {
+            setImage({ src: evt.target.result });
+          };
+          reader.readAsDataURL(files[0]);
+          document.getElementById("upload").value = null;
+        }
       }
     </script>
 </body>
