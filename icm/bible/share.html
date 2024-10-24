@@ -9,14 +9,14 @@
           font-family: Arial, Helvetica, sans-serif;
       }
 
-      img {
+      #img {
           position: absolute;
           width: 100%;
           left: 0%;
-          top: 20%;
+          top: 0%;
       }
 
-      div {
+      #div {
           background-color: rgba(0, 0, 0, 0.5);
           color: #ffffff;
           padding: 5px 5px 5px 5px;
@@ -25,11 +25,46 @@
           position: absolute;
           width: 90%;
           left: calc(5% - 5px);
-          top: 20%;
+          top: 0%;
       }
 
-      input {
-          width: 50%;
+      #painel {
+          position: absolute;
+          width: 90%;
+          left: calc(5% - 5px);
+          top: 60%;
+      }
+
+      #painel img {
+          width: 80px;
+          margin-top: 20px;
+          margin-bottom: 25px;
+      }
+
+      label {
+          font-size: 12px;
+          color: #151b54;
+          height: 30px;
+      }
+
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        background: #151b54;
+        margin-top: 20px;
+        margin-bottom: 25px;
+        height: 1px;
+        width: 100%;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          background-color: #151b54;
+          border-radius: 15px;
+          margin-top: 0px;
+          height: 15px;
+          width: 15px;    
       }
     </style>
 </head>
@@ -37,12 +72,30 @@
     <img id="img" src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.png" />
     <div id="div"></div>
 
-    Tamanho da fonte
-    <input type="range" min="1" max="30" oninput="fix(this.value, 0)" />
-
-    <br />
-    Ajuste vertical
-    <input type="range" min="5" max="150" oninput="fix(this.value, 1)" />
+    <div id="painel">
+        <label>Imagem</label>
+        <br />
+        <img
+            src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.png"
+        >
+        <img
+            src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.png"
+        >
+        <img
+            src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.png"
+        >
+        <img
+            src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.png"
+        >
+        <br />
+        <label>Tamanho da fonte</label>
+        <br />
+        <input type="range" min="1" max="30" oninput="fix(this.value, 0)" />
+        <br />
+        <label>Ajuste vertical</label>
+        <br />
+        <input type="range" min="5" max="150" oninput="fix(this.value, 1)" />
+    </div>
 
     <script>
       // window.localStorage.setItem("savedText", "Salmos 86<br />[11] Ensina-me, SENHOR, o teu caminho, e andarei na tua verdade; une o meu coração ao temor do teu nome. [12] Louvar-te-ei, Senhor, Deus meu, com todo o meu coração e glorificarei o teu nome para sempre. [13] Pois grande é a tua misericórdia para comigo; e livraste a minha alma do mais profundo da sepultura.");
