@@ -31,12 +31,7 @@
 </head>
 <body>
     <img id="img" src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/bible.png" />
-
-    <div id="div">
-        [24] E disse Deus: Produza a terra alma vivente conforme a sua espécie; gado, e répteis, e bestas-feras da terra conforme a sua espécie. E assim foi. [25] E fez Deus as bestas-feras da terra conforme a sua espécie, e o gado conforme a sua espécie, e todo o réptil da terra conforme a sua espécie. E viu Deus que era bom. [26] E disse Deus: Façamos o homem à nossa imagem, conforme a nossa semelhança; e domine sobre os peixes do mar, e sobre as aves dos céus, e sobre o gado, e sobre toda a terra, e sobre todo réptil que se move sobre a terra. [27] E criou Deus o homem à sua imagem; à imagem de Deus o criou; macho e fêmea os criou. [28] E Deus os abençoou e Deus lhes disse: Frutificai, e multiplicai-vos, e enchei a terra, e sujeitai-a; e dominai sobre os peixes do mar, e sobre as aves dos céus, e sobre todo o animal que se move sobre a terra. [29] E disse Deus: Eis que vos tenho dado toda erva que dá semente e que está sobre a face de toda a terra e toda árvore em que há fruto de árvore que dá semente; ser-vos-ão para mantimento. [30] E a todo animal da terra, e a toda ave dos céus, e a todo réptil da terra, em que há alma vivente, toda a erva verde lhes será para mantimento. E assim foi. [31] E viu Deus tudo quanto tinha feito, e eis que era muito bom; e foi a tarde e a manhã: o dia sexto.
-        <br /><br />
-        Gênesis 1
-    </div>
+    <div id="div"></div>
 
     Tamanho da fonte
     <input type="range" min="1" max="30" oninput="fix(this.value, 0)" />
@@ -46,6 +41,9 @@
     <input type="range" min="5" max="150" oninput="fix(this.value, 1)" />
 
     <script>
+      window.localStorage.setItem("savedText", "Salmos 86<br />[11] Ensina-me, SENHOR, o teu caminho, e andarei na tua verdade; une o meu coração ao temor do teu nome. [12] Louvar-te-ei, Senhor, Deus meu, com todo o meu coração e glorificarei o teu nome para sempre. [13] Pois grande é a tua misericórdia para comigo; e livraste a minha alma do mais profundo da sepultura.");
+      document.getElementById("div").innerHTML = window.localStorage.getItem("savedText");
+
       function fix(size, idx) {
           const div = document.getElementById("div");
 
