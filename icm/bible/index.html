@@ -198,7 +198,7 @@
         const book = document.getElementById("books").value;
         const chapter = document.getElementById("chapters").value;
 
-        window.localStorage.setItem("savedText", `${book} ${chapter}<br />${selected || all}`);
+        window.localStorage.setItem("savedText", `${book} ${chapter} ARC<br />${selected || all}`);
         window.location.href = "https://ferreirad08.github.io/icm/bible/share.html"
         /* const a = document.createElement('a');
         a.href = `whatsapp://send?abid=phonenumber&text=${book} ${chapter}%0d%0a${selected || all}`;
