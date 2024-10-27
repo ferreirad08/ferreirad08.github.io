@@ -189,7 +189,7 @@
 
         let all = "";
         let selected = "";
-        const numbers = [1, bible[book][chapter - 1].length];
+        let numbers = [];
 
         for (const p of document.getElementsByTagName("p")) {
           const verse = p.innerHTML.replace("<sup>", "[").replace("</sup>", "] ") + " ";
@@ -200,6 +200,7 @@
           }
         }
 
+        numbers = numbers || [1, bible[book][chapter - 1].length];
         const min = Math.min(...numbers);
         const max = Math.max(...numbers);
         const interval = min === max ? "" : ("-" + max);
