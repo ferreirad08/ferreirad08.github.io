@@ -186,19 +186,23 @@
       async function share() {
         let selected = "";
         let all = "";
+        const numbers = [];
 
         for (const p of document.getElementsByTagName("p")) {
           const verse = p.innerHTML.replace("<sup>", "[").replace("</sup>", "] ") + " ";
           all += verse;
           if (p.style.backgroundColor === "rgb(187, 187, 187)") {
             selected += verse;
+            numbers.push(verse.split("[")[1].split("]")[0])
           }
         }
 
+        const min = Math.min(...numbers);
+        const max = Math.max(...numbers);
         const book = document.getElementById("books").value;
         const chapter = document.getElementById("chapters").value;
 
-        window.localStorage.setItem("savedText", `${book} ${chapter} ARC<br />${selected || all}`);
+        window.localStorage.setItem("savedText", `${book} ${chapter}:${min}-${max} ARC<br />${selected || all}`);
         window.location.href = "https://ferreirad08.github.io/icm/bible/share.html"
         /* const a = document.createElement('a');
         a.href = `whatsapp://send?abid=phonenumber&text=${book} ${chapter}%0d%0a${selected || all}`;
