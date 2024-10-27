@@ -200,7 +200,7 @@
           }
         }
 
-        numbers = numbers.length === 0 ? [1, bible[book][chapter - 1].length] : numbers;
+        if (numbers.length === 0) numbers = [1, bible[book][chapter - 1].length];
         const min = Math.min(...numbers);
         const max = Math.max(...numbers);
         const interval = min === max ? "" : ("-" + max);
