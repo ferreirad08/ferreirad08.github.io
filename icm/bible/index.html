@@ -184,9 +184,12 @@
       }
 
       async function share() {
+        const book = document.getElementById("books").value;
+        const chapter = document.getElementById("chapters").value;
+
         let all = "";
         let selected = "";
-        const numbers = [];
+        const numbers = [1, bible[book][chapter - 1].length];
 
         for (const p of document.getElementsByTagName("p")) {
           const verse = p.innerHTML.replace("<sup>", "[").replace("</sup>", "] ") + " ";
@@ -201,9 +204,6 @@
         const max = Math.max(...numbers);
         const interval = min === max ? "" : ("-" + max);
   
-        const book = document.getElementById("books").value;
-        const chapter = document.getElementById("chapters").value;
-
         window.localStorage.setItem("savedText", `${book} ${chapter}:${min}${interval} ARC<br />${selected || all}`);
         window.location.href = "https://ferreirad08.github.io/icm/bible/share.html"
       }
