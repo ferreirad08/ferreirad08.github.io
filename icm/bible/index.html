@@ -184,8 +184,8 @@
       }
 
       async function share() {
-        let selected = "";
         let all = "";
+        let selected = "";
         const numbers = [];
 
         for (const p of document.getElementsByTagName("p")) {
@@ -199,14 +199,13 @@
 
         const min = Math.min(...numbers);
         const max = Math.max(...numbers);
+        const interval = min === max ? "" : ("-" + max);
+  
         const book = document.getElementById("books").value;
         const chapter = document.getElementById("chapters").value;
 
-        window.localStorage.setItem("savedText", `${book} ${chapter}:${min}-${max} ARC<br />${selected || all}`);
+        window.localStorage.setItem("savedText", `${book} ${chapter}:${min}${interval} ARC<br />${selected || all}`);
         window.location.href = "https://ferreirad08.github.io/icm/bible/share.html"
-        /* const a = document.createElement('a');
-        a.href = `whatsapp://send?abid=phonenumber&text=${book} ${chapter}%0d%0a${selected || all}`;
-        a.click(); */
       }
     </script>
   </body>
