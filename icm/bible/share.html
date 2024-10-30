@@ -213,7 +213,7 @@
       function downloadJPG() {
         html2canvas(document.getElementById("table")).then(function (canvas) {
           const a = document.createElement("a");
-          a.download = "text.jpg";
+          a.download = `${(new Date()).toISOString()}.jpg`;
           a.href = canvas.toDataURL("image/jpeg");
           a.click();
         });
