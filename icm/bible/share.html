@@ -107,29 +107,25 @@
       <tr>
         <td>
           <img
-            id="img_1"
-            onclick="document.getElementById('table').style.backgroundImage = `url(${this.src})`"
+            onclick="setImage(this)"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png"
           />
         </td>
         <td>
           <img
-            id="img_2"
-            onclick="document.getElementById('table').style.backgroundImage = `url(${this.src})`"
+            onclick="setImage(this)"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/terra.avif"
           />
         </td>
         <td>
           <img
-            id="img_3"
-            onclick="document.getElementById('table').style.backgroundImage = `url(${this.src})`"
+            onclick="setImage(this)"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/mar.jpeg"
           />
         </td>
         <td>
           <img
-            id="img_4"
-            onclick="document.getElementById('table').style.backgroundImage = `url(${this.src})`"
+            onclick="setImage(this)"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/montanhas.jpeg"
           />
         </td>
@@ -168,31 +164,17 @@
       document.getElementById("div").innerHTML =
         window.localStorage.getItem("savedText");
 
-      test();
-      toBase64("img_1");
-      toBase64("img_2");
-      toBase64("img_3");
-      toBase64("img_4");
+      setImage({
+        src: "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png",
+      });
 
-      async function test() {
-        const src =
-          "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png";
-        const blob = await (await fetch(src)).blob();
+      async function setImage(img) {
+        const blob = await (await fetch(img.src)).blob();
         const reader = new FileReader();
         reader.onloadend = function () {
           document.getElementById(
             "table"
           ).style.backgroundImage = `url(${reader.result})`;
-        };
-        reader.readAsDataURL(blob);
-      }
-
-      async function toBase64(id) {
-        const img = document.getElementById(id);
-        const blob = await (await fetch(img.src)).blob();
-        const reader = new FileReader();
-        reader.onloadend = function () {
-          img.src = reader.result;
         };
         reader.readAsDataURL(blob);
       }
@@ -211,7 +193,7 @@
       }
 
       function downloadJPG() {
-        html2canvas(document.getElementById("table")).then(function (canvas) {
+        html2canvas(document.getElementById("table"), { scale: 10 }).then(function (canvas) {
           const a = document.createElement("a");
           a.download = `${(new Date()).toISOString()}.jpg`;
           a.href = canvas.toDataURL("image/jpeg");
