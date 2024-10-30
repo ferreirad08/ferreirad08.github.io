@@ -168,14 +168,23 @@
       document.getElementById("div").innerHTML =
         window.localStorage.getItem("savedText");
 
-      document.getElementById(
-        "table"
-      ).style.backgroundImage = `url("https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png")`;
-
+      test();
       toBase64("img_1");
       toBase64("img_2");
       toBase64("img_3");
       toBase64("img_4");
+
+      async function test() {
+        const src = "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png";
+        const blob = await (await fetch(src)).blob();
+        const reader = new FileReader();
+        reader.onloadend = function () {
+          document.getElementById(
+            "table"
+          ).style.backgroundImage = `url(${reader.result})`;
+        }
+        reader.readAsDataURL(blob);
+      }
 
       async function toBase64(id) {
         const img = document.getElementById(id);
