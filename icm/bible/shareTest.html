@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    table {
+      width: 350px;
+      height: 350px;
+      margin-left: calc(50% - 175px);
+      box-shadow: -1px 1px 4px 0px grey;
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    p {
+      color: #ffffff;
+      padding: 5px 5px 5px 5px;
+      text-align: center;
+      font-weight: bold;
+      width: 90%;
+      margin-left: calc(5% - 5px);
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title></title>
+</head>
+
+<body>
+  <table id="table">
+    <tr>
+      <td>
+        <p id="text"></p>
+      </td>
+    </tr>
+  </table>
+
+  <br />
+  <button onclick="share()">Compartilhar</button>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    document.getElementById("table").style.backgroundImage = `url(${"https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png"})`;
+    document.getElementById("text").innerHTML = window.localStorage.getItem("savedText");
+
+      function share() {
+        html2canvas(document.getElementById("table")).then(function (canvas) {
+          fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
+            res.blob().then(function (blob) {
+              const files = [new File([blob], "text.jpg", blob)];
+              const url = "https://ferreirad08.github.io/icm/bible/";
+              navigator.share({ files, url });
+            });
+          });
+        });
+      }
+  </script>
+</body>
+</html>
