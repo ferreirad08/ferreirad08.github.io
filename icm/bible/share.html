@@ -107,24 +107,28 @@
       <tr>
         <td>
           <img
+            id="img_1"
             onclick="document.getElementById('table').style.backgroundImage = `url(${this.src})`"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png"
           />
         </td>
         <td>
           <img
+            id="img_2"
             onclick="document.getElementById('table').style.backgroundImage = `url(${this.src})`"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/terra.avif"
           />
         </td>
         <td>
           <img
+            id="img_3"
             onclick="document.getElementById('table').style.backgroundImage = `url(${this.src})`"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/mar.jpeg"
           />
         </td>
         <td>
           <img
+            id="img_4"
             onclick="document.getElementById('table').style.backgroundImage = `url(${this.src})`"
             src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/montanhas.jpeg"
           />
@@ -168,8 +172,14 @@
         "table"
       ).style.backgroundImage = `url("https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png")`;
 
-      async function base64(img, src) {
-        const blob = await (await fetch(src)).blob();
+      toBase64("img_1");
+      toBase64("img_2");
+      toBase64("img_3");
+      toBase64("img_4");
+
+      async function toBase64(id) {
+        const img = document.getElementById(id);
+        const blob = await (await fetch(img.src)).blob();
         const reader = new FileReader();
         reader.onloadend = function () {               
           img.src = reader.result;
