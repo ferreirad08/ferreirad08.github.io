@@ -168,6 +168,15 @@
         "table"
       ).style.backgroundImage = `url("https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png")`;
 
+      async function base64(img, src) {
+        const blob = await (await fetch(src)).blob();
+        const reader = new FileReader();
+        reader.onloadend = function () {               
+          img.src = reader.result;
+        }
+        reader.readAsDataURL(blob);
+      }
+
       function loadImage(files) {
         if (files[0].type === "image/png" || files[0].type === "image/jpeg") {
           const reader = new FileReader();
