@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      body {
+        text-align: center;
+      }
+
+      input[type="button"] {
+        background-color: #151b54;
+        color: #ffffff;
+        border: none;
+        width: calc(346px + 6px);
+        height: 40px;
+        border-radius: 40px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      input[type="button"][value="Limpar escala"] {
+        background-color: transparent;
+        color: #151b54;
+        border: 2px solid #151b54;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+
+  <body>
+    <canvas id="canvas" width="960" height="720"></canvas>
+
+    <br />
+    <input type="button" value="Limpar escala" onclick="_clean()" />
+    <input type="button" value="Baixar imagem" onclick="downloadJPG()" />
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "black";
+
+      const img = new Image();
+      img.onload = populate;
+
+      async function setImage() {
+        const blob = await (
+          await fetch(
+            "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/escaladeflores/assets/flores.jfif"
+          )
+        ).blob();
+        const reader = new FileReader();
+        reader.onloadend = function () {
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(blob);
+      }
+
+      setImage();
+
+      const template = [];
+
+      for (let i = 0; i < 12; i++) {
+        template.push({
+          index: i,
+          text: "DD.MM - Nome",
+          position: [
+            canvas.width / 4,
+            (canvas.height / 16) * (i + 1) + canvas.height / 5,
+          ],
+        });
+      }
+
+      let fields = window.localStorage.getItem("escaladeflores");
+      fields = fields === null ? template : JSON.parse(fields);
+
+      canvas.addEventListener("mousemove", (e) => {
+        let smaller = 1e90,
+          index = null;
+
+        for (let field of fields) {
+          const x = e.offsetX - field.position[0];
+          const y = e.offsetY - field.position[1];
+          const norm = Math.sqrt(x ** 2 + y ** 2);
+          if (norm < smaller) {
+            smaller = norm;
+            index = field.index;
+          }
+        }
+
+        const text = window.prompt(
+          "Digite o texto (DD.MM - Nome)",
+          fields[index].text
+        );
+
+        if (text) {
+          fields[index].text = text;
+          window.localStorage.setItem("escaladeflores", JSON.stringify(fields));
+          populate();
+        }
+      });
+
+      function populate() {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        ctx.font = "50px Times New Roman";
+        ctx.fillText(" ESCALA DE FLORES", canvas.width / 4, canvas.height / 10);
+        ctx.fillText("      ICM - MANOA", canvas.width / 4, canvas.height / 6);
+
+        ctx.font = "bolder 50px Courier";
+        for (let field of fields) {
+          ctx.fillText(field.text, ...field.position);
+        }
+      }
+
+      function downloadJPG() {
+        const a = document.createElement("a");
+        a.download = "escaladeflores.jpg";
+        a.href = canvas.toDataURL("image/jpeg");
+        a.click();
+      }
+
+      function _clean() {
+        if (
+          window.confirm("Todos os dados serão apagados. Confirmar limpeza?")
+        ) {
+          window.localStorage.removeItem("escaladeflores");
+          window.location.reload();
+        }
+      }
+    </script>
+  </body>
+</html>
