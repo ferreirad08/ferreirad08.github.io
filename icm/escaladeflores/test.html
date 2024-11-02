@@ -43,7 +43,7 @@
       const img = new Image();
       img.onload = populate;
 
-      async function setImage() {
+      async function setBackground() {
         const blob = await (
           await fetch(
             "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/escaladeflores/assets/flores.jfif"
@@ -56,7 +56,7 @@
         reader.readAsDataURL(blob);
       }
 
-      setImage();
+      setBackground();
 
       const template = [];
 
