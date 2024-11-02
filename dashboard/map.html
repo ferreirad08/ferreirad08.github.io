@@ -40,23 +40,11 @@
         refresh = 60,
         dashboardUrl = `https://ferreirad08.github.io/dashboard/?code=${code}&refresh=${refresh}`;
 
-      let track = window.localStorage.getItem("track");
-      track = track === null ? [] : JSON.parse(track);
-      track.forEach((index, coords) => {
-        addPoint(index, ...coords);
-      });
-
       const icm = [-3.031482, -60.002318];
       addPoint("ICM Manoa", ...icm);
 
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          if (window.confirm("Salvar as coordenadas atuais?")) {
-            track.push([
-              pos.coords.latitude, pos.coords.longitude
-            ]);
-          }
-
           addPoint("Atual", pos.coords.latitude, pos.coords.longitude);
 
           const polyline = L.polyline(
