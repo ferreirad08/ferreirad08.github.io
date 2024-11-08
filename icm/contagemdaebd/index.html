@@ -202,6 +202,7 @@
               const files = [new File([blob], "contagemdaebd.jpg", blob)];
               // const text = `${diasDaSemana[4]} - 10/10/2024`;
               const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
+              accessCount();
               navigator.share({ files, url });
             });
           });
@@ -218,6 +219,42 @@
           String(today.getDate()).padStart(2, "0")
         );
       }
+
+    async function accessCount() {
+      const url = "https://jsonblob.com/api/jsonBlob/1304235955953983488";
+      const storageKey = "ferreirad08-access";
+      let data = window.localStorage.getItem(storageKey);
+
+      data = data === null ? {
+        id: ObjectId(),
+        days: []
+      } : JSON.parse(data);
+      data.days.push(new Date());
+      window.localStorage.setItem(storageKey, JSON.stringify(data));
+
+      await fetch(url, {
+        method: "PUT",
+        headers: {
+          'mode': 'no-cors',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data),
+      });
+
+      // window.localStorage.removeItem(storageKey);
+      // alert(JSON.stringify(data, null, 4))
+    }
+
+    function ObjectId() {
+      // https://www.mongodb.com/docs/manual/reference/method/ObjectId/
+      let _id = ((new Date().getTime() / 1000) | 0).toString(16);
+
+      while (_id.length < 24) {
+        _id += ((Math.random() * 15) | 0).toString(16);
+      }
+      return _id;
+    }
 
       window.onload = carregarValores; // Carrega os valores ao iniciar a página
     </script>
