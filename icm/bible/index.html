@@ -205,7 +205,7 @@
         const max = Math.max(...numbers);
         const interval = min === max ? "" : ("-" + max);
   
-        window.localStorage.setItem("savedText", `${book} ${chapter}:${min}${interval} ARC<br />${selected || all}`);
+        window.localStorage.setItem("savedText", `${selected || all}<br />${book} ${chapter}:${min}${interval} ARC`);
         window.location.href = "https://ferreirad08.github.io/icm/bible/share.html"
       }
     </script>
