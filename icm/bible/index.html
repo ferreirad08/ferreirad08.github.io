@@ -201,7 +201,11 @@
           }
         }
 
-        if (numbers.length === 0) numbers = [1, bible[book][chapter - 1].length];
+        if (numbers.length === 0) {
+          window.alert("Selecione os versículos.");
+          return;
+        } // numbers = [1, bible[book][chapter - 1].length];
+
         const min = Math.min(...numbers);
         const max = Math.max(...numbers);
         const interval = min === max ? "" : ("-" + max);
