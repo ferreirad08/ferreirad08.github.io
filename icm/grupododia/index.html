@@ -323,7 +323,7 @@
           new Date(year, month, day).getTime() / (1000 * 60 * 60 * 24)
         );
         // const groups = 4; // Number.parseInt(window.location.hash.slice(1));
-        return ((days + 1) % data["num_grupos"]) + 1;
+        return (days % data["num_grupos"]) + 1;
       }
 
       async function share(group) {
