@@ -5,6 +5,7 @@
     <style>
       body {
         font-family: "Verdana";
+        color: #151b54;
       }
 
       table {
@@ -17,15 +18,25 @@
       th,
       td {
         border: none;
-        padding: 8px;
         text-align: center;
         font-size: 13px;
         width: calc(350px / 7);
       }
 
-      #th_1 {
-        text-align: left;
-        border-bottom: 1px solid #000;
+      td,
+      #weekDays th {
+        padding-top: 18px;
+      }
+
+      .setMonth {
+        text-align: center;
+        font-size: 30px;
+      }
+
+      #monthLine {
+        text-align: center;
+        font-size: 18px;
+        border-bottom: 1px solid #151b54;
       }
     </style>
     <meta charset="utf-8" />
@@ -34,10 +45,12 @@
   </head>
   <body>
     <table>
-      <tr>
-        <th id="th_1" colspan="7"></th>
+      <tr id="monthLine">
+        <th class="setMonth" onclick="setMonth(-1)"><</th>
+        <th id="th_1" colspan="5"></th>
+        <th class="setMonth" onclick="setMonth(1)">></th>
       </tr>
-      <tr>
+      <tr id="weekDays">
         <th>D</th>
         <th>S</th>
         <th>T</th>
@@ -116,11 +129,12 @@
         "Novembro",
         "Dezembro",
       ];
+      
+      const url = "https://ferreirad08.github.io/calendar/";
 
       const query = queryString();
 
       if (!("month" in query) || !("year" in query)) {
-        const url = "https://ferreirad08.github.io/calendar/";
         const today = new Date();
         window.location.href = `${url}?year=${today.getFullYear()}&month=${today.getMonth()}`;
       }
@@ -154,7 +168,12 @@
           const [key, value] = item.split("=");
           parameters[key] = value;
         }
-        return parameters;
+        return { month: 4, year: 2025 };
+        // return parameters;
+      }
+
+      function setMonth(step) {
+        window.location.href = `${url}?year=${query["year"]}&month=${query["month"] + step}`;
       }
     </script>
   </body>
