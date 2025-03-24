@@ -173,7 +173,7 @@
       }
 
       function setMonth(step) {
-        window.location.href = `${url}?year=${query["year"]}&month=${query["month"] + step}`;
+        window.location.href = `${url}?year=${query["year"]}&month=${Number(query["month"]) + step}`;
       }
     </script>
   </body>
