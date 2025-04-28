@@ -16,23 +16,23 @@
         box-shadow: -1px 1px 4px 0px grey;
       }
 
-      #tableA tr:nth-child(odd) {
+      tr:nth-child(odd) {
         background-color: #cccccc;
       }
 
-      #tableA th {
+      th {
         background-color: #151b54;
         color: #fff;
       }
 
-      #tableA th,
-      #tableA td {
+      th,
+      td {
         padding: 8px;
         text-align: left;
         font-size: 10px;
       }
 
-      #tableA {
+      table {
         width: 100%;
         border-radius: 4px;
         margin-bottom: 10px;
@@ -40,33 +40,13 @@
         border-collapse: collapse;
         overflow: hidden;
       }
-
-      .Number {
-        width: 115px;
-        /* margin-left: calc(50% - 55px); */
-        height: 115px;
-        border-radius: 4px;
-        margin-bottom: 10px;
-        box-shadow: -1px 1px 4px 0px grey;
-        font-family: Arial, Helvetica, sans-serif;
-        color: #707070;
-        font-weight: bold;
-        font-size: 8px;
-        text-align: center;
-      }
-
-      .Number_a,
-      .Number_b,
-      .Number_c {
-        font-size: 30px;
-      }
     </style>
     <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8" />
     <title></title>
   </head>
 
   <body>
-    <table id="tableA">
+    <table>
       <thead>
         <tr>
           <th>#</th>
@@ -79,26 +59,6 @@
       </thead>
       <tbody id="tbody"></tbody>
     </table>
-    <table>
-      <th>
-        <td>
-          <div class="Number">
-            <br /><br /><br /><a class="Number_a">27,35</a><br />Temperatura do Ar (°C)
-          </div>
-        </td>
-        <td>
-          <div class="Number">
-            <br /><br /><br /><a class="Number_b">27,35</a><br />Temperatura do Ar (°C)
-          </div>
-        </td>
-        <td>
-          <div class="Number">
-            <br /><br /><br /><a class="Number_c">27,35</a><br />Temperatura do Ar (°C)
-          </div>
-        </td>
-      </th>
-    </table>
-
     <canvas id="bar"></canvas>
     <canvas id="cumulative"></canvas>
     <div id="map"></div>
