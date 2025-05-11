@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      #table {
+        width: 350px;
+        max-height: 350px;
+        aspect-ratio: 960 / 720;
+        margin-left: calc(50% - 175px);
+        box-shadow: -1px 1px 4px 0px grey;
+        background-size: 100%;
+        background-repeat: no-repeat;
+      }
+
+      #div {
+        color: #000000;
+        padding: 5px 5px 5px 5px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 13px;
+        width: 90%;
+        margin-left: calc(5% - 5px);
+      }
+
+      button {
+        background-color: #151b54;
+        color: #ffffff;
+        border: none;
+        width: 350px;
+        margin-left: calc(50% - 175px);
+        height: 40px;
+        border-radius: 40px;
+        font-weight: bold;
+        text-align: center;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+  </head>
+
+  <body>
+    <br />
+    <br />
+
+    <table id="table">
+      <tr>
+        <td>
+          <div id="div"></div>
+        </td>
+      </tr>
+    </table>
+
+    <br />
+    <button id="button_1" onclick="share()">Compartilhar imagem</button>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+      storageKey = "escaladeflores";
+      window.localStorage.setItem(storageKey, `
+ESCALA DE FLORES<br />
+ICM - MANOA<br /><br />
+
+Maio<br />
+03/05 - Sara<br />
+10/05 - Marilene<br />
+17/05 - Carla<br />
+24/05 - Paula<br />
+31/05 - Stefany<br /><br />
+
+Junho<br />
+07/06 - Renata<br />
+14/06 - Raijane<br />
+21/06 - Sara<br />
+28/06 - Fabiana<br />
+`);
+      document.getElementById("div").innerHTML =
+        window.localStorage.getItem(storageKey);
+
+      setImage({
+        src: "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/escaladeflores/assets/flores.jfif",
+      });
+
+      async function setImage(img) {
+        const blob = await (await fetch(img.src)).blob();
+        const reader = new FileReader();
+        reader.onloadend = function () {
+          document.getElementById(
+            "table"
+          ).style.backgroundImage = `url(${reader.result})`;
+        };
+        reader.readAsDataURL(blob);
+      }
+
+      function share() {
+        html2canvas(document.getElementById("table"), { scale: 10 }).then(function (canvas) {
+          fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
+            res.blob().then(function (blob) {
+              const files = [new File([blob], "text.jpg", blob)];
+              const url = "https://ferreirad08.github.io/icm/bible/";
+              navigator.share({ files, url });
+            });
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
