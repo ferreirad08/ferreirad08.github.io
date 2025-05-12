@@ -91,6 +91,7 @@
     <button id="button_0" onclick="_clean()">Limpar escala</button>
     <button id="button_1" onclick="downloadJPG()">Baixar imagem</button>
     <script>
+      const fontHeader = "50px Arial";
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
       ctx.fillStyle = "black";
@@ -158,7 +159,7 @@
       function populate() {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        ctx.font = "50px Times New Roman";
+        ctx.font = fontHeader;
         ctx.fillText(" ESCALA DE FLORES", canvas.width / 4, canvas.height / 10);
         ctx.fillText("      ICM - MANOA", canvas.width / 4, canvas.height / 6);
 
