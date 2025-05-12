@@ -92,6 +92,8 @@
     <button id="button_1" onclick="downloadJPG()">Baixar imagem</button>
     <script>
       const fontHeader = "50px Candara";
+      const fontBody = "bolder 50px Courier";
+
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
       ctx.fillStyle = "black";
@@ -163,7 +165,7 @@
         ctx.fillText(" ESCALA DE FLORES", canvas.width / 4, canvas.height / 10);
         ctx.fillText("        ICM MANOA", canvas.width / 4, canvas.height / 6);
 
-        ctx.font = "bolder 50px Courier";
+        ctx.font = fontBody;
         for (let field of fields) {
           ctx.fillText(field.text, ...field.position);
         }
