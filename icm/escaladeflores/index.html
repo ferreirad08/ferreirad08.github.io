@@ -9,8 +9,8 @@
 
       label {
         width: 346px;
-        margin-left: calc(50% - 173px);
-        font-size: 10px;
+        /*margin-left: calc(50% - 173px);*/
+        font-size: 35px;
         color: #151b54;
         height: 30px;
       }
@@ -18,16 +18,17 @@
       input[type="text"]:focus,
       select:focus {
         outline: none;
-        border-bottom: 2px solid #151b54;
+        border-bottom: 3px solid #151b54;
       }
 
       input[type="text"] {
-        height: 30px;
-        width: 346px;
-        margin-left: calc(50% - 174px);
+        height: 60px;
+        width: 60%;
+        font-size: 45px;
+        /*margin-left: calc(50% - 174px);*/
         border: none;
-        border-bottom: 1px solid gray;
-        margin-bottom: 12px;
+        border-bottom: 3px solid gray;
+        margin-bottom: 20px;
       }
 
       table[name="Header"] {
@@ -108,12 +109,11 @@
     <br />
     <br />
 
-    <label>Igreja</label>
-    <br />
+    <label>Nome da igreja:</label>
     <input
         type="text"
         id="name-input"
-        oninput="this.value = this.value.slice(0, 20).toUpperCase()"
+        oninput="setName(this)"
     />
     <br />
 
@@ -125,6 +125,7 @@
     <script>
       const fontHeader = "50px Times New Roman";
       const fontBody = "bolder 50px Courier";
+      let name = "   NOME DA IGREJA";
 
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
@@ -132,6 +133,12 @@
 
       const img = new Image();
       img.onload = populate;
+
+      function setName(el) {
+        el.value = el.value.slice(0, 20).toUpperCase();
+        name = el.value;
+        populate();
+      }
 
       async function setBackground() {
         const blob = await (
@@ -195,7 +202,7 @@
 
         ctx.font = fontHeader;
         ctx.fillText(" ESCALA DE FLORES", canvas.width / 4, canvas.height / 10);
-        ctx.fillText("        ICM MANOA", canvas.width / 4, canvas.height / 6);
+        ctx.fillText(name, canvas.width / 4, canvas.height / 6);
 
         ctx.font = fontBody;
         for (let field of fields) {
