@@ -111,7 +111,7 @@
     <br />
     <br />
     <br />
-    <div id="br0"></div>
+    <div id="break0"></div>
 
     <label>Nome da igreja</label>
 
@@ -132,6 +132,9 @@
     <button id="button_0" onclick="_clean()">Limpar escala</button>
     <button id="button_1" onclick="downloadJPG()">Baixar imagem</button>
     <script>
+      document.getElementById("break0")
+        .innerHTML = "<br />".repeat(10);
+
       const fontHeader = "50px Times New Roman";
       const fontBody = "bolder 50px Courier";
       let name = "   NOME DA IGREJA";
