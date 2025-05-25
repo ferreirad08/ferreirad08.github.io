@@ -101,16 +101,6 @@
       </tr>
     </table>
 
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
     <div id="break0"></div>
 
     <label>Nome da igreja</label>
@@ -122,18 +112,16 @@
         id="name-input"
         oninput="setName(this)"
     />
-    <br />
-    <br />
-    <br />
 
+    <div id="break1"></div>
     <canvas id="canvas" width="960" height="720"></canvas>
 
     <br /><br /><br /><br />
     <button id="button_0" onclick="_clean()">Limpar escala</button>
     <button id="button_1" onclick="downloadJPG()">Baixar imagem</button>
     <script>
-      document.getElementById("break0")
-        .innerHTML = "<br />".repeat(10);
+      document.getElementById("break0").innerHTML = "<br />".repeat(10);
+      document.getElementById("break1").innerHTML = "<br />".repeat(3);
 
       const fontHeader = "50px Times New Roman";
       const fontBody = "bolder 50px Courier";
