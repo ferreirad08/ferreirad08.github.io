@@ -154,7 +154,7 @@
         if (!input.includes("#")) return null;
         input = input.split("#");
         if (!input[1].includes("/")) return null;
-        const [book, chapter] = input.split("/");
+        const [book, chapter] = input[1].split("/");
         alert(book);
         alert(chapter);
       }
