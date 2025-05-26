@@ -218,19 +218,6 @@
 
       fetch(url).then(main);
 
-      function path() {
-        let input = window.location.hash;
-        if (!input.includes("#")) return null;
-        input = input.split("#");
-        if (!input[1].includes("/")) return null;
-        const [book, chapter] = input[1].split("/");
-        if (!(book in livrosBiblia)) return null;
-        alert(book);
-        alert(chapter); // TODO: verificar validade do numero
-      }
- 
-      path();
-
       function main(res) {
         res.json().then(function (data) {
           bible = data;
@@ -239,8 +226,26 @@
             books.innerHTML += `<option>${book}</option>`;
           }
 
+          _path = path();
+          if (_path) {
+            const [ book, chapter ] = _path;
+            alert(book, chapter);
+          }
+
           selectionBook({ value: "Salmos" });
         });
+      }
+
+      function path() {
+        let input = window.location.hash;
+        if (!input.includes("#")) return null;
+        input = input.split("#");
+        if (!input[1].includes("/")) return null;
+        const [ book, chapter ] = input[1].split("/");
+        if (!(book in livrosBiblia)) return null;
+        //alert(book);
+        //alert(chapter); // TODO: verificar validade do numero
+        return [ book, chapter ];
       }
 
       function selectionBook(element) {
