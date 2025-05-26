@@ -149,6 +149,18 @@
 
       fetch(url).then(main);
 
+      function path() {
+        let input = window.location.hash;
+        if (!input.includes("#")) return null;
+        input = input.split("#");
+        if (!input[1].includes("/")) return null;
+        const [book, chapter] = input.split("/");
+        alert(book);
+        alert(chapter);
+      }
+ 
+      path();
+
       function main(res) {
         res.json().then(function (data) {
           bible = data;
