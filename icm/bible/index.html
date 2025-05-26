@@ -234,6 +234,8 @@
           } else {
             selectionBook({ value: "Gênesis" });
           }
+  
+          selectionChapter({ value: 1 });
         });
       }
 
@@ -255,8 +257,6 @@
         for (const chapter in bible[element.value]) {
           chapters.innerHTML += `<option>${Number(chapter) + 1}</option>`;
         }
-
-        selectionChapter({ value: 1 });
       }
 
       function selectionChapter(element) {
