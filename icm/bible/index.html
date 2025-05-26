@@ -229,13 +229,13 @@
           _path = path();
           if (_path) {
             const [ book, chapter ] = _path;
-            // alert(book, chapter);
+            document.getElementById("books").value = book;
             selectionBook({ value: book });
+            document.getElementById("chapters").value = chapter;
+            selectionChapter({ value: chapter });
           } else {
             selectionBook({ value: "Gênesis" });
           }
-  
-          selectionChapter({ value: 1 });
         });
       }
 
@@ -246,8 +246,8 @@
         if (!input[1].includes("/")) return null;
         const [ book, chapter ] = input[1].split("/");
         if (!(book in livrosBiblia)) return null;
-        //alert(book);
-        //alert(chapter); // TODO: verificar validade do numero
+        // alert(livrosBiblia[book]);
+        // alert(chapter); // TODO: verificar validade do numero
         return [ livrosBiblia[book], chapter ];
       }
 
