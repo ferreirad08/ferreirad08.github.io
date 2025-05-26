@@ -143,6 +143,75 @@
 
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
+      const livrosBiblia = {
+  "genesis": "Gênesis",
+  "exodo": "Êxodo",
+  "levitico": "Levítico",
+  "numeros": "Números",
+  "deuteronomio": "Deuteronômio",
+  "josue": "Josué",
+  "juizes": "Juízes",
+  "rute": "Rute",
+  "1samuel": "1 Samuel",
+  "2samuel": "2 Samuel",
+  "1reis": "1 Reis",
+  "2reis": "2 Reis",
+  "1cronicas": "1 Crônicas",
+  "2cronicas": "2 Crônicas",
+  "esdras": "Esdras",
+  "neemias": "Neemias",
+  "ester": "Ester",
+  "jo": "Jó",
+  "salmos": "Salmos",
+  "proverbios": "Provérbios",
+  "eclesiastes": "Eclesiastes",
+  "canticos": "Cânticos",
+  "isaias": "Isaías",
+  "jeremias": "Jeremias",
+  "lamentacoes": "Lamentações",
+  "ezequiel": "Ezequiel",
+  "daniel": "Daniel",
+  "oseias": "Oseias",
+  "joel": "Joel",
+  "amos": "Amós",
+  "obadias": "Obadias",
+  "jonas": "Jonas",
+  "miqueias": "Miqueias",
+  "naum": "Naum",
+  "habacuque": "Habacuque",
+  "sofonias": "Sofonias",
+  "ageu": "Ageu",
+  "zacarias": "Zacarias",
+  "malaquias": "Malaquias",
+  "mateus": "Mateus",
+  "marcos": "Marcos",
+  "lucas": "Lucas",
+  "joao": "João",
+  "atos": "Atos",
+  "romanos": "Romanos",
+  "1corintios": "1 Coríntios",
+  "2corintios": "2 Coríntios",
+  "galatas": "Gálatas",
+  "efesios": "Efésios",
+  "filipenses": "Filipenses",
+  "colossenses": "Colossenses",
+  "1tessalonicenses": "1 Tessalonicenses",
+  "2tessalonicenses": "2 Tessalonicenses",
+  "1timoteo": "1 Timóteo",
+  "2timoteo": "2 Timóteo",
+  "tito": "Tito",
+  "filemom": "Filemom",
+  "hebreus": "Hebreus",
+  "tiago": "Tiago",
+  "1pedro": "1 Pedro",
+  "2pedro": "2 Pedro",
+  "1joao": "1 João",
+  "2joao": "2 João",
+  "3joao": "3 João",
+  "judas": "Judas",
+  "apocalipse": "Apocalipse"
+};
+
       let bible;
       const url =
         "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/ARC.json";
@@ -155,8 +224,9 @@
         input = input.split("#");
         if (!input[1].includes("/")) return null;
         const [book, chapter] = input[1].split("/");
+        if (!(book in livrosBiblia)) return null;
         alert(book);
-        alert(chapter);
+        alert(chapter); // TODO: verificar validade do numero
       }
  
       path();
