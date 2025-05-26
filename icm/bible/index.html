@@ -229,10 +229,11 @@
           _path = path();
           if (_path) {
             const [ book, chapter ] = _path;
-            alert(book, chapter);
+            // alert(book, chapter);
+            selectionBook({ value: book });
+          } else {
+            selectionBook({ value: "Gênesis" });
           }
-
-          selectionBook({ value: "Salmos" });
         });
       }
 
