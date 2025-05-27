@@ -217,7 +217,7 @@
           fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
             res.blob().then(function (blob) {
               const files = [new File([blob], "text.jpg", blob)];
-              const url = "https://ferreirad08.github.io/icm/bible/";
+              const url = "https://ferreirad08.github.io/icm/bible/" + window.location.hash;
               navigator.share({ files, url });
             });
           });
