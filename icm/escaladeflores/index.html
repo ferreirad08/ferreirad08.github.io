@@ -111,6 +111,7 @@
         type="text"
         id="name-input"
         oninput="setName(this)"
+        value="   NOME DA IGREJA"
     />
 
     <div id="break1"></div>
@@ -166,7 +167,7 @@
       for (let i = 0; i < 12; i++) {
         template.push({
           index: i,
-          text: "DD/MM - Nome",
+          text: "DD.MM - Nome",
           position: [
             canvas.width / 4,
             (canvas.height / 16) * (i + 1) + canvas.height / 5,
