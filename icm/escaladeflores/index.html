@@ -132,7 +132,7 @@
 
       const fontHeader = "50px Times New Roman";
       const fontBody = "bolder 50px Courier";
-      let name = "   NOME DA IGREJA";
+      const churchNameInput = document.getElementById("name-input");
 
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
@@ -142,8 +142,7 @@
       img.onload = populate;
 
       function setName(el) {
-        el.value = el.value.slice(0, 20).toUpperCase();
-        name = el.value;
+        el.value = el.value.slice(0, 25).toUpperCase();
         populate();
       }
 
@@ -209,7 +208,7 @@
 
         ctx.font = fontHeader;
         ctx.fillText(" ESCALA DE FLORES", canvas.width / 4, canvas.height / 10);
-        ctx.fillText(name, canvas.width / 4, canvas.height / 6);
+        ctx.fillText(churchNameInput.value, canvas.width / 4, canvas.height / 6);
 
         ctx.font = fontBody;
         for (let field of fields) {
