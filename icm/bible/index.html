@@ -279,6 +279,14 @@
             : "rgb(187, 187, 187)";
       }
 
+      function toKey(value) {
+        for (key in livrosBiblia) {
+          if (livrosBiblia[key] === value) {
+            return key;
+          }
+        }
+      }
+
       async function share() {
         const book = document.getElementById("books").value;
         const chapter = document.getElementById("chapters").value;
@@ -311,7 +319,7 @@
           `${selected || all}<br />${book} ${chapter}:${min}${interval} ARC`
         );
         window.location.href =
-          `https://ferreirad08.github.io/icm/bible/share#${book}/${chapter}`;
+          `https://ferreirad08.github.io/icm/bible/share#${toKey(book)}/${chapter}`;
       }
     </script>
   </body>
