@@ -178,6 +178,7 @@
       function setMonth(step) {
         let newMonth = Number(query["month"]) + step;
         let newYear = Number(query["year"]);
+
         if (newMonth === 13) {
           newMonth = 1;
           newYear = newYear + 1;
@@ -188,7 +189,7 @@
           newYear = newYear - 1;
         }
 
-        window.location.href = `${url}?year=${query["year"]}&month=${newMonth}`;
+        window.location.href = `${url}?year=${newYear}&month=${newMonth}`;
       }
     </script>
   </body>
