@@ -21,6 +21,11 @@
         text-align: center;
         font-size: 13px;
         width: calc(350px / 7);
+        padding-bottom: 10px;
+      }
+
+      #th_1 {
+        font-size: 20px;
       }
 
       td,
@@ -120,18 +125,16 @@
         "Fevereiro",
         "Março",
         "Abril",
-        "Maio",
+        "MAIO",
         "Junho",
         "Julho",
         "Agosto",
-        "Setembro",
+        "SETEMBRO",
         "Outubro",
         "Novembro",
         "Dezembro",
       ];
-      
       const url = "https://ferreirad08.github.io/calendar/";
-
       const query = queryString();
 
       if (!("month" in query) || !("year" in query)) {
@@ -168,8 +171,8 @@
           const [key, value] = item.split("=");
           parameters[key] = value;
         }
-        // return { month: 4, year: 2025 };
-        return parameters;
+        return { month: 3, year: 2025 };
+        // return parameters;
       }
 
       function setMonth(step) {
