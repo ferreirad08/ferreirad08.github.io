@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      table[name="Header"] {
+        width: 100%;
+        height: 50px;
+        background-color: #fff;
+        color: #151b54;
+        box-shadow: 0px 2px 2px -1px grey;
+        position: fixed;
+        top: 0%;
+        left: 0%;
+      }
+
+      table[name="Header"] td {
+        font-size: 15px;
+        font-weight: bold;
+        border: none;
+        width: calc(100% / 3);
+        text-align: center;
+        padding: 8px;
+      }
+
+      label {
+        width: 346px;
+        text-align: left;
+        font-size: 10px;
+        color: #151b54;
+        height: 30px;
+      }
+
+      #table {
+        width: 350px;
+        margin-left: calc(50% - 175px);
+        margin-top: 50px;
+      }
+
+      #text {
+        text-align: center;
+        font-size: 13px;
+        box-shadow: -1px 1px 4px 0px grey;
+        padding: 8px;
+      }
+
+      select:focus {
+        outline: none;
+        border-bottom: 2px solid #151b54;
+      }
+
+      select {
+        width: 100%;
+        height: 30px;
+        border: none;
+        border-bottom: 1px solid gray;
+        background-color: transparent;
+        margin-bottom: 10px;
+      }
+
+      button {
+        background-color: #151b54;
+        color: #ffffff;
+        border: none;
+        width: 350px;
+        margin-left: calc(50% - 183px);
+        position: fixed;
+        bottom: 15px;
+        height: 40px;
+        border-radius: 40px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      img {
+        width: 200px;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+  </head>
+  <body>
+    <table name="Header">
+      <tr>
+        <td>
+          <a
+            onclick="window.location.href = 'https://ferreirad08.github.io/icm/escaladeflores/'"
+          >
+            Escala de<br />Flores
+          </a>
+        </td>
+        <td>Bíblia<br />ARC</td>
+        <td>
+          <a
+            onclick="window.location.href = 'https://ferreirad08.github.io/icm/contagemdaebd/'"
+          >
+            Contagem da<br />EBD
+          </a>
+        </td>
+      </tr>
+    </table>
+
+    <br />
+
+    <table id="table">
+      <tr>
+        <td><label>Livro</label></td>
+      </tr>
+      <tr>
+        <td>
+          <select id="books" onchange="selectionBook(this)"></select>
+        </td>
+      </tr>
+      <tr>
+        <td><label>Capítulo</label></td>
+      </tr>
+      <tr>
+        <td>
+          <select id="chapters" onchange="selectionChapter(this)"></select>
+        </td>
+      </tr>
+      <tr>
+        <td id="text" colspan="2"></td>
+      </tr>
+    </table>
+
+    <br />
+
+    <a href="https://clustrmaps.com/site/1c472" title="ClustrMaps"
+      ><img
+        src="//www.clustrmaps.com/map_v2.png?d=-gE2WBX2iqT11fqJ_X2S2NzJillfBJUIYlQJI9MSPF0&cl=ffffff"
+    /></a>
+
+    <br />
+    <br />
+
+    <button onclick="share()">Criar imagem</button>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+      const livrosBiblia = {
+  "genesis": "Gênesis",
+  "exodo": "Êxodo",
+  "levitico": "Levítico",
+  "numeros": "Números",
+  "deuteronomio": "Deuteronômio",
+  "josue": "Josué",
+  "juizes": "Juízes",
+  "rute": "Rute",
+  "1samuel": "1 Samuel",
+  "2samuel": "2 Samuel",
+  "1reis": "1 Reis",
+  "2reis": "2 Reis",
+  "1cronicas": "1 Crônicas",
+  "2cronicas": "2 Crônicas",
+  "esdras": "Esdras",
+  "neemias": "Neemias",
+  "ester": "Ester",
+  "jo": "Jó",
+  "salmos": "Salmos",
+  "proverbios": "Provérbios",
+  "eclesiastes": "Eclesiastes",
+  "canticos": "Cânticos",
+  "isaias": "Isaías",
+  "jeremias": "Jeremias",
+  "lamentacoes": "Lamentações",
+  "ezequiel": "Ezequiel",
+  "daniel": "Daniel",
+  "oseias": "Oseias",
+  "joel": "Joel",
+  "amos": "Amós",
+  "obadias": "Obadias",
+  "jonas": "Jonas",
+  "miqueias": "Miqueias",
+  "naum": "Naum",
+  "habacuque": "Habacuque",
+  "sofonias": "Sofonias",
+  "ageu": "Ageu",
+  "zacarias": "Zacarias",
+  "malaquias": "Malaquias",
+  "mateus": "Mateus",
+  "marcos": "Marcos",
+  "lucas": "Lucas",
+  "joao": "João",
+  "atos": "Atos",
+  "romanos": "Romanos",
+  "1corintios": "1 Coríntios",
+  "2corintios": "2 Coríntios",
+  "galatas": "Gálatas",
+  "efesios": "Efésios",
+  "filipenses": "Filipenses",
+  "colossenses": "Colossenses",
+  "1tessalonicenses": "1 Tessalonicenses",
+  "2tessalonicenses": "2 Tessalonicenses",
+  "1timoteo": "1 Timóteo",
+  "2timoteo": "2 Timóteo",
+  "tito": "Tito",
+  "filemom": "Filemom",
+  "hebreus": "Hebreus",
+  "tiago": "Tiago",
+  "1pedro": "1 Pedro",
+  "2pedro": "2 Pedro",
+  "1joao": "1 João",
+  "2joao": "2 João",
+  "3joao": "3 João",
+  "judas": "Judas",
+  "apocalipse": "Apocalipse"
+};
+
+      let bible;
+      const url =
+        "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/ARC.json";
+
+      fetch(url).then(main);
+
+      function main(res) {
+        res.json().then(function (data) {
+          bible = data;
+          const books = document.getElementById("books");
+          for (const book in bible) {
+            books.innerHTML += `<option>${book}</option>`;
+          }
+
+          _path = path();
+          if (_path) {
+            const [ book, chapter ] = _path;
+            document.getElementById("books").value = book;
+            selectionBook({ value: book });
+            document.getElementById("chapters").value = chapter;
+            selectionChapter({ value: chapter });
+          } else {
+            selectionBook({ value: "Gênesis" });
+          }
+        });
+      }
+
+      function path() {
+        let input = window.location.hash;
+        if (!input.includes("#")) return null;
+        input = input.split("#");
+        if (!input[1].includes("/")) return null;
+        const [ book, chapter ] = input[1].split("/");
+        if (!(book in livrosBiblia)) return null;
+        // alert(livrosBiblia[book]);
+        // alert(chapter); // TODO: verificar validade do numero
+        return [ livrosBiblia[book], chapter ];
+      }
+
+      function selectionBook(element) {
+        const chapters = document.getElementById("chapters");
+        chapters.innerHTML = "";
+        for (const chapter in bible[element.value]) {
+          chapters.innerHTML += `<option>${Number(chapter) + 1}</option>`;
+        }
+
+        selectionChapter({ value: 1 });
+      }
+
+      function selectionChapter(element) {
+        const books = document.getElementById("books");
+        let text = "";
+        bible[books.value][element.value - 1].forEach(function (item, index) {
+          text += `<p onclick="selectionVerse(this)"><sup>${
+            index + 1
+          }</sup>${item}</p>`;
+        });
+        document.getElementById("text").innerHTML = text;
+      }
+
+      function selectionVerse(element) {
+        element.style.backgroundColor =
+          element.style.backgroundColor === "rgb(187, 187, 187)"
+            ? "rgb(255, 255, 255)"
+            : "rgb(187, 187, 187)";
+      }
+
+      function toKey(value) {
+        for (key in livrosBiblia) {
+          if (livrosBiblia[key] === value) {
+            return key;
+          }
+        }
+      }
+
+      async function share() {
+        const book = document.getElementById("books").value;
+        const chapter = document.getElementById("chapters").value;
+
+        let all = "";
+        let selected = "";
+        let numbers = [];
+
+        for (const p of document.getElementsByTagName("p")) {
+          const verse =
+            p.innerHTML.replace("<sup>", "[").replace("</sup>", "] ") + " ";
+          all += verse;
+          if (p.style.backgroundColor === "rgb(187, 187, 187)") {
+            selected += verse;
+            numbers.push(verse.split("[")[1].split("]")[0]);
+          }
+        }
+
+        if (numbers.length === 0) {
+          window.alert("Selecione os versículos.");
+          return;
+        } // numbers = [1, bible[book][chapter - 1].length];
+
+        const min = Math.min(...numbers);
+        const max = Math.max(...numbers);
+        const interval = min === max ? "" : "-" + max;
+
+        window.localStorage.setItem(
+          "savedText",
+          `${selected || all}<br />${book} ${chapter}:${min}${interval} ARC`
+        );
+        window.location.href =
+          `https://ferreirad08.github.io/icm/bible/share#${toKey(book)}/${chapter}`;
+      }
+    </script>
+  </body>
+</html>
