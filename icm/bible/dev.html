@@ -62,7 +62,7 @@
         margin-bottom: 10px;
       }
 
-      button {
+      #shareButton {
         background-color: #151b54;
         color: #ffffff;
         border: none;
@@ -125,6 +125,12 @@
         </td>
       </tr>
       <tr>
+        <td>
+          <button onclick="speakText()">Ouvir</button>
+          <br /><br />
+        </td>
+      </tr>
+      <tr>
         <td id="text" colspan="2"></td>
       </tr>
     </table>
@@ -139,7 +145,7 @@
     <br />
     <br />
 
-    <button onclick="share()">Criar imagem</button>
+    <button id="shareButton" onclick="share()">Criar imagem</button>
 
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
@@ -266,6 +272,7 @@
         const books = document.getElementById("books");
         let text = "";
         forSpeak = "";
+        window.speechSynthesis.cancel();
 
         bible[books.value][element.value - 1].forEach(function (item, index) {
           forSpeak = forSpeak + item
@@ -274,12 +281,11 @@
           }</sup>${item}</p>`;
         });
         document.getElementById("text").innerHTML = text;
-        speakText(forSpeak);
       }
 
-    function speakText(text) {
+    function speakText() {
       const message = new SpeechSynthesisUtterance();
-      message.text = text;
+      message.text = forSpeak;
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(message);
     }
