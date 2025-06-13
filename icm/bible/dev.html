@@ -126,7 +126,7 @@
       </tr>
       <tr>
         <td>
-          <button onclick="speakText()">Ouvir</button>
+          <button id="speakButton" onclick="speakText()">Ouvir</button>
           <br /><br />
         </td>
       </tr>
@@ -222,6 +222,7 @@
       let forSpeak;
       const url =
         "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/ARC.json";
+      const speakButton = document.getElementById("speakButton");
 
       fetch(url).then(main);
 
@@ -273,6 +274,7 @@
         let text = "";
         forSpeak = "";
         window.speechSynthesis.cancel();
+        speakButton.innerHTML = "Ouvir";
 
         bible[books.value][element.value - 1].forEach(function (item, index) {
           forSpeak = forSpeak + item
@@ -284,9 +286,13 @@
       }
 
     function speakText() {
+      window.speechSynthesis.cancel();
+
+      speakButton.innerHTML = speakButton.innerHTML === "Ouvir" ? "Parar" : "Ouvir";
+      if (speakButton.innerHTML === "Ouvir") return;
+
       const message = new SpeechSynthesisUtterance();
       message.text = forSpeak;
-      window.speechSynthesis.cancel();
       window.speechSynthesis.speak(message);
     }
 
