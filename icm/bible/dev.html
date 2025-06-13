@@ -213,6 +213,7 @@
 };
 
       let bible;
+      let forSpeak;
       const url =
         "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/ARC.json";
 
@@ -264,13 +265,24 @@
       function selectionChapter(element) {
         const books = document.getElementById("books");
         let text = "";
+        forSpeak = "";
+
         bible[books.value][element.value - 1].forEach(function (item, index) {
+          forSpeak = forSpeak + item
           text += `<p onclick="selectionVerse(this)"><sup>${
             index + 1
           }</sup>${item}</p>`;
         });
         document.getElementById("text").innerHTML = text;
+        speakText(forSpeak);
       }
+
+    function speakText(text) {
+      const message = new SpeechSynthesisUtterance();
+      message.text = text;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(message);
+    }
 
       function selectionVerse(element) {
         element.style.backgroundColor =
