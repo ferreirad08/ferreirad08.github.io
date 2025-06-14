@@ -213,6 +213,8 @@
         td_8_2: "0",
       };
 
+      const name = document.getElementById("td_0_1");
+
       const diasDaSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
 
       setImage({
@@ -311,6 +313,15 @@
       }
 
       function share() {
+        if (
+          name.innerHTML.trim() === "Nome" ||
+          name.innerHTML.trim() === ""
+        ) {
+          // name.setCustomValidity("Nome é obrigatório.");
+          // return name.reportValidity();
+          return alert("Insira o nome da Igreja.");
+        }
+
         html2canvas(document.getElementById("table")).then(function (canvas) {
           fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
             res.blob().then(function (blob) {
