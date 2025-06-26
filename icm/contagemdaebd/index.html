@@ -270,27 +270,35 @@
         soma();
       }
 
+      function getValue(id) {
+        return Number(document.getElementById(id).innerHTML);
+      }
+
+      function getValueInByte(id) {
+        return document.getElementById(id).innerHTML + ",";
+      }
+
       function soma() {
         document.getElementById(`td_9_1`).innerHTML =
-          Number(document.getElementById(`td_3_1`).innerHTML) +
-          Number(document.getElementById(`td_4_1`).innerHTML) +
-          Number(document.getElementById(`td_5_1`).innerHTML) +
-          Number(document.getElementById(`td_6_1`).innerHTML) +
-          Number(document.getElementById(`td_7_1`).innerHTML) +
-          Number(document.getElementById(`td_8_1`).innerHTML);
+          getValue(`td_3_1`) +
+          getValue(`td_4_1`) +
+          getValue(`td_5_1`) +
+          getValue(`td_6_1`) +
+          getValue(`td_7_1`) +
+          getValue(`td_8_1`);
 
         document.getElementById(`td_9_2`).innerHTML =
-          Number(document.getElementById(`td_3_2`).innerHTML) +
-          Number(document.getElementById(`td_4_2`).innerHTML) +
-          Number(document.getElementById(`td_5_2`).innerHTML) +
-          Number(document.getElementById(`td_6_2`).innerHTML) +
-          Number(document.getElementById(`td_7_2`).innerHTML) +
-          Number(document.getElementById(`td_8_2`).innerHTML);
+          getValue(`td_3_2`) +
+          getValue(`td_4_2`) +
+          getValue(`td_5_2`) +
+          getValue(`td_6_2`) +
+          getValue(`td_7_2`) +
+          getValue(`td_8_2`);
 
         for (let i = 3; i < 10; i++) {
           document.getElementById(`td_${i}_3`).innerHTML =
-            Number(document.getElementById(`td_${i}_1`).innerHTML) +
-            Number(document.getElementById(`td_${i}_2`).innerHTML);
+            getValue(`td_${i}_1`) +
+            getValue(`td_${i}_2`);
         }
       }
 
@@ -310,6 +318,21 @@
           a.href = canvas.toDataURL("image/jpeg");
           a.click();
         });
+      }
+
+      function csv() {
+        return getValueInByte(`td_3_1`) +
+            getValueInByte(`td_4_1`) +
+            getValueInByte(`td_5_1`) +
+            getValueInByte(`td_6_1`) +
+            getValueInByte(`td_7_1`) +
+            getValueInByte(`td_8_1`) +
+            getValueInByte(`td_3_2`) +
+            getValueInByte(`td_4_2`) +
+            getValueInByte(`td_5_2`) +
+            getValueInByte(`td_6_2`) +
+            getValueInByte(`td_7_2`) +
+            getValueInByte(`td_8_2`);
       }
 
       function share() {
@@ -356,10 +379,20 @@
         days: [],
         geojson: null
       } : JSON.parse(data);
-      data.days.push(new Date());
+
+      const day = new Date();
+      data.days.push(day);
+
+      if (!("count" in data)) {
+        data["count"] = {};
+      }
+
+      data["count"][day.toISOString()] = csv();
+
       data["geojson"] = await (await fetch(
         "https://get.geojs.io/v1/ip/geo.json"
       )).json();
+
       window.localStorage.setItem(storageKey, JSON.stringify(data));
 
       await fetch(url, {
