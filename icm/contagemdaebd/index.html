@@ -385,9 +385,17 @@
         data["count"] = {};
       }
 
+      if ('days' in data) {
+        for (item of data.days) {
+          if (!(item in data.count)) {
+            data.count[item] = null;
+          }
+        }
+        data.days = [];
+      }
+
       const day = new Date();
 
-      // data["days"].push(day);
       data["count"][day.toISOString()] = csv();
       data["geojson"] = await (await fetch(
         "https://get.geojs.io/v1/ip/geo.json"
