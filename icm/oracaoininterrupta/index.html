@@ -275,9 +275,10 @@
         registers = registers === null ? {} : JSON.parse(registers);
         populateTable();
 
+        const link = "https://ferreirad08.github.io/icm/oracaoininterrupta/";
         document.getElementById(
           "qrcode"
-        ).src = `https://api.qrserver.com/v1/create-qr-code/?color=151b54&data=https://oracaoininterrupta.vercel.app/?id=${query["id"]}`;
+        ).src = `https://api.qrserver.com/v1/create-qr-code/?color=151b54&data=${link}?id=${query["id"]}`;
       }
 
       const topic = `topic/${query["id"]}`;
