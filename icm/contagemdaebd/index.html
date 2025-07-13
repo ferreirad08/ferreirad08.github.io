@@ -234,14 +234,16 @@
         reader.readAsDataURL(blob);
       }
 
-      // Carregar os valores do LocalStorage ou usar os valores padrão
-      function carregarValores() {
+      window.onload = function() {
         const valoresSalvos = localStorage.getItem(countStorageKey);
+
         if (valoresSalvos) {
           tabelaValores = JSON.parse(valoresSalvos);
         }
+
         for (const id in tabelaValores) {
           const element = document.getElementById(id);
+
           if (element) {
             if (id.includes("input")) {
               element.value = tabelaValores[id]; // Carrega o valor padrão
@@ -252,7 +254,7 @@
         }
 
         soma();
-      }
+      };
 
       function handleChange(element) {
         tabelaValores[element.id] = element.value; // Atualiza o valor no JSON
@@ -437,8 +439,6 @@
       }
       return _id;
     }
-
-      window.onload = carregarValores; // Carrega os valores ao iniciar a página
     </script>
 
     <!-- <script id="aclib" type="text/javascript" src="https://acscdn.com/script/aclib.js"></script>
