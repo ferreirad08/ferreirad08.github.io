@@ -125,7 +125,7 @@
         </tr>
         <tr>
           <th>IGREJA</th>
-          <td colspan="3" id="td_0_1" onclick="handleClick(this)"></td>
+          <td colspan="3" id="td_0_1" onclick="churchNameInput(this)"></td>
         </tr>
         <tr>
           <th>DATA DO CULTO:</th>
@@ -256,6 +256,22 @@
         soma();
       };
 
+    function churchNameInput(cell) {
+      Swal.fire({
+        title: "Nome da igreja",
+        text: "Insira o nome da igreja!",
+        input: 'text',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value && result.value.trim() !== "") {
+          cell.innerHTML = result.value.trim();
+          tabelaValores[cell.id] = result.value.trim();
+          localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
+        }
+      });     
+    }
+
       function handleChange(element) {
         tabelaValores[element.id] = element.value; // Atualiza o valor no JSON
         localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
@@ -308,12 +324,12 @@
 
       function clean() {
         Swal.fire({
-          title: `Todos os dados serão apagados. Confirmar limpeza?`,
-          text: '',
+          title: `Confirmar limpeza?`,
+          text: 'Todos os dados serão apagados!',
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#005cbb',
-          cancelButtonColor: '#d33',
+          /*confirmButtonColor: '#005cbb',
+          cancelButtonColor: '#d33',*/
           confirmButtonText: 'Sim, limpar!',
           cancelButtonText: 'Cancelar',
         }).then((result) => {
@@ -355,7 +371,7 @@
         ) {
           // name.setCustomValidity("Nome é obrigatório.");
           // return name.reportValidity();
-          return alert("Insira o nome da Igreja.");
+          return alert("Insira o nome da Igreja!");
         }
 
         html2canvas(document.getElementById("table")).then(function (canvas) {
