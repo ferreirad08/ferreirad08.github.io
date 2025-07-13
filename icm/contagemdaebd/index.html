@@ -143,38 +143,38 @@
       <tbody>
         <tr>
           <td>CRIANÇAS</td>
-          <td id="td_3_1" onclick="handleClick(this)"></td>
-          <td id="td_3_2" onclick="handleClick(this)"></td>
+          <td id="td_3_1" onclick="numberInput(this, 'Crianças')"></td>
+          <td id="td_3_2" onclick="numberInput(this, 'Crianças')"></td>
           <td id="td_3_3" class="sum"></td>
         </tr>
         <tr>
           <td>INTERMEDIÁRIOS</td>
-          <td id="td_4_1" onclick="handleClick(this)"></td>
-          <td id="td_4_2" onclick="handleClick(this)"></td>
+          <td id="td_4_1" onclick="numberInput(this, 'Intermediários')"></td>
+          <td id="td_4_2" onclick="numberInput(this, 'Intermediários')"></td>
           <td id="td_4_3" class="sum"></td>
         </tr>
         <tr>
           <td>ADOLESCENTES</td>
-          <td id="td_5_1" onclick="handleClick(this)"></td>
-          <td id="td_5_2" onclick="handleClick(this)"></td>
+          <td id="td_5_1" onclick="numberInput(this, 'Adolescentes')"></td>
+          <td id="td_5_2" onclick="numberInput(this, 'Adolescentes')"></td>
           <td id="td_5_3" class="sum"></td>
         </tr>
         <tr>
           <td>JOVENS</td>
-          <td id="td_6_1" onclick="handleClick(this)"></td>
-          <td id="td_6_2" onclick="handleClick(this)"></td>
+          <td id="td_6_1" onclick="numberInput(this, 'Jovens')"></td>
+          <td id="td_6_2" onclick="numberInput(this, 'Jovens')"></td>
           <td id="td_6_3" class="sum"></td>
         </tr>
         <tr>
           <td>SENHORAS</td>
-          <td id="td_7_1" onclick="handleClick(this)"></td>
-          <td id="td_7_2" onclick="handleClick(this)"></td>
+          <td id="td_7_1" onclick="numberInput(this, 'Senhoras')"></td>
+          <td id="td_7_2" onclick="numberInput(this, 'Senhoras')"></td>
           <td id="td_7_3" class="sum"></td>
         </tr>
         <tr>
           <td>VARÕES</td>
-          <td id="td_8_1" onclick="handleClick(this)"></td>
-          <td id="td_8_2" onclick="handleClick(this)"></td>
+          <td id="td_8_1" onclick="numberInput(this, 'Varões')"></td>
+          <td id="td_8_2" onclick="numberInput(this, 'Varões')"></td>
           <td id="td_8_3" class="sum"></td>
         </tr>
         <tr>
@@ -261,6 +261,7 @@
         title: "Nome da igreja",
         text: "Insira o nome da igreja!",
         input: 'text',
+        inputValue: cell.innerHTML,
         showCancelButton: true,
         cancelButtonText: 'Cancelar'
       }).then((result) => {
@@ -272,10 +273,23 @@
       });     
     }
 
-      function handleChange(element) {
-        tabelaValores[element.id] = element.value; // Atualiza o valor no JSON
-        localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
-      }
+    function numberInput(cell, title) {
+      Swal.fire({
+        title,
+        text: "Insira a quantidade!",
+        input: 'number',
+        inputValue: cell.innerHTML,
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value && result.value.trim() !== "") {
+          cell.innerHTML = result.value.trim();
+          tabelaValores[cell.id] = result.value.trim();
+          localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
+          soma();
+        }
+      });     
+    }
 
       function handleClick(cell) {
         const valorAtual = cell.innerHTML.trim();
@@ -288,6 +302,11 @@
         }
 
         soma();
+      }
+
+      function handleChange(element) {
+        tabelaValores[element.id] = element.value; // Atualiza o valor no JSON
+        localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
       }
 
       function getValue(id) {
