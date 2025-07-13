@@ -194,6 +194,7 @@
     <br />
     <a href="https://clustrmaps.com/site/1c24h" title="Visit tracker"><img src="//www.clustrmaps.com/map_v2.png?d=ekaoLQiRFnnIvR7t1aQC_DKD8d9bdrKIZ5IlS9jPyXM&cl=ffffff"></a>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
       let tabelaValores = {
@@ -304,12 +305,21 @@
       }
 
       function clean() {
-        if (
-          window.confirm("Todos os dados serão apagados. Confirmar limpeza?")
-        ) {
-          localStorage.removeItem(countStorageKey);
-          window.location.reload();
-        }
+        Swal.fire({
+          title: `Todos os dados serão apagados. Confirmar limpeza?`,
+          text: '',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#005cbb',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sim, limpar!',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            localStorage.removeItem(countStorageKey);
+            window.location.reload();
+          }
+        });
       }
 
       function downloadJpg() {
