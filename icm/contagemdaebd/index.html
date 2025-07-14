@@ -83,6 +83,18 @@
       img {
         width: 200px;
       }
+
+      .meu-confirmar {
+        border-radius: 20px !important;
+        background-color: #151b54;
+        color: white;
+      }
+
+      .meu-cancelar {
+        border-radius: 20px !important;
+        background-color: white;
+        color: #151b54;
+      }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -337,12 +349,16 @@
         Swal.fire({
           title: `Confirmar limpeza?`,
           text: 'Todos os dados serão apagados!',
-          icon: 'warning',
+          icon: 'question',
           showCancelButton: true,
           confirmButtonColor: '#151b54',
           /*cancelButtonColor: '#d33',*/
           confirmButtonText: 'Sim, limpar!',
           cancelButtonText: 'Cancelar',
+          customClass: {
+            confirmButton: 'meu-confirmar',
+            cancelButton: 'meu-cancelar'
+          },
         }).then((result) => {
           if (result.isConfirmed) {
             localStorage.removeItem(countStorageKey);
