@@ -96,6 +96,22 @@
         color: #151b54;
         border: 2px solid #151b54;
       }
+
+      .meu-input-estilizado:focus {
+        outline: none;
+        border-bottom: 2px solid #151b54;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+
+      .meu-input-estilizado {
+        border-radius: 0px;
+        border-bottom: 1px solid gray;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -270,7 +286,8 @@
         cancelButtonText: 'Cancelar',
         customClass: {
            confirmButton: 'meu-confirmar',
-           cancelButton: 'meu-cancelar'
+           cancelButton: 'meu-cancelar',
+           input: 'meu-input-estilizado'
         },
       }).then((result) => {
         if (result.value && result.value.trim() !== "") {
@@ -292,7 +309,8 @@
         cancelButtonText: 'Cancelar',
         customClass: {
           confirmButton: 'meu-confirmar',
-          cancelButton: 'meu-cancelar'
+          cancelButton: 'meu-cancelar',
+          input: 'meu-input-estilizado'
         },
       }).then((result) => {
         if (result.value && result.value.trim() !== "") {
