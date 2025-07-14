@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style type="text/css">
+      body {
+        width: 384px;
+        margin-left: calc(50% - 192px);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      div {
+        background-color: #151b54;
+        opacity: 0.7;
+        z-index: 1;
+        height: 207.5px;
+      }
+
+      img, div {
+        width: 100%;
+        border-bottom-right-radius: 100px;
+        position: absolute;
+        top: 0px;
+        max-height: 280px;
+      }
+
+      table {
+        text-align: center;
+        border-collapse: collapse;
+        font-size: 10px;
+        border: none;
+        width: 95%;
+        margin-left: 2.5%;
+        margin-top: 300px;
+      }
+
+      button {
+        background-color: #ffffff;
+        color: #151b54;
+        border: none;
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-align: center;
+        box-shadow: -1px 1px 4px 0px grey;
+        margin-top: 14px;
+      }
+    </style>
+    <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+  </head>
+
+  <body>
+      <div>Aqui</div>
+      <img
+        src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/iluminacao.jpg"
+      />
+
+      <table>
+        <tr>
+          <td>
+            <button onclick="window.location.href = 'https://ferreirad08.github.io/icm/escaladeflores/'">
+              Escala de<br />Flores
+            </button>
+          </td>
+          <td>
+            <button onclick="window.location.href = 'https://ferreirad08.github.io/icm/bible/'">
+              Bíblia ARC
+            </button>
+          </td>
+          <td>
+            <button onclick="window.location.href = 'https://ferreirad08.github.io/icm/contagemdaebd/'">
+              Contagem<br />da EBD
+            </button>
+          </td>
+          <td>
+            <button onclick="sendEmail()">
+              Contato
+            </button>
+          </td>
+        </tr>
+      </table>
+    <script>
+      function sendEmail() {
+        const a = document.createElement("a");
+        a.innerHTML = "Contato";
+        a.href = "mailto:ferreirad08@gmail.com";
+        a.click();
+      }
+    </script>
+  </body>
+</html>
