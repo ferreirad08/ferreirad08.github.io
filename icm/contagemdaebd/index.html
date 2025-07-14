@@ -252,6 +252,7 @@
         text: "Insira o nome da igreja!",
         input: 'text',
         inputValue: cell.innerHTML,
+        confirmButtonColor: '#151b54',
         showCancelButton: true,
         cancelButtonText: 'Cancelar'
       }).then((result) => {
@@ -269,6 +270,7 @@
         text: "Insira a quantidade!",
         input: 'number',
         inputValue: cell.innerHTML,
+        confirmButtonColor: '#151b54',
         showCancelButton: true,
         cancelButtonText: 'Cancelar'
       }).then((result) => {
@@ -337,8 +339,8 @@
           text: 'Todos os dados serão apagados!',
           icon: 'warning',
           showCancelButton: true,
-          /*confirmButtonColor: '#005cbb',
-          cancelButtonColor: '#d33',*/
+          confirmButtonColor: '#151b54',
+          /*cancelButtonColor: '#d33',*/
           confirmButtonText: 'Sim, limpar!',
           cancelButtonText: 'Cancelar',
         }).then((result) => {
