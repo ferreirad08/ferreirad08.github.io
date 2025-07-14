@@ -94,6 +94,7 @@
         border-radius: 20px !important;
         background-color: white;
         color: #151b54;
+        border: 2px solid #151b54;
       }
     </style>
     <meta charset="utf-8" />
@@ -264,9 +265,13 @@
         text: "Insira o nome da igreja!",
         input: 'text',
         inputValue: cell.innerHTML,
-        confirmButtonColor: '#151b54',
+        /*confirmButtonColor: '#151b54',*/
         showCancelButton: true,
-        cancelButtonText: 'Cancelar'
+        cancelButtonText: 'Cancelar',
+        customClass: {
+           confirmButton: 'meu-confirmar',
+           cancelButton: 'meu-cancelar'
+        },
       }).then((result) => {
         if (result.value && result.value.trim() !== "") {
           cell.innerHTML = result.value.trim();
@@ -282,9 +287,13 @@
         text: "Insira a quantidade!",
         input: 'number',
         inputValue: cell.innerHTML,
-        confirmButtonColor: '#151b54',
+        /*confirmButtonColor: '#151b54',*/
         showCancelButton: true,
-        cancelButtonText: 'Cancelar'
+        cancelButtonText: 'Cancelar',
+        customClass: {
+          confirmButton: 'meu-confirmar',
+          cancelButton: 'meu-cancelar'
+        },
       }).then((result) => {
         if (result.value && result.value.trim() !== "") {
           cell.innerHTML = result.value.trim();
@@ -351,8 +360,8 @@
           text: 'Todos os dados serão apagados!',
           icon: 'question',
           showCancelButton: true,
-          confirmButtonColor: '#151b54',
-          /*cancelButtonColor: '#d33',*/
+          /*confirmButtonColor: '#151b54',
+          cancelButtonColor: '#d33',*/
           confirmButtonText: 'Sim, limpar!',
           cancelButtonText: 'Cancelar',
           customClass: {
