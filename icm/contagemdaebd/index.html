@@ -425,7 +425,14 @@
         ) {
           // name.setCustomValidity("Nome é obrigatório.");
           // return name.reportValidity();
-          return alert("Insira o nome da Igreja!");
+          return Swal.fire({
+            title: "Oops...",
+            text: "Insira o nome da Igreja!",
+            icon: "error",
+            customClass: {
+              confirmButton: 'meu-confirmar'
+            },
+          });
         }
 
         html2canvas(document.getElementById("table")).then(function (canvas) {
