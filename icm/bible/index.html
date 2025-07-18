@@ -79,6 +79,35 @@
       img {
         width: 200px;
       }
+
+      .meu-confirmar {
+        border-radius: 20px !important;
+        background-color: #151b54;
+        color: white;
+      }
+
+      .meu-cancelar {
+        border-radius: 20px !important;
+        background-color: white;
+        color: #151b54;
+        border: 2px solid #151b54;
+      }
+
+      .meu-input-estilizado:focus {
+        outline: none;
+        border-bottom: 2px solid #151b54;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+
+      .meu-input-estilizado {
+        border-radius: 0px;
+        border-bottom: 1px solid gray;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -131,6 +160,7 @@
 
     <button onclick="share()">Criar imagem</button>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
       const livrosBiblia = {
@@ -296,9 +326,15 @@
         }
 
         if (numbers.length === 0) {
-          window.alert("Selecione os versículos.");
-          return;
-        } // numbers = [1, bible[book][chapter - 1].length];
+          return Swal.fire({
+            title: "Oops...",
+            text: "Selecione os versículos!",
+            icon: "error",
+            customClass: {
+              confirmButton: 'meu-confirmar'
+            },
+          });
+        }
 
         const min = Math.min(...numbers);
         const max = Math.max(...numbers);
