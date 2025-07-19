@@ -3,31 +3,283 @@
 <html>
   <head>
     <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      label {
+        font-family: Arial, Helvetica, sans-serif;
+        width: 875px;
+        text-align: left;
+        margin-left: calc(50% - 437.5px);
+        font-size: 30px;
+        color: #151b54;
+        height: 30px;
+      }
+
+      input[type="text"]:focus,
+      select:focus {
+        outline: none;
+        border-bottom: 3px solid #151b54;
+      }
+
+      input[type="text"] {
+        height: 60px;
+        width: 875px;
+        font-size: 45px;
+        margin-left: calc(50% - 437.5px);
+        border: none;
+        border-bottom: 3px solid gray;
+        margin-bottom: 20px;
+      }
+
+      table[name="Header"] {
+        width: 100%;
+        height: 138px;
+        color: #151b54;
+        box-shadow: 0px 4px 4px -1px grey;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+      }
+
+      table[name="Header"] td {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 38px;
+        font-weight: bold;
+        border: none;
+        text-align: center;
+        width: calc(100% / 3);
+      }
+
       canvas {
         box-shadow: -1px 1px 4px 0px grey;
       }
+
+      button {
+        background-color: #151b54;
+        color: #ffffff;
+        border: none;
+        width: calc(173px * 2.6);
+        height: calc(40px * 2.6);
+        border-radius: calc(100px * 2.6);
+        font-size: 35px;
+        font-weight: bold;
+        text-align: center;
+        margin-left: 17px;
+      }
+
+      #button_0 {
+        background-color: #ffffff;
+        color: #151b54;
+        border: 5px solid #151b54;
+      }
+
+      .meu-confirmar {
+        border-radius: calc(100px * 2.6) !important;
+        background-color: #151b54;
+        color: white;
+        font-size: 40px !important;
+      }
+
+      .meu-cancelar {
+        border-radius: calc(100px * 2.6) !important;
+        background-color: white;
+        color: #151b54;
+        border: 5px solid #151b54;
+        font-size: 40px !important;
+      }
+
+      /*.meu-input-estilizado:focus {
+        outline: none;
+        border-bottom: 2px solid #151b54;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+
+      .meu-input-estilizado {
+        border-radius: 0px;
+        border-bottom: 1px solid gray;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }*/
+
+      .swal2-popup {
+        font-size: 40px !important;
+      }
+
+      /*.swal2-styled {
+        padding: 10px 32px 10px 32px !important;
+        margin: 20px 10px 0px 10px !important;
+        width: 170px;
+        height: 45px;
+      }*/
     </style>
     <meta charset="utf-8" />
     <title></title>
   </head>
 
   <body>
+    <table name="Header">
+      <tr>
+        <td onclick="window.location.href = 'https://ferreirad08.github.io/icm/'">
+          <img style="width: 110px" src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/back.png">
+        </td>
+        <td colspan="4">Escala de Flores</td>
+        <td></td>
+      </tr>
+    </table>
+
+    <div id="break0"></div>
+
+    <label>Nome da igreja</label>
+
+    <br />
+    <br />
+    <input
+        type="text"
+        id="name-input"
+        oninput="setName(this)"
+        value="NOME DA IGREJA"
+    />
+
+    <div id="break1"></div>
     <canvas id="canvas" width="960" height="720"></canvas>
+
+    <br /><br /><br /><br />
+    <button id="button_0" onclick="_clean()">Limpar escala</button>
+    <button id="button_1" onclick="downloadJPG()">Baixar imagem</button>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <a href="https://clustrmaps.com/site/1c69z"  title="ClustrMaps"><img width="500" src="//www.clustrmaps.com/map_v2.png?d=E3S4teRBru0eEaayxZyt1lCfO_CtVpgKglAJaekmpjY&cl=ffffff" /></a>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+      document.getElementById("break0").innerHTML = "<br />".repeat(10);
+      document.getElementById("break1").innerHTML = "<br />".repeat(3);
+
+      const scaleKey = "escaladeflores";
+      const fontHeader = "50px Times New Roman";
+      const fontBody = "bolder 50px Courier";
+      const churchNameInput = document.getElementById("name-input");
+
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "black";
+
       const img = new Image();
-      img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      img.onload = populate;
+
+      function setName(el) {
+        el.value = el.value.slice(0, 20).toUpperCase();
+        populate();
+      }
 
       async function setBackground() {
-        const imgSrc = "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/escaladeflores/assets/flores.jfif";
-        const blob = await (await fetch(imgSrc)).blob();
+        const blob = await (
+          await fetch(
+            "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/escaladeflores/assets/flores.jfif"
+          )
+        ).blob();
         const reader = new FileReader();
-        reader.onloadend = () => img.src = reader.result;
+        reader.onloadend = function () {
+          img.src = reader.result;
+        };
         reader.readAsDataURL(blob);
       }
 
       setBackground();
+
+      const template = [];
+
+      for (let i = 0; i < 12; i++) {
+        template.push({
+          index: i,
+          text: "DD.MM - Nome",
+          position: [
+            canvas.width / 4,
+            (canvas.height / 15.6) * (i + 1) + canvas.height / 5,
+          ],
+        });
+      }
+
+      let fields = window.localStorage.getItem("escaladeflores");
+      fields = fields === null ? template : JSON.parse(fields);
+
+      canvas.addEventListener("mousemove", (e) => {
+        let smaller = 1e90,
+          index = null;
+
+        for (let field of fields) {
+          const x = e.offsetX - field.position[0];
+          const y = e.offsetY - field.position[1];
+          const norm = Math.sqrt(x ** 2 + y ** 2);
+          if (norm < smaller) {
+            smaller = norm;
+            index = field.index;
+          }
+        }
+
+        setText0(index);
+      });
+
+    function setText0(index) {
+      Swal.fire({
+        title: "Dia e Nome",
+        text: "Insira o texto (DD.MM - Nome)!",
+        input: 'text',
+        inputValue: fields[index].text,
+        /*confirmButtonColor: '#151b54',*/
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        customClass: {
+           confirmButton: 'meu-confirmar',
+           cancelButton: 'meu-cancelar',
+           input: 'meu-input-estilizado'
+        },
+      }).then((result) => {
+        if (result.value && result.value.trim() !== "") {
+          fields[index].text = result.value.trim();
+          window.localStorage.setItem(scaleKey, JSON.stringify(fields));
+          populate();
+        }
+      });     
+    }
+
+      function setText(index) {
+        const text = window.prompt(
+          "Insira o texto (DD.MM - Nome)!",
+          fields[index].text
+        );
+
+        if (text) {
+          fields[index].text = text;
+          window.localStorage.setItem(scaleKey, JSON.stringify(fields));
+          populate();
+        }
+      }
+
+      function getX(canvas, text) {
+        return (canvas.width / 2) - (text.length * 30 / 2);
+      }
+
+      function populate() {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        ctx.font = fontHeader;
+        ctx.fillText("ESCALA DE FLORES", getX(canvas, "ESCALA DE FLORES"), canvas.height / 10);
+        ctx.fillText(churchNameInput.value, 200, canvas.height / 6);
+
+        ctx.font = fontBody;
+        for (let field of fields) {
+          ctx.fillText(field.text, ...field.position);
+        }
+      }
 
       function downloadJPG() {
         const a = document.createElement("a");
@@ -36,7 +288,34 @@
         a.click();
       }
 
-      downloadJPG();
+      function _clean() {
+        Swal.fire({
+          title: `Confirmar limpeza?`,
+          text: 'Todos os dados serão apagados!',
+          icon: 'question',
+          showCancelButton: true,
+          /*confirmButtonColor: '#151b54',
+          cancelButtonColor: '#d33',*/
+          confirmButtonText: 'Sim, limpar!',
+          cancelButtonText: 'Cancelar',
+          customClass: {
+            confirmButton: 'meu-confirmar',
+            cancelButton: 'meu-cancelar'
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.localStorage.removeItem(scaleKey);
+            window.location.reload();
+          }
+        });
+
+        /*if (
+          window.confirm("Todos os dados serão apagados. Confirmar limpeza?")
+        ) {
+          window.localStorage.removeItem(scaleKey);
+          window.location.reload();
+        }*/
+      }
     </script>
   </body>
 </html>
