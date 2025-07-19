@@ -100,7 +100,7 @@
         type="text"
         id="name-input"
         oninput="setName(this)"
-        value="   NOME DA IGREJA"
+        value="NOME DA IGREJA"
     />
 
     <div id="break1"></div>
@@ -119,6 +119,7 @@
       document.getElementById("break0").innerHTML = "<br />".repeat(10);
       document.getElementById("break1").innerHTML = "<br />".repeat(3);
 
+      const scaleKey = "escaladeflores";
       const fontHeader = "50px Times New Roman";
       const fontBody = "bolder 50px Courier";
       const churchNameInput = document.getElementById("name-input");
@@ -131,7 +132,7 @@
       img.onload = populate;
 
       function setName(el) {
-        el.value = el.value.slice(0, 25).toUpperCase();
+        el.value = el.value.slice(0, 20).toUpperCase();
         populate();
       }
 
@@ -152,13 +153,13 @@
 
       const template = [];
 
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 13; i++) {
         template.push({
           index: i,
           text: "DD.MM - Nome",
           position: [
             canvas.width / 4,
-            (canvas.height / 16) * (i + 1) + canvas.height / 5,
+            (canvas.height / 17) * (i + 1) + canvas.height / 5,
           ],
         });
       }
@@ -180,24 +181,32 @@
           }
         }
 
+        setText(index);
+      });
+
+      function setText(index) {
         const text = window.prompt(
-          "Digite o texto (DD.MM - Nome)",
+          "Insira o texto (DD.MM - Nome)!",
           fields[index].text
         );
 
         if (text) {
           fields[index].text = text;
-          window.localStorage.setItem("escaladeflores", JSON.stringify(fields));
+          window.localStorage.setItem(scaleKey, JSON.stringify(fields));
           populate();
         }
-      });
+      }
+
+      function getX(canvas, text) {
+        return (canvas.width / 2) - (text.length * 30 / 2);
+      }
 
       function populate() {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         ctx.font = fontHeader;
-        ctx.fillText(" ESCALA DE FLORES", canvas.width / 4, canvas.height / 10);
-        ctx.fillText(churchNameInput.value, canvas.width / 4, canvas.height / 6);
+        ctx.fillText("ESCALA DE FLORES", getX(canvas, "ESCALA DE FLORES"), canvas.height / 10);
+        ctx.fillText(churchNameInput.value, 200, canvas.height / 6);
 
         ctx.font = fontBody;
         for (let field of fields) {
@@ -216,7 +225,7 @@
         if (
           window.confirm("Todos os dados serão apagados. Confirmar limpeza?")
         ) {
-          window.localStorage.removeItem("escaladeflores");
+          window.localStorage.removeItem(scaleKey);
           window.location.reload();
         }
       }
