@@ -86,7 +86,7 @@
         border-radius: calc(100px * 2.6) !important;
         background-color: white;
         color: #151b54;
-        border: 4px solid #151b54;
+        border: 5px solid #151b54;
         font-size: 40px !important;
       }
 
@@ -197,13 +197,13 @@
 
       const template = [];
 
-      for (let i = 0; i < 13; i++) {
+      for (let i = 0; i < 12; i++) {
         template.push({
           index: i,
           text: "DD.MM - Nome",
           position: [
             canvas.width / 4,
-            (canvas.height / 17) * (i + 1) + canvas.height / 5,
+            (canvas.height / 15.6) * (i + 1) + canvas.height / 5,
           ],
         });
       }
@@ -225,8 +225,31 @@
           }
         }
 
-        setText(index);
+        setText0(index);
       });
+
+    function setText0(index) {
+      Swal.fire({
+        title: "Dia e Nome",
+        text: "Insira o texto (DD.MM - Nome)!",
+        input: 'text',
+        inputValue: fields[index].text,
+        /*confirmButtonColor: '#151b54',*/
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        customClass: {
+           confirmButton: 'meu-confirmar',
+           cancelButton: 'meu-cancelar',
+           input: 'meu-input-estilizado'
+        },
+      }).then((result) => {
+        if (result.value && result.value.trim() !== "") {
+          fields[index].text = result.value.trim();
+          window.localStorage.setItem(scaleKey, JSON.stringify(fields));
+          populate();
+        }
+      });     
+    }
 
       function setText(index) {
         const text = window.prompt(
