@@ -175,7 +175,7 @@
 
       function setText(index) {
         const text = window.prompt(
-          "Insira o texto (DD.MM - Nome)!",
+          index < 12 ? "Insira data e nome!" : "Insira o nome da igreja!",
           fields[index].text
         );
 
