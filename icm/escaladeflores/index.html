@@ -119,6 +119,7 @@
       document.getElementById("break0").innerHTML = "<br />".repeat(10);
       document.getElementById("break1").innerHTML = "<br />".repeat(3);
 
+      const flowersStorageKey = "escaladeflores";
       const fontHeader = "50px Times New Roman";
       const fontBody = "bolder 50px Courier";
       const churchNameInput = document.getElementById("name-input");
@@ -163,7 +164,7 @@
         });
       }
 
-      let fields = window.localStorage.getItem("escaladeflores");
+      let fields = window.localStorage.getItem(flowersStorageKey);
       fields = fields === null ? template : JSON.parse(fields);
 
       canvas.addEventListener("mousemove", (e) => {
@@ -180,17 +181,21 @@
           }
         }
 
+        setText(index);
+      });
+
+      function setText(index) {
         const text = window.prompt(
-          "Digite o texto (DD.MM - Nome)",
+          "Insira o texto (DD.MM - Nome)!",
           fields[index].text
         );
 
         if (text) {
           fields[index].text = text;
-          window.localStorage.setItem("escaladeflores", JSON.stringify(fields));
+          window.localStorage.setItem(flowersStorageKey, JSON.stringify(fields));
           populate();
         }
-      });
+      }
 
       function populate() {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -216,7 +221,7 @@
         if (
           window.confirm("Todos os dados serão apagados. Confirmar limpeza?")
         ) {
-          window.localStorage.removeItem("escaladeflores");
+          window.localStorage.removeItem(flowersStorageKey);
           window.location.reload();
         }
       }
