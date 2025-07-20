@@ -147,9 +147,9 @@
 
       template.push({
         index: 12,
-        text: "        ICM NOME",
+        text: "ICM NOME",
         position: [
-          canvas.width / 4, canvas.height / 6
+          canvas.width / 2, canvas.height / 6
         ],
       });
 
@@ -190,11 +190,16 @@
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         ctx.font = fontHeader;
-        ctx.fillText("ESCALA DE FLORES", canvas.width / 4, canvas.height / 10);
+        ctx.textAlign = "center";
+        ctx.fillText("ESCALA DE FLORES", canvas.width / 2, canvas.height / 10);
 
+        ctx.textAlign = "start";
         ctx.font = fontBody;
         for (let field of fields) {
-          if (field.index === 12) ctx.font = fontHeader;
+          if (field.index === 12) {
+            ctx.font = fontHeader;
+            ctx.textAlign = "center";
+          }
           ctx.fillText(field.text, ...field.position);
         }
       }
