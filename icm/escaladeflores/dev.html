@@ -3,9 +3,9 @@
 <html>
   <head>
     <style>
-      body {
-        font-family: Arial, Helvetica, sans-serif;
-      }
+      /* body {
+        text-align: center;
+      } */
 
       label {
         font-family: Arial, Helvetica, sans-serif;
@@ -74,48 +74,6 @@
         color: #151b54;
         border: 5px solid #151b54;
       }
-
-      .meu-confirmar {
-        border-radius: calc(100px * 2.6) !important;
-        background-color: #151b54;
-        color: white;
-        font-size: 40px !important;
-      }
-
-      .meu-cancelar {
-        border-radius: calc(100px * 2.6) !important;
-        background-color: white;
-        color: #151b54;
-        border: 5px solid #151b54;
-        font-size: 40px !important;
-      }
-
-      /*.meu-input-estilizado:focus {
-        outline: none;
-        border-bottom: 2px solid #151b54;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-      }
-
-      .meu-input-estilizado {
-        border-radius: 0px;
-        border-bottom: 1px solid gray;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-      }*/
-
-      .swal2-popup {
-        font-size: 40px !important;
-      }
-
-      /*.swal2-styled {
-        padding: 10px 32px 10px 32px !important;
-        margin: 20px 10px 0px 10px !important;
-        width: 170px;
-        height: 45px;
-      }*/
     </style>
     <meta charset="utf-8" />
     <title></title>
@@ -133,22 +91,9 @@
     </table>
 
     <div id="break0"></div>
-
-    <label>Nome da igreja</label>
-
-    <br />
-    <br />
-    <input
-        type="text"
-        id="name-input"
-        oninput="setName(this)"
-        value="NOME DA IGREJA"
-    />
-
-    <div id="break1"></div>
     <canvas id="canvas" width="960" height="720"></canvas>
 
-    <br /><br /><br /><br />
+    <div id="break1"></div>
     <button id="button_0" onclick="_clean()">Limpar escala</button>
     <button id="button_1" onclick="downloadJPG()">Baixar imagem</button>
 
@@ -157,16 +102,13 @@
     <br />
     <br />
     <a href="https://clustrmaps.com/site/1c69z"  title="ClustrMaps"><img width="500" src="//www.clustrmaps.com/map_v2.png?d=E3S4teRBru0eEaayxZyt1lCfO_CtVpgKglAJaekmpjY&cl=ffffff" /></a>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-      document.getElementById("break0").innerHTML = "<br />".repeat(10);
-      document.getElementById("break1").innerHTML = "<br />".repeat(3);
+      document.getElementById("break0").innerHTML = "<br />".repeat(13);
+      document.getElementById("break1").innerHTML = "<br />".repeat(6);
 
-      const scaleKey = "escaladeflores";
+      const flowersStorageKey = "escaladeflores";
       const fontHeader = "50px Times New Roman";
       const fontBody = "bolder 50px Courier";
-      const churchNameInput = document.getElementById("name-input");
 
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
@@ -174,11 +116,6 @@
 
       const img = new Image();
       img.onload = populate;
-
-      function setName(el) {
-        el.value = el.value.slice(0, 20).toUpperCase();
-        populate();
-      }
 
       async function setBackground() {
         const blob = await (
@@ -203,15 +140,23 @@
           text: "DD.MM - Nome",
           position: [
             canvas.width / 4,
-            (canvas.height / 15.6) * (i + 1) + canvas.height / 5,
+            (canvas.height / 16) * (i + 1) + canvas.height / 5,
           ],
         });
       }
 
-      let fields = window.localStorage.getItem("escaladeflores");
+      template.push({
+        index: 12,
+        text: "        ICM NOME",
+        position: [
+          canvas.width / 4, canvas.height / 6
+        ],
+      });
+
+      let fields = window.localStorage.getItem(flowersStorageKey);
       fields = fields === null ? template : JSON.parse(fields);
 
-      canvas.addEventListener("mousemove", (e) => {
+      canvas.addEventListener("mousedown", (e) => {
         let smaller = 1e90,
           index = null;
 
@@ -225,31 +170,8 @@
           }
         }
 
-        setText0(index);
+        setText(index);
       });
-
-    function setText0(index) {
-      Swal.fire({
-        title: "Dia e Nome",
-        text: "Insira o texto (DD.MM - Nome)!",
-        input: 'text',
-        inputValue: fields[index].text,
-        /*confirmButtonColor: '#151b54',*/
-        showCancelButton: true,
-        cancelButtonText: 'Cancelar',
-        customClass: {
-           confirmButton: 'meu-confirmar',
-           cancelButton: 'meu-cancelar',
-           input: 'meu-input-estilizado'
-        },
-      }).then((result) => {
-        if (result.value && result.value.trim() !== "") {
-          fields[index].text = result.value.trim();
-          window.localStorage.setItem(scaleKey, JSON.stringify(fields));
-          populate();
-        }
-      });     
-    }
 
       function setText(index) {
         const text = window.prompt(
@@ -259,24 +181,20 @@
 
         if (text) {
           fields[index].text = text;
-          window.localStorage.setItem(scaleKey, JSON.stringify(fields));
+          window.localStorage.setItem(flowersStorageKey, JSON.stringify(fields));
           populate();
         }
-      }
-
-      function getX(canvas, text) {
-        return (canvas.width / 2) - (text.length * 30 / 2);
       }
 
       function populate() {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         ctx.font = fontHeader;
-        ctx.fillText("ESCALA DE FLORES", getX(canvas, "ESCALA DE FLORES"), canvas.height / 10);
-        ctx.fillText(churchNameInput.value, 200, canvas.height / 6);
+        ctx.fillText("ESCALA DE FLORES", canvas.width / 4, canvas.height / 10);
 
         ctx.font = fontBody;
         for (let field of fields) {
+          if (field.index === 12) ctx.font = fontHeader;
           ctx.fillText(field.text, ...field.position);
         }
       }
@@ -289,32 +207,12 @@
       }
 
       function _clean() {
-        Swal.fire({
-          title: `Confirmar limpeza?`,
-          text: 'Todos os dados serão apagados!',
-          icon: 'question',
-          showCancelButton: true,
-          /*confirmButtonColor: '#151b54',
-          cancelButtonColor: '#d33',*/
-          confirmButtonText: 'Sim, limpar!',
-          cancelButtonText: 'Cancelar',
-          customClass: {
-            confirmButton: 'meu-confirmar',
-            cancelButton: 'meu-cancelar'
-          },
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.localStorage.removeItem(scaleKey);
-            window.location.reload();
-          }
-        });
-
-        /*if (
+        if (
           window.confirm("Todos os dados serão apagados. Confirmar limpeza?")
         ) {
-          window.localStorage.removeItem(scaleKey);
+          window.localStorage.removeItem(flowersStorageKey);
           window.location.reload();
-        }*/
+        }
       }
     </script>
   </body>
