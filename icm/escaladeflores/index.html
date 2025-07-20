@@ -91,22 +91,9 @@
     </table>
 
     <div id="break0"></div>
-
-    <label>Nome da igreja</label>
-
-    <br />
-    <br />
-    <input
-        type="text"
-        id="name-input"
-        oninput="setName(this)"
-        value="   NOME DA IGREJA"
-    />
-
-    <div id="break1"></div>
     <canvas id="canvas" width="960" height="720"></canvas>
 
-    <br /><br /><br /><br />
+    <div id="break1"></div>
     <button id="button_0" onclick="_clean()">Limpar escala</button>
     <button id="button_1" onclick="downloadJPG()">Baixar imagem</button>
 
@@ -116,13 +103,12 @@
     <br />
     <a href="https://clustrmaps.com/site/1c69z"  title="ClustrMaps"><img width="500" src="//www.clustrmaps.com/map_v2.png?d=E3S4teRBru0eEaayxZyt1lCfO_CtVpgKglAJaekmpjY&cl=ffffff" /></a>
     <script>
-      document.getElementById("break0").innerHTML = "<br />".repeat(10);
-      document.getElementById("break1").innerHTML = "<br />".repeat(3);
+      document.getElementById("break0").innerHTML = "<br />".repeat(13);
+      document.getElementById("break1").innerHTML = "<br />".repeat(6);
 
       const flowersStorageKey = "escaladeflores";
       const fontHeader = "50px Times New Roman";
       const fontBody = "bolder 50px Courier";
-      const churchNameInput = document.getElementById("name-input");
 
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
@@ -130,11 +116,6 @@
 
       const img = new Image();
       img.onload = populate;
-
-      function setName(el) {
-        el.value = el.value.slice(0, 25).toUpperCase();
-        populate();
-      }
 
       async function setBackground() {
         const blob = await (
@@ -164,10 +145,18 @@
         });
       }
 
+      template.push({
+        index: 12,
+        text: "        ICM NOME",
+        position: [
+          canvas.width / 4, canvas.height / 6
+        ],
+      });
+
       let fields = window.localStorage.getItem(flowersStorageKey);
       fields = fields === null ? template : JSON.parse(fields);
 
-      canvas.addEventListener("mousemove", (e) => {
+      canvas.addEventListener("mousedown", (e) => {
         let smaller = 1e90,
           index = null;
 
@@ -186,7 +175,7 @@
 
       function setText(index) {
         const text = window.prompt(
-          "Insira o texto (DD.MM - Nome)!",
+          index < 12 ? "Insira data e nome!" : "Insira o nome da igreja!",
           fields[index].text
         );
 
@@ -201,11 +190,11 @@
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         ctx.font = fontHeader;
-        ctx.fillText(" ESCALA DE FLORES", canvas.width / 4, canvas.height / 10);
-        ctx.fillText(churchNameInput.value, canvas.width / 4, canvas.height / 6);
+        ctx.fillText("ESCALA DE FLORES", canvas.width / 4, canvas.height / 10);
 
         ctx.font = fontBody;
         for (let field of fields) {
+          if (field.index === 12) ctx.font = fontHeader;
           ctx.fillText(field.text, ...field.position);
         }
       }
