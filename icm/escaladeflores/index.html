@@ -161,7 +161,7 @@
           index = null;
 
         for (let field of fields) {
-          const x = e.offsetX - field.position[0];
+          const x = canvas.width / 2; // e.offsetX - field.position[0];
           const y = e.offsetY - field.position[1];
           const norm = Math.sqrt(x ** 2 + y ** 2);
           if (norm < smaller) {
