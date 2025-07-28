@@ -419,9 +419,9 @@
       }
 
       function share() {
-        if (
-          document.getElementById("td_9_3").innerHTML < 1
-        ) {
+        const total = Number(document.getElementById("td_9_3").innerHTML);
+
+        if (total < 1) {
           return Swal.fire({
             title: "Oops...",
             text: "Insira a contagem!",
