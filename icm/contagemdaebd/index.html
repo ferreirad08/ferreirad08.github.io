@@ -420,6 +420,19 @@
 
       function share() {
         if (
+          document.getElementById("td_9_3").innerHTML < 1
+        ) {
+          return Swal.fire({
+            title: "Oops...",
+            text: "Insira a contagem!",
+            icon: "error",
+            customClass: {
+              confirmButton: 'meu-confirmar'
+            },
+          });
+        }
+
+        if (
           name.innerHTML.trim() === "Nome" ||
           name.innerHTML.trim() === ""
         ) {
