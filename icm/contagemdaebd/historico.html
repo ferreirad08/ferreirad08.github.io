@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" 
+          rel="stylesheet" />
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    tr:nth-child(even) {
+      background-color: #cccccc;
+    }
+
+      th {
+        background-color: #151b54;
+        color: #fff;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: center;
+        font-size: 13px;
+      }
+
+    table {
+        border-collapse: collapse;
+        border-radius: 4px;
+        overflow: hidden;
+        width: calc(346px + 4px);
+        margin-left: calc(50% - 175px);
+        box-shadow: -1px 1px 4px 0px grey;
+    }
+  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title></title>
+</head>
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Contagem</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      <tr>
+        <td colspan="3">
+          Não há dados
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    tbody = document.getElementById("tbody");
+    const storageKey = "ferreirad08-access";
+    let data = localStorage.getItem(storageKey);
+
+    if (data) {
+      data = JSON.parse(data);
+
+      if ("count" in data) {
+        populate(data);
+      }
+    }
+
+    function populate(data) {
+      tbody.innerHTML = "";
+
+      for (const date in data.count) {
+        const row1 = tbody.insertRow();
+
+        const cell1 = row1.insertCell();
+        const cell2 = row1.insertCell();
+        const cell3 = row1.insertCell();
+
+        cell1.innerHTML = date;
+        cell2.innerHTML = data.count[date];
+        cell3.innerHTML = "<i class='bi bi-trash3'></i>";
+      }
+    }
+  </script>
+</body>
+</html>
