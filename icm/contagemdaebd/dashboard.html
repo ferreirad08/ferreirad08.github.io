@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" 
-          rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
     body {
       width: 384px;
@@ -15,31 +15,32 @@
       background-color: #cccccc;
     }
 
-      th {
-        background-color: #151b54;
-        color: #fff;
-      }
+    th {
+      background-color: #151b54;
+      color: #fff;
+    }
 
-      th,
-      td {
-        padding: 8px;
-        text-align: center;
-        font-size: 10px;
-      }
+    th,
+    td {
+      padding: 8px;
+      text-align: center;
+      font-size: 10px;
+    }
 
     table {
-        border-collapse: collapse;
-        border-radius: 4px;
-        overflow: hidden;
-        width: 97%;
-        margin-left: 1%;
-        box-shadow: -1px 1px 4px 0px grey;
+      border-collapse: collapse;
+      border-radius: 4px;
+      overflow: hidden;
+      width: 97%;
+      margin-left: 1%;
+      box-shadow: -1px 1px 4px 0px grey;
     }
   </style>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title></title>
 </head>
+
 <body>
   <table>
     <thead>
@@ -85,9 +86,9 @@
 
         const numeros = data.count[date].split(",");
         if (numeros.length !== 15) continue;
-  
+
         const total = numeros.slice(2).reduce((acc, val) => acc + Number(val), 0);
-        const [name,day,C,I,A,J,S,V,CV,IV,AV,JV,SV,VV] = numeros;
+        const [name, day, C, I, A, J, S, V, CV, IV, AV, JV, SV, VV] = numeros;
 
         const row1 = tbody.insertRow();
 
@@ -128,7 +129,7 @@
 
     function shareDate(date) {
       const numeros = data.count[date].split(",");
-      const [name,day,C,I,A,J,S,V,CV,IV,AV,JV,SV,VV] = numeros;
+      const [name, day, C, I, A, J, S, V, CV, IV, AV, JV, SV, VV] = numeros;
 
       const tabelaValores = {
         td_0_1: name,
@@ -153,4 +154,5 @@
     }
   </script>
 </body>
+
 </html>
