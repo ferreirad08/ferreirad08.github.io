@@ -405,7 +405,7 @@
 
       function csv() {
         return getValueInByte(`td_0_1`) +
-            getValueInByte(`input_1_1`) +
+            document.getElementById(`input_1_1`).value + "," +
             getValueInByte(`td_3_1`) +
             getValueInByte(`td_4_1`) +
             getValueInByte(`td_5_1`) +
@@ -539,4 +539,4 @@
         zoneId: 'lw0tojibif',
       });
     </script> -->
-  </html>
+</html>
