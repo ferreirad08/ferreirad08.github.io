@@ -104,12 +104,12 @@
 
         const [y, m, d] = day.split("-");
         cell1.innerHTML = `${name}<br />${d}/${m}/${y}`;
-        cell2.innerHTML = `${C}/${CV}`;
-        cell3.innerHTML = `${I}/${IV}`;
-        cell4.innerHTML = `${A}/${AV}`;
-        cell5.innerHTML = `${J}/${JV}`;
-        cell6.innerHTML = `${S}/${SV}`;
-        cell7.innerHTML = `${V}/${VV}`;
+        cell2.innerHTML = `${C}<br />${CV}`;
+        cell3.innerHTML = `${I}<br />${IV}`;
+        cell4.innerHTML = `${A}<br />${AV}`;
+        cell5.innerHTML = `${J}<br />${JV}`;
+        cell6.innerHTML = `${S}<br />${SV}`;
+        cell7.innerHTML = `${V}<br />${VV}`;
         cell8.innerHTML = total;
         cell9.innerHTML = "<i class='bi bi-trash3'></i>";
         cell9.setAttribute("onclick", `removeDate("${date}","${day}")`);
