@@ -289,6 +289,11 @@
            cancelButton: 'meu-cancelar',
            input: 'meu-input-estilizado'
         },
+        inputValidator: (value) => {
+          if (value.includes(',')) {
+            return 'O nome não pode conter vírgulas!';
+          }
+        }
       }).then((result) => {
         if (result.value && result.value.trim() !== "") {
           cell.innerHTML = result.value.trim();
