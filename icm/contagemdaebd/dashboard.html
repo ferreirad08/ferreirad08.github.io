@@ -86,7 +86,7 @@
         const numeros = data.count[date].split(",");
         if (numeros.length !== 15) continue;
   
-        const total = numeros.slice(2).reduce((acc, val) => acc + val, 0);
+        const total = numeros.slice(2).reduce((acc, val) => acc + Number(val), 0);
         const [name,day,C,I,A,J,S,V,CV,IV,AV,JV,SV,VV] = numeros;
 
         const row1 = tbody.insertRow();
