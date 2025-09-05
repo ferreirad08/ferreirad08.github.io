@@ -44,7 +44,7 @@
   <table>
     <thead>
       <tr>
-        <th>DATA</th>
+        <th>NOME/DATA</th>
         <th>CRI</th>
         <th>INT</th>
         <th>ADO</th>
@@ -83,7 +83,7 @@
       for (const date in data.count) {
         if (!data.count[date]) continue;
 
-        const numeros = data.count[date].split(",").map(Number);
+        const numeros = data.count[date].split(",");
         if (numeros.length !== 15) continue;
   
         const total = numeros.slice(2).reduce((acc, val) => acc + val, 0);
@@ -102,7 +102,7 @@
         const cell9 = row1.insertCell();
         const cell10 = row1.insertCell();
 
-        cell1.innerHTML = date.split("T")[0];
+        cell1.innerHTML = `${name}<br />${day}`;
         cell2.innerHTML = `${C}/${CV}`;
         cell3.innerHTML = `${I}/${IV}`;
         cell4.innerHTML = `${A}/${AV}`;
