@@ -82,6 +82,13 @@
 
       for (const date in data.count) {
         if (!data.count[date]) continue;
+
+        const numeros = data.count[date].split(",").map(Number);
+        if (numeros.length !== 14) continue;
+  
+        const total = numeros.reduce((acc, val) => acc + val, 0);
+        const [name,day,C,I,A,J,S,V,CV,IV,AV,JV,SV,VV] = numeros;
+
         const row1 = tbody.insertRow();
 
         const cell1 = row1.insertCell();
@@ -94,10 +101,6 @@
         const cell8 = row1.insertCell();
         const cell9 = row1.insertCell();
         const cell10 = row1.insertCell();
-
-        const numeros = data.count[date].split(",").map(Number);
-        const total = numeros.reduce((acc, val) => acc + val, 0);
-        const [name,day,C,I,A,J,S,V,CV,IV,AV,JV,SV,VV] = numeros;
 
         cell1.innerHTML = date.split("T")[0];
         cell2.innerHTML = `${C}/${CV}`;
