@@ -52,7 +52,7 @@
         <th>SEN</th>
         <th>VAR</th>
         <th>TOTAL</th>
-        <th>Ações</th>
+        <th colspan="2">Ações</th>
       </tr>
     </thead>
     <tbody id="tbody">
@@ -93,6 +93,7 @@
         const cell7 = row1.insertCell();
         const cell8 = row1.insertCell();
         const cell9 = row1.insertCell();
+        const cell10 = row1.insertCell();
 
         const numeros = data.count[date].split(",").map(Number);
         const total = numeros.reduce((acc, val) => acc + val, 0);
@@ -108,6 +109,8 @@
         cell8.innerHTML = total;
         cell9.innerHTML = "<i class='bi bi-trash3'></i>";
         cell9.setAttribute("onclick", `removeDate("${date}")`);
+        cell10.innerHTML = "<i class='bi bi-box-arrow-up-right'></i>";
+        cell10.setAttribute("onclick", `shareDate("${date}")`);
       }
     }
 
@@ -118,7 +121,29 @@
         populate();
       }
     }
+
+    function shareDate(date) {
+      const tabelaValores = {
+        td_0_1: "MANOA",
+        input_1_1: "2025-09-22",
+        td_3_1: "0",
+        td_3_2: "0",
+        td_4_1: "0",
+        td_4_2: "0",
+        td_5_1: "0",
+        td_5_2: "0",
+        td_6_1: "0",
+        td_6_2: "0",
+        td_7_1: "0",
+        td_7_2: "0",
+        td_8_1: "0",
+        td_8_2: "0",
+      };
+
+      const countStorageKey = "contagemdaebd";
+      localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
+      window.location.href = `https://ferreirad08.github.io/icm/contagemdaebd/`;
+    }
   </script>
 </body>
 </html>
-
