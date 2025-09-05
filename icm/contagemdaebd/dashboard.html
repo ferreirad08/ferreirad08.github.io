@@ -110,14 +110,14 @@
         cell7.innerHTML = `${V}/${VV}`;
         cell8.innerHTML = total;
         cell9.innerHTML = "<i class='bi bi-trash3'></i>";
-        cell9.setAttribute("onclick", `removeDate("${date}")`);
+        cell9.setAttribute("onclick", `removeDate("${date}","${day}")`);
         cell10.innerHTML = "<i class='bi bi-box-arrow-up-right'></i>";
         cell10.setAttribute("onclick", `shareDate("${date}")`);
       }
     }
 
-    function removeDate(date) {
-      if (window.confirm(`Você realmente deseja apagar o registro de ${date}?`)) {
+    function removeDate(date, day) {
+      if (window.confirm(`Você realmente deseja apagar o registro do dia ${day}?`)) {
         delete data.count[date];
         localStorage.setItem(storageKey, JSON.stringify(data));
         populate();
