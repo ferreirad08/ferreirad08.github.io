@@ -6,6 +6,8 @@
           rel="stylesheet" />
   <style>
     body {
+      width: 384px;
+      margin-left: calc(50% - 192px);
       font-family: Arial, Helvetica, sans-serif;
     }
 
@@ -29,8 +31,8 @@
         border-collapse: collapse;
         border-radius: 4px;
         overflow: hidden;
-        width: calc(346px + 4px);
-        margin-left: calc(50% - 175px);
+        width: 95%;
+        margin-left: 2.5%;
         box-shadow: -1px 1px 4px 0px grey;
     }
   </style>
@@ -43,13 +45,18 @@
     <thead>
       <tr>
         <th>Data</th>
-        <th>Contagem</th>
+        <th>C/CV</th>
+        <th>I/IV</th>
+        <th>A/AV</th>
+        <th>J/JV</th>
+        <th>S/SV</th>
+        <th>V/VV</th>
         <th>Ações</th>
       </tr>
     </thead>
     <tbody id="tbody">
       <tr>
-        <td colspan="3">
+        <td colspan="8">
           Não há dados
         </td>
       </tr>
@@ -73,15 +80,27 @@
       tbody.innerHTML = "";
 
       for (const date in data.count) {
+        if (!data.count[date]) continue;
         const row1 = tbody.insertRow();
 
         const cell1 = row1.insertCell();
         const cell2 = row1.insertCell();
         const cell3 = row1.insertCell();
+        const cell4 = row1.insertCell();
+        const cell5 = row1.insertCell();
+        const cell6 = row1.insertCell();
+        const cell7 = row1.insertCell();
+        const cell8 = row1.insertCell();
 
-        cell1.innerHTML = date;
-        cell2.innerHTML = data.count[date];
-        cell3.innerHTML = "<i class='bi bi-trash3'></i>";
+        cell1.innerHTML = date.split("T")[0];
+        const [C,I,A,J,S,V,CV,IV,AV,JV,SV,VV] = data.count[date].split(",");
+        cell2.innerHTML = `${C}/${CV}`;
+        cell3.innerHTML = `${I}/${IV}`;
+        cell4.innerHTML = `${A}/${AV}`;
+        cell5.innerHTML = `${J}/${JV}`;
+        cell6.innerHTML = `${S}/${SV}`;
+        cell7.innerHTML = `${V}/${VV}`;
+        cell8.innerHTML = "<i class='bi bi-trash3'></i>";
       }
     }
   </script>
