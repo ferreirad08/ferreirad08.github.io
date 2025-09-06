@@ -151,9 +151,20 @@
       };
     }
 
+    function sortByX(x, y) {
+      return x.map((d,i)=>[d,y[i]])
+          .sort(([a],[b])=>{
+            let [da,ma,ya]=a.split("/").map(Number);
+            let [db,mb,yb]=b.split("/").map(Number);
+            return new Date(ya,ma-1,da)-new Date(yb,mb-1,db);
+          })
+          .reduce((r,[d,v])=>(r.x.push(d),r.y.push(v),r),{x:[],y:[]});
+    }
+
     function updateCumulative(x, y) {
-      cumulative.data.labels = x;
-      cumulative.data.datasets[0].data = y;
+      let {x:xSorted,y:ySorted} = sortByX(x, y);
+      cumulative.data.labels = xSorted;
+      cumulative.data.datasets[0].data = ySorted;
       cumulative.update();
     }
 
