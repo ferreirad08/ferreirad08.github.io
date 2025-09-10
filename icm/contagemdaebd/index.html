@@ -346,10 +346,15 @@
           cancelButton: 'meu-cancelar',
           input: 'meu-input-estilizado'
         },
+        inputValidator: (value) => {
+          if (value.length > 3) {
+            return 'Digite no máximo 3 dígitos!';
+          }
+        },
       }).then((result) => {
         if (result.value && result.value.trim() !== "") {
-          cell.innerHTML = result.value.trim();
-          tabelaValores[cell.id] = result.value.trim();
+          cell.innerHTML = Number(result.value.trim());
+          tabelaValores[cell.id] = Number(result.value.trim());
           localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
           soma();
         }
