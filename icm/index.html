@@ -16,7 +16,8 @@
         height: 207.5px;
       }
 
-      img, div {
+      img,
+      div {
         width: 100%;
         border-bottom-right-radius: 100px;
         position: absolute;
@@ -61,39 +62,41 @@
   </head>
 
   <body>
-      <div></div>
-      <img
-        src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/iluminacao.jpg"
-      />
+    <div></div>
+    <img
+      src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/iluminacao.jpg"
+    />
 
-      <table>
-        <tr>
-          <td>
-            <button onclick="window.location.href = 'https://ferreirad08.github.io/icm/escaladeflores/'">
-              Escala de<br />Flores
-            </button>
-          </td>
-          <td>
-            <button onclick="window.location.href = 'https://ferreirad08.github.io/icm/bible/'">
-              Bíblia ARC
-            </button>
-          </td>
-          <td>
-            <button onclick="window.location.href = 'https://ferreirad08.github.io/icm/contagemdaebd/'">
-              Contagem<br />da EBD
-            </button>
-          </td>
-          <td>
-            <button onclick="sendEmail()">
-              Contato
-            </button>
-          </td>
-        </tr>
-      </table>
+    <table>
+      <tr>
+        <td>
+          <button
+            onclick="window.location.href = 'https://ferreirad08.github.io/icm/escaladeflores/'"
+          >
+            Escala de<br />Flores
+          </button>
+        </td>
+        <td>
+          <button
+            onclick="window.location.href = 'https://ferreirad08.github.io/icm/bible/'"
+          >
+            Bíblia ARC
+          </button>
+        </td>
+        <td>
+          <button
+            onclick="window.location.href = 'https://ferreirad08.github.io/icm/contagemdaebd/'"
+          >
+            Contagem<br />da EBD
+          </button>
+        </td>
+        <td>
+          <button onclick="sendEmail()">Contato</button>
+        </td>
+      </tr>
+    </table>
 
-    <label>
-      &copy; 2023-2025 David Ferreira
-    </label>
+    <label> &copy; 2023-2025 David Ferreira </label>
     <script>
       function sendEmail() {
         const a = document.createElement("a");
