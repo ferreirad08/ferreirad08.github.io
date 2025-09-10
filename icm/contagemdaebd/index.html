@@ -561,6 +561,17 @@
       // alert(JSON.stringify(data, null, 4))
     }
 
+    function toBase64(str) {
+      const bytes = new TextEncoder().encode(str);
+      return btoa(String.fromCharCode(...bytes));
+    }
+
+    function fromBase64(base64) {
+      const binary = atob(base64);
+      const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+      return new TextDecoder().decode(bytes);
+    }
+
     function ObjectId() {
       // https://www.mongodb.com/docs/manual/reference/method/ObjectId/
       let _id = ((new Date().getTime() / 1000) | 0).toString(16);
