@@ -168,13 +168,7 @@
     <label>Tamanho da fonte</label>
 
     <br />
-    <input
-      type="range"
-      min="1"
-      max="30"
-      value="16"
-      oninput="document.getElementById('div').style.fontSize = `${this.value}px`"
-    />
+    <input type="range" min="1" max="30" value="16" oninput="setFont(this)" />
 
     <br />
     <button id="button_1" onclick="share()">Compartilhar imagem</button>
@@ -183,6 +177,10 @@
     <script>
       document.getElementById("div").innerHTML =
         window.localStorage.getItem("savedText");
+      document.getElementById(
+        "div"
+      ).innerHTML = `[26] E disse Deus: Façamos o homem à nossa imagem, conforme a nossa semelhança; e domine sobre os peixes do mar, e sobre as aves dos céus, e sobre o gado, e sobre toda a terra, e sobre todo réptil que se move sobre a terra. [27] E criou Deus o homem à sua imagem; à imagem de Deus o criou; macho e fêmea os criou.
+Gênesis 1:26-27 ARC`;
 
       setImage({
         src: "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/bible.png",
@@ -209,6 +207,18 @@
           };
           reader.readAsDataURL(files[0]);
           document.getElementById("upload").value = null;
+        }
+      }
+
+      function setFont(obj) {
+        const div = document.getElementById("div");
+
+        const oldValue = Number(div.style.fontSize.replace("px", ""));
+        div.style.fontSize = `${obj.value}px`;
+
+        if (document.getElementById("table").clientHeight > 350) {
+          obj.value = oldValue;
+          div.style.fontSize = `${obj.value}px`;
         }
       }
 
