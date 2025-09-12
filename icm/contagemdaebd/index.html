@@ -53,7 +53,6 @@
       text-align: center;
     }
 
-    a,
     #button_0,
     #button_2 {
       margin-left: calc(50% - 175px);
@@ -70,21 +69,27 @@
       font-size: 30px;
     }
 
+    a img {
+      height: 130px;
+      box-shadow: -2px 2px 4px 0px grey;
+    }
+
     #button_3 {
-      background-color: #ffffff;
+      background-color: #fff;
       color: #151b54;
-      border: none;
-      width: 80px;
-      height: 80px;
-      border-radius: 10px;
+      /*border: none;*/
+      margin-top: -3.5px;
+      height: 130px;
+      width: 105px;
+      border-radius: 0px;
       font-weight: bold;
       text-align: center;
       box-shadow: -1px 1px 4px 0px grey;
-      margin-left: calc(75% - 40px);
+      /*
       position: fixed;
       bottom: 25px;
       right: 50px;
-      z-index: 99999;
+      z-index: 99999;*/
     }
 
     label {
@@ -135,6 +140,16 @@
       border-top: none;
       border-left: none;
       border-right: none;
+    }
+
+    #foot {
+      width: 350px;
+      margin-left: calc(50% - 175px);
+    }
+
+    #foot td {
+      border: none;
+      width: 175px;
     }
   </style>
   <meta charset="utf-8" />
@@ -233,14 +248,21 @@
 
   <br />
   <br />
-  <a href="https://clustrmaps.com/site/1c24h" title="Visit tracker"><img
-      src="//www.clustrmaps.com/map_v2.png?d=ekaoLQiRFnnIvR7t1aQC_DKD8d9bdrKIZ5IlS9jPyXM&cl=ffffff"></a>
-
-  <button id="button_3" onclick="window.location.href = `https://ferreirad08.github.io/icm/contagemdaebd/dashboard`">
-    <i class="bi bi-graph-up"></i>
-    <br />
-    Dashboard
-  </button>
+  <table id="foot">
+    <tr>
+      <td>
+        <a href="https://clustrmaps.com/site/1c24h" title="Visit tracker"><img
+          src="//www.clustrmaps.com/map_v2.png?d=ekaoLQiRFnnIvR7t1aQC_DKD8d9bdrKIZ5IlS9jPyXM&cl=ffffff"></a>
+      </td>
+      <td>
+        <button id="button_3" onclick="window.location.href = `https://ferreirad08.github.io/icm/contagemdaebd/dashboard`">
+          <i class="bi bi-graph-up"></i>
+          <br />
+          Dashboard
+        </button>
+      </td>
+    </tr>
+  </table>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
