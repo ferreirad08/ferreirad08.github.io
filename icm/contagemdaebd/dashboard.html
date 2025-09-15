@@ -50,6 +50,7 @@
 
 <body>
   <canvas id="cumulative"></canvas>
+  <canvas id="bar"></canvas>
 
   <table>
     <thead>
@@ -84,6 +85,92 @@
     const storageKey = "ferreirad08-access";
     let data = localStorage.getItem(storageKey);
     const cumulative = new Chart("cumulative", getOptions("Frequência diária"));
+
+    const bar = new Chart("bar", {
+      type: "bar",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "",
+            data: [],
+            backgroundColor: "#151b54",
+            borderColor: "#151b54",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        title: {
+          display: true,
+          text: "Frequência média",
+          position: "top",
+          align: "start",
+        },
+        legend: { display: false },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: false,
+              },
+              ticks: {
+                autoSkip: true,
+                maxRotation: 45,
+                minRotation: 45,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "Dia da semana",
+              },
+            },
+          ],
+          yAxes: [
+            {
+              gridLines: {
+                borderDash: [4, 4],
+              },
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
+    });
+
+    function average(numbers) {
+      if (!numbers.length) return 0; // evita divisão por zero
+      let sum = numbers.reduce((acc, val) => acc + val, 0);
+      return sum / numbers.length;
+    }
+
+    function updateBar(x, y) {
+      const week = [
+        "domingo",
+        "segunda-feira",
+        "terça-feira",
+        "quarta-feira",
+        "quinta-feira",
+        "sexta-feira",
+        "sábado",
+      ];
+      const avg = [[],[],[],[],[],[],[]];
+
+      for (let i = 0; i < x.length; i++) {
+        const [day,month,year] = x[i].split("/");
+        const dayOfWeek = getDayOfWeek(year, month - 1, day);
+        avg[dayOfWeek].push(y[i]);
+      }
+
+      for (let i = 0; i < 7; i++) {
+        avg[i] = average(avg[i]);
+      }
+
+      bar.data.labels = week;
+      bar.data.datasets[0].data = avg;
+      bar.update();
+    }
 
     if (data) {
       data = JSON.parse(data);
@@ -155,6 +242,10 @@
       };
     }
 
+    function getDayOfWeek(year, month, day) {
+      return new Date(year, month, day).getDay();
+    }
+
     function sortByX(x, y) {
       return x.map((d,i)=>[d,y[i]])
           .sort(([a],[b])=>{
@@ -166,9 +257,8 @@
     }
 
     function updateCumulative(x, y) {
-      let {x:xSorted,y:ySorted} = sortByX(x, y);
-      cumulative.data.labels = xSorted;
-      cumulative.data.datasets[0].data = ySorted;
+      cumulative.data.labels = x;
+      cumulative.data.datasets[0].data = y;
       cumulative.update();
     }
 
@@ -216,7 +306,9 @@
         yy.push(total);
       }
 
-      updateCumulative(xx, yy);
+      let {x:xSorted,y:ySorted} = sortByX(xx, yy);
+      updateCumulative(xSorted, ySorted);
+      updateBar(xSorted, ySorted);
     }
 
     function removeDate(date, day) {
