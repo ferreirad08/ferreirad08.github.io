@@ -87,6 +87,16 @@
     let data = localStorage.getItem(storageKey);
     const cumulative = new Chart("cumulative", getOptions("Frequência diária"));
 
+    const week = [
+        "domingo",
+        "segunda-feira",
+        "terça-feira",
+        "quarta-feira",
+        "quinta-feira",
+        "sexta-feira",
+        "sábado",
+      ];
+
     Chart.plugins.register({
       beforeDraw: function (chart) {
         if (chart.config.options.centerText) {
@@ -214,9 +224,19 @@
       },
     });
 
-    function updateDoughnut(arr) {
-      doughnut.options.centerText.text = ssum(arr); // (payload_v3 / index * 100).toFixed(2) + '%';
-      doughnut.data.datasets[0].data = arr;
+    function updateDoughnut(count) {
+      const last8ArraysByCsvDate = Object.values(count)
+        .filter(v => v !== null)                       // remove null
+        .filter(v => v.split(',').length === 15)       // só CSV com 14 itens
+        .sort((a, b) => new Date(a.split(',')[1]) - new Date(b.split(',')[1])) // ordena pelo 2º item
+        .slice(-8)                                     // últimos 8
+        .map(v => v.split(',').slice(-13, -1));                     // transforma em array de arrays
+      const columnMax = Array.from({length: last8ArraysByCsvDate[0].length}, (_, colIdx) => {
+        return Math.max(...last8ArraysByCsvDate.map(row => Number(row[colIdx])));
+      });
+ 
+      doughnut.options.centerText.text = ssum(columnMax.slice(0,6)); // (payload_v3 / index * 100).toFixed(2) + '%';
+      doughnut.data.datasets[0].data = columnMax.slice(0,6);
       doughnut.update();
     }
 
@@ -232,15 +252,6 @@
     }
 
     function updateBar(x, y) {
-      const week = [
-        "domingo",
-        "segunda-feira",
-        "terça-feira",
-        "quarta-feira",
-        "quinta-feira",
-        "sexta-feira",
-        "sábado",
-      ];
       const avg = [[],[],[],[],[],[],[]];
 
       for (let i = 0; i < x.length; i++) {
@@ -395,7 +406,7 @@
       let {x:xSorted,y:ySorted} = sortByX(xx, yy);
       updateCumulative(xSorted, ySorted);
       updateBar(xSorted, ySorted);
-      updateDoughnut([11,22,23,24,25,28]);
+      updateDoughnut(data.count);
     }
 
     function removeDate(date, day) {
