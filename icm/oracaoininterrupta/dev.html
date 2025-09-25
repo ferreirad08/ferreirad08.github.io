@@ -4,8 +4,15 @@
   <head>
     <style>
       body {
-        text-align: center;
         font-family: Arial, Helvetica, sans-serif;
+      }
+
+      label {
+        width: 346px;
+        margin-left: calc(50% - 173px);
+        font-size: 15px;
+        color: #151b54;
+        height: 30px;
       }
 
       a {
@@ -13,6 +20,8 @@
       }
 
       h1 {
+        width: 100%;
+        text-align: center;
         color: #151b54;
       }
 
@@ -47,6 +56,17 @@
   </head>
   <body>
     <h1>Oração Ininterrupta</h1>
+    <br />
+
+    <label>Igreja: </label>
+    <br />
+    <label>Motivo: </label>
+    <br />
+    <label>Primeiro dia: </label>
+    <br />
+    <label>Último dia: </label>
+    <br />
+    <br />
     <br />
 
     <table>
@@ -235,6 +255,14 @@
         }
       }
 
+      function initHeader(data) {
+        const els = document.getElementsByTagName("label");
+        els[0].innerHTML = els[0].innerHTML + data.igreja;
+        els[1].innerHTML = els[1].innerHTML + data.motivo;
+        els[2].innerHTML = els[2].innerHTML + data.date0.split("-").reverse().join("/");
+        els[3].innerHTML = els[3].innerHTML + data.date1.split("-").reverse().join("/");
+      }
+
       async function main() {
         //clearList();
 
@@ -242,6 +270,7 @@
 
         if (!data.currentList) return;
 
+        initHeader(data);
         populateTable(data.currentList);
       }
 
