@@ -162,7 +162,7 @@
         "23:45 às 00:00": null,
       };
 
-      const code = "1417497173100257280"
+      const code = window.location.hash.slice(1); // "1417497173100257280"
       const url = `http://jsonblob.com/api/jsonBlob/${code}`;
 
       async function setData(data) {
