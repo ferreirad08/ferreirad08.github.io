@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      body {
+        text-align: center;
+      }
+
+      a {
+        color: blue;
+      }
+
+      h1 {
+        color: #151b54;
+      }
+
+      tr:nth-child(even) {
+        background-color: #cccccc;
+      }
+
+      th {
+        background-color: #151b54;
+        color: #fff;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: center;
+        font-size: 13px;
+      }
+
+      table {
+        border-collapse: collapse;
+        border-radius: 4px;
+        overflow: hidden;
+        width: calc(346px + 4px);
+        margin-left: calc(50% - 175px);
+        box-shadow: -1px 1px 4px 0px grey;
+      }
+    </style>
+    <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8" />
+    <title>Oração Ininterrupta</title>
+  </head>
+  <body>
+    <h1>Oração Ininterrupta</h1>
+    <br />
+
+    <table>
+      <thead>
+        <tr>
+          <th>Horário</th>
+          <th>Nome</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr>
+          <td colspan="2" style="color: black">Buscando a lista...</td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+
+    <script>
+      const emptyList = {
+        "00:00 às 00:15": null,
+        "00:15 às 00:30": null,
+        "00:30 às 00:45": null,
+        "00:45 às 01:00": null,
+        "01:00 às 01:15": null,
+        "01:15 às 01:30": null,
+        "01:30 às 01:45": null,
+        "01:45 às 02:00": null,
+        "02:00 às 02:15": null,
+        "02:15 às 02:30": null,
+        "02:30 às 02:45": null,
+        "02:45 às 03:00": null,
+        "03:00 às 03:15": null,
+        "03:15 às 03:30": null,
+        "03:30 às 03:45": null,
+        "03:45 às 04:00": null,
+        "04:00 às 04:15": null,
+        "04:15 às 04:30": null,
+        "04:30 às 04:45": null,
+        "04:45 às 05:00": null,
+        "05:00 às 05:15": null,
+        "05:15 às 05:30": null,
+        "05:30 às 05:45": null,
+        "05:45 às 06:00": null,
+        "06:00 às 06:15": null,
+        "06:15 às 06:30": null,
+        "06:30 às 06:45": null,
+        "06:45 às 07:00": null,
+        "07:00 às 07:15": null,
+        "07:15 às 07:30": null,
+        "07:30 às 07:45": null,
+        "07:45 às 08:00": null,
+        "08:00 às 08:15": null,
+        "08:15 às 08:30": null,
+        "08:30 às 08:45": null,
+        "08:45 às 09:00": null,
+        "09:00 às 09:15": null,
+        "09:15 às 09:30": null,
+        "09:30 às 09:45": null,
+        "09:45 às 10:00": null,
+        "10:00 às 10:15": null,
+        "10:15 às 10:30": null,
+        "10:30 às 10:45": null,
+        "10:45 às 11:00": null,
+        "11:00 às 11:15": null,
+        "11:15 às 11:30": null,
+        "11:30 às 11:45": null,
+        "11:45 às 12:00": null,
+        "12:00 às 12:15": null,
+        "12:15 às 12:30": null,
+        "12:30 às 12:45": null,
+        "12:45 às 13:00": null,
+        "13:00 às 13:15": null,
+        "13:15 às 13:30": null,
+        "13:30 às 13:45": null,
+        "13:45 às 14:00": null,
+        "14:00 às 14:15": null,
+        "14:15 às 14:30": null,
+        "14:30 às 14:45": null,
+        "14:45 às 15:00": null,
+        "15:00 às 15:15": null,
+        "15:15 às 15:30": null,
+        "15:30 às 15:45": null,
+        "15:45 às 16:00": null,
+        "16:00 às 16:15": null,
+        "16:15 às 16:30": null,
+        "16:30 às 16:45": null,
+        "16:45 às 17:00": null,
+        "17:00 às 17:15": null,
+        "17:15 às 17:30": null,
+        "17:30 às 17:45": null,
+        "17:45 às 18:00": null,
+        "18:00 às 18:15": null,
+        "18:15 às 18:30": null,
+        "18:30 às 18:45": null,
+        "18:45 às 19:00": null,
+        "19:00 às 19:15": null,
+        "19:15 às 19:30": null,
+        "19:30 às 19:45": null,
+        "19:45 às 20:00": null,
+        "20:00 às 20:15": null,
+        "20:15 às 20:30": null,
+        "20:30 às 20:45": null,
+        "20:45 às 21:00": null,
+        "21:00 às 21:15": null,
+        "21:15 às 21:30": null,
+        "21:30 às 21:45": null,
+        "21:45 às 22:00": null,
+        "22:00 às 22:15": null,
+        "22:15 às 22:30": null,
+        "22:30 às 22:45": null,
+        "22:45 às 23:00": null,
+        "23:00 às 23:15": null,
+        "23:15 às 23:30": null,
+        "23:30 às 23:45": null,
+        "23:45 às 00:00": null,
+      };
+
+      const code = "1417497173100257280"
+      const url = `http://jsonblob.com/api/jsonBlob/${code}`;
+
+      async function setData(data) {
+        await fetch(url, {
+          method: "PUT",
+          headers: {
+            mode: "no-cors",
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+      }
+
+      async function getData() {
+        return await (await fetch(url)).json();
+      }
+
+      async function clearList() {
+        await setData({
+          timestamp: new Date(),
+          currentList: emptyList,
+        });
+      }
+
+      async function register(interval) {
+        const name = window.prompt(
+          `          Intervalo selecionado: ${interval}!
+
+          Insira o seu nome!`
+        );
+
+        if (!name) return;
+
+        const data0 = await getData();
+        if (data0.currentList[interval]) {
+          return alert("O horário não está mais disponível!");
+        }
+
+        data0.timestamp = new Date();
+        data0.currentList[interval] = name.slice(0, 31);
+
+        await setData(data0);
+
+        const data1 = await getData();
+        if (data1.currentList[interval] !== data0.currentList[interval]) {
+          alert("O horário não está mais disponível!");
+        }
+
+        populateTable(data1.currentList);
+      }
+
+      function populateTable(currentList) {
+        const tbody = document.getElementById("tbody");
+        tbody.innerHTML = "";
+
+        for (const interval in currentList) {
+          const row = tbody.insertRow();
+          row.insertCell().innerHTML = interval;
+
+          const cell = row.insertCell();
+          cell.innerHTML = currentList[interval];
+
+          if (!currentList[interval]) {
+            cell.innerHTML = "<a>Clique para selecionar!</a>";
+            cell.setAttribute("onclick", `register("${interval}")`);
+          }
+        }
+      }
+
+      async function main() {
+        //clearList();
+
+        const data = await getData();
+
+        if (!data.currentList) return;
+
+        populateTable(data.currentList);
+      }
+
+      window.onload = main;
+    </script>
+  </body>
+</html>
