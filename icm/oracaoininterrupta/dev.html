@@ -49,6 +49,19 @@
         margin-left: calc(50% - 175px);
         box-shadow: -1px 1px 4px 0px grey;
       }
+
+      input[type="button"] {
+        background-color: #151b54;
+        color: #ffffff;
+        border: none;
+        width: calc(346px + 4px);
+        margin-left: calc(50% - 174px);
+        height: 40px;
+        border-radius: 40px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 25px;
+      }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -66,14 +79,13 @@
     <br />
     <label>Último dia: </label>
     <br />
-    <br />
-    <br />
 
     <input
         type="button"
         value="Copiar link"
         onclick="copyy()"
       />
+    <br />
     <br />
 
     <table>
@@ -196,8 +208,8 @@
 
       async function copyy() {
         try {
-          await navigator.clipboard.writeText("Olá, área de transferência!");
-          alert("Texto copiado!");
+          await navigator.clipboard.writeText(window.location.href);
+          // alert("Texto copiado!");
         } catch (err) {
           console.error("Falha ao copiar: ", err);
         }
