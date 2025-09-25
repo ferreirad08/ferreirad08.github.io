@@ -221,7 +221,8 @@
 
         const data0 = await getData();
         if (data0.currentList[interval]) {
-          return alert("O horário não está mais disponível!");
+          alert("O horário não está mais disponível!");
+          return populateTable(data0.currentList);
         }
 
         data0.timestamp = new Date();
