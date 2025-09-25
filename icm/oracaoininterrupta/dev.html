@@ -69,6 +69,13 @@
     <br />
     <br />
 
+    <input
+        type="button"
+        value="Copiar link"
+        onclick="copyy()"
+      />
+    <br />
+
     <table>
       <thead>
         <tr>
@@ -186,6 +193,15 @@
 
       const code = window.location.hash.slice(1); // "1417497173100257280"
       const url = `https://jsonblob.com/api/jsonBlob/${code}`;
+
+      async function copyy() {
+        try {
+          await navigator.clipboard.writeText("Olá, área de transferência!");
+          alert("Texto copiado!");
+        } catch (err) {
+          console.error("Falha ao copiar: ", err);
+        }
+      });
 
       async function setData(data) {
         await fetch(url, {
