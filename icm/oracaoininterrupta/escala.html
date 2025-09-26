@@ -107,9 +107,7 @@
     <br />
     <label>Motivo: </label>
     <br />
-    <label>Primeiro dia: </label>
-    <br />
-    <label>Último dia: </label>
+    <label>Período: </label>
     <br />
 
     <input
@@ -319,8 +317,7 @@
         const els = document.getElementsByTagName("label");
         els[0].innerHTML = els[0].innerHTML + data.igreja;
         els[1].innerHTML = els[1].innerHTML + data.motivo;
-        els[2].innerHTML = els[2].innerHTML + data.date0.split("-").reverse().join("/");
-        els[3].innerHTML = els[3].innerHTML + data.date1.split("-").reverse().join("/");
+        els[2].innerHTML = els[2].innerHTML + data.date0.split("-").reverse().join("/") + " - " + data.date1.split("-").reverse().join("/");
       }
 
       async function main() {
