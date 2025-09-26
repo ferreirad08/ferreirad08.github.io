@@ -259,7 +259,15 @@
           timestamp: new Date(),
           currentList: emptyList,
         };
-        if (data.igreja === "" || data.motivo === "" || data.date0 === "" || data.date1 === "") return;
+
+        if (
+          data.igreja === "" ||
+          data.motivo === "" ||
+          data.date0 === "" ||
+          data.date1 === ""
+        ) {
+          return alert("Todos os campos devem ser preenchidos!");
+        }
         initData(data);
       }
 
