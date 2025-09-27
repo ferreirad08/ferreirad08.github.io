@@ -7,6 +7,22 @@
         font-family: Arial, Helvetica, sans-serif;
       }
 
+      #lock {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.5);
+      top: 0%;
+      left: 0%;
+      right: 0%;
+      height: 719px;
+
+      font-size: 1rem;
+      font-family: system-ui;
+      font-weight: bolder;
+      align-items: center;
+      justify-content: center;
+      color: yellow;
+      }
+
       table[name="Header"] {
         width: 100%;
         height: 50px;
@@ -269,7 +285,7 @@
         });
       }
 
-      async function register(cell, interval) {
+      async function register(interval) {
         const name = window.prompt(
           `          Intervalo selecionado: ${interval}!
 
@@ -278,9 +294,14 @@
 
         if (!name) return;
 
+        setLoading("Enviando...");
         const data0 = await getData();
+
         if (data0.currentList[interval]) {
-          alert("O horário não está mais disponível!");
+          window.alert(
+            `Desculpe, o horário das ${interval} não está mais disponível!`
+          );
+          closeLoading();
           return populateTable(data0.currentList);
         }
 
@@ -288,15 +309,18 @@
         data0.currentList[interval] = name.slice(0, 31);
 
         await setData(data0);
-        cell.innerHTML = "<a>Aquarde...</a>";
-    
         await sleep(2000);
 
         const data1 = await getData();
         if (data1.currentList[interval] !== data0.currentList[interval]) {
-          alert("O horário não está mais disponível!");
+          window.alert(
+            `Desculpe, o horário das ${interval} não está mais disponível!`
+          );
+        } else {
+          window.alert("Participação registrada com sucesso!");
         }
 
+        closeLoading();
         populateTable(data1.currentList);
       }
 
@@ -313,9 +337,23 @@
 
           if (!currentList[interval]) {
             cell.innerHTML = "<a>Clique para selecionar!</a>";
-            cell.setAttribute("onclick", `register(this, "${interval}")`);
+            cell.setAttribute("onclick", `register("${interval}")`);
           }
         }
+      }
+
+      function closeLoading() {
+        if ((obj = document.getElementById('lock'))) {
+          obj.remove();
+        }
+      }
+
+      function setLoading(message) {
+        const div = document.createElement('div');
+        div.id = 'lock';
+        document.body.insertBefore(div, document.firstElement);
+        div.innerHTML = message;
+        div.style.display = 'flex';
       }
 
       function sleep(ms) {
