@@ -288,6 +288,7 @@
         data0.currentList[interval] = name.slice(0, 31);
 
         await setData(data0);
+        await sleep(2000);
 
         const data1 = await getData();
         if (data1.currentList[interval] !== data0.currentList[interval]) {
@@ -315,7 +316,11 @@
         }
       }
 
-      function initHeader(data) {
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      async function initHeader(data) {
         const els = document.getElementsByTagName("label");
         els[0].innerHTML = els[0].innerHTML + data.igreja;
         els[1].innerHTML = els[1].innerHTML + data.motivo;
@@ -329,7 +334,7 @@
 
         if (!data.currentList) return;
 
-        initHeader(data);
+        await initHeader(data);
         populateTable(data.currentList);
       }
 
