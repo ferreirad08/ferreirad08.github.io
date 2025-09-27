@@ -269,7 +269,7 @@
         });
       }
 
-      async function register(interval) {
+      async function register(cell, interval) {
         const name = window.prompt(
           `          Intervalo selecionado: ${interval}!
 
@@ -288,6 +288,8 @@
         data0.currentList[interval] = name.slice(0, 31);
 
         await setData(data0);
+        cell.innerHTML = "<a>Aquarde...</a>";
+    
         await sleep(2000);
 
         const data1 = await getData();
@@ -311,7 +313,7 @@
 
           if (!currentList[interval]) {
             cell.innerHTML = "<a>Clique para selecionar!</a>";
-            cell.setAttribute("onclick", `register("${interval}")`);
+            cell.setAttribute("onclick", `register(this, "${interval}")`);
           }
         }
       }
