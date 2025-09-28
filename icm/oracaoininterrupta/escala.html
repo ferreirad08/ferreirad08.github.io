@@ -7,20 +7,54 @@
         font-family: Arial, Helvetica, sans-serif;
       }
 
-      #lock {
-      position: absolute;
-      background-color: rgba(0, 0, 0, 0.5);
-      top: 0%;
-      left: 0%;
-      right: 0%;
-      height: 719px;
+      .circle-loader {
+        animation: is-rotating 800ms infinite;
+        border: 7px solid #205171;
+        border-radius: 50%;
+        margin-left: 8px;
+        margin-top: 8px;
+        border-top-color: transparent;
+        height: 70px;
+        width: 70px;
+      }
 
-      font-size: 1rem;
-      font-family: system-ui;
-      font-weight: bolder;
-      align-items: center;
-      justify-content: center;
-      color: yellow;
+      @keyframes is-rotating {
+        to {
+          transform: rotate(1turn);
+        }
+      }
+
+      .loader-bg {
+        height: 100px;
+        width: 100px;
+        border-radius: 4px;
+        background-color: rgb(255, 255, 255);
+      }
+
+      #progress {
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        margin-top: -50px;
+        color: black;
+      }
+
+      #lock {
+        justify-content: center;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 350px;
+        display: flex;
+        z-index: 99999;
+      }
+
+      #load {
+        width: 100px;
+        height: 100px;
+        border-radius: 2px;
       }
 
       table[name="Header"] {
@@ -294,14 +328,14 @@
 
         if (!name) return;
 
-        setLoading("Enviando...");
+        await openLoading("Enviando...");
         const data0 = await getData();
 
         if (data0.currentList[interval]) {
+          await closeLoading();
           window.alert(
             `Desculpe, o horário das ${interval} não está mais disponível!`
           );
-          closeLoading();
           return populateTable(data0.currentList);
         }
 
@@ -312,6 +346,8 @@
         await sleep(2000);
 
         const data1 = await getData();
+        await closeLoading();
+
         if (data1.currentList[interval] !== data0.currentList[interval]) {
           window.alert(
             `Desculpe, o horário das ${interval} não está mais disponível!`
@@ -320,7 +356,6 @@
           window.alert("Participação registrada com sucesso!");
         }
 
-        closeLoading();
         populateTable(data1.currentList);
       }
 
@@ -342,18 +377,20 @@
         }
       }
 
-      function closeLoading() {
-        if ((obj = document.getElementById('lock'))) {
-          obj.remove();
-        }
+      async function openLoading(message) {
+        await closeLoading();
+
+        const div = document.createElement("div");
+        div.id = "lock";
+        div.innerHTML =
+          '<div class="loader-bg"><div class="circle-loader"></div><div id="progress"></div></div>';
+        document.body.insertBefore(div, document.firstElement);
       }
 
-      function setLoading(message) {
-        const div = document.createElement('div');
-        div.id = 'lock';
-        document.body.insertBefore(div, document.firstElement);
-        div.innerHTML = message;
-        div.style.display = 'flex';
+      async function closeLoading() {
+        if ((div = document.getElementById("lock"))) {
+          div.remove();
+        }
       }
 
       function sleep(ms) {
