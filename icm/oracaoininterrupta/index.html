@@ -231,6 +231,11 @@
       const url = "https://jsonblob.com/api/jsonBlob/";
       const urlInsecure = "http://jsonblob.com/api/jsonBlob/";
 
+      const storageKey = "oracaoininterrupta";
+      let locations = window.localStorage.getItem(storageKey);
+      locations = locations === null ? {values: []} : JSON.parse(locations);
+      console.log(JSON.stringify(locations, null, 4));
+
       async function initData(data) {
         const res = await fetch(url, {
           method: "POST",
@@ -243,8 +248,10 @@
         });
 
         if (res.status === 201 && res.headers.get('Content-Type') === 'application/json') {
-          const location = res.headers.get('Location');
-          window.location.href = location.replace(urlInsecure, myUrl);
+          const location = res.headers.get('Location').replace(urlInsecure, myUrl);
+          locations.values.push(location);
+          window.localStorage.setItem(storageKey, JSON.stringify(locations));
+          window.location.href = location;
         } else {
           alert('Ocorreu um erro ao criar!');
         }
