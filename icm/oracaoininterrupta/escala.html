@@ -36,6 +36,7 @@
         text-align: center;
         margin-top: -50px;
         color: black;
+        font-size: 12px;
       }
 
       #lock {
@@ -328,7 +329,7 @@
 
         if (!name) return;
 
-        await openLoading("Enviando...");
+        await openLoading("Aguarde...");
         const data0 = await getData();
 
         if (data0.currentList[interval]) {
@@ -383,7 +384,7 @@
         const div = document.createElement("div");
         div.id = "lock";
         div.innerHTML =
-          '<div class="loader-bg"><div class="circle-loader"></div><div id="progress"></div></div>';
+          `<div class="loader-bg"><div class="circle-loader"></div><div id="progress">${message}</div></div>`;
         document.body.insertBefore(div, document.firstElement);
       }
 
