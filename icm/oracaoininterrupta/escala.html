@@ -297,7 +297,8 @@
 
       async function copyy() {
         try {
-          const text = `Para participar do período de oração ininterrupta, clique neste link: ${window.location.href}`;
+          const text = `Para participar do período de oração ininterrupta, clique neste link:
+            ${window.location.href}`;
           await navigator.clipboard.writeText(text);
           // alert("Texto copiado!");
         } catch (err) {
