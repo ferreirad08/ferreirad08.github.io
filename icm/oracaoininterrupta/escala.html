@@ -295,11 +295,21 @@
       const code = window.location.hash.slice(1); // "1417497173100257280"
       const url = `https://jsonblob.com/api/jsonBlob/${code}`;
 
+      function getMessage() {
+        const els = document.getElementsByTagName("label");
+        return `📜 *ESCALA DA ORAÇÃO ININTERRUPTA*
+
+_${els[0].innerHTML}_
+_${els[1].innerHTML}_
+_${els[2].innerHTML}_
+
+Para participar do período de oração ininterrupta, clique neste link:
+${window.location.href}`;
+      }
+
       async function copyy() {
         try {
-          const text = `Para participar do período de oração ininterrupta, clique neste link:
-${window.location.href}`;
-          await navigator.clipboard.writeText(text);
+          await navigator.clipboard.writeText(getMessage());
           // alert("Texto copiado!");
         } catch (err) {
           console.error("Falha ao copiar: ", err);
