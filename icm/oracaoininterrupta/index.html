@@ -245,7 +245,7 @@
       const storageKey = "oracaoininterruptav2";
       let locations = window.localStorage.getItem(storageKey);
       locations = locations === null ? {values: []} : JSON.parse(locations);
-      for (const list of locations.values) {
+      for (const list of locations.values.reverse()) {
         el = document.getElementById("lists");
         el.innerHTML = el.innerHTML + `<a href="${list}">${list.split("#")[1]}</a><br />`;
       }
