@@ -74,6 +74,12 @@
         margin-top: 20px;
         margin-bottom: 25px;
       }
+
+      a {
+        color: #151b54;
+        width: calc(346px + 4px);
+        margin-left: calc(50% - 174px);
+      }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -122,6 +128,11 @@
         value="Criar"
         onclick="create()"
       />
+    <br />
+
+    <label>Criadas por mim</label>
+    <br />
+    <div id="lists"></div>
 
     <br /><br />
     <a href="https://clustrmaps.com/site/1c81h"  title="ClustrMaps">
@@ -234,7 +245,10 @@
       const storageKey = "oracaoininterruptav2";
       let locations = window.localStorage.getItem(storageKey);
       locations = locations === null ? {values: []} : JSON.parse(locations);
-      console.log(JSON.stringify(locations, null, 4));
+      for (const list of locations.values) {
+        el = document.getElementById("lists");
+        el.innerHTML = el.innerHTML + `<a href="${list}">${list.split("#")[1]}</a><br />`;
+      }
 
       async function initData(data) {
         const res = await fetch(url, {
