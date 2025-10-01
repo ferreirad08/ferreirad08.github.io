@@ -311,7 +311,7 @@
       const url = `https://jsonblob.com/api/jsonBlob/${code}`;
 
       const storageKey = "oracaoininterruptav1";
-      window.localStorage.removeItem(storageKey);
+      //window.localStorage.removeItem(storageKey);
       let locations = window.localStorage.getItem(storageKey);
       locations = locations === null ? {values: []} : JSON.parse(locations);
       document.getElementById("dell-div").hidden = !locations.values.includes(window.location.href);
