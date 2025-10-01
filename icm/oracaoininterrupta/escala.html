@@ -310,7 +310,8 @@
       const code = window.location.hash.slice(1); // "1417497173100257280"
       const url = `https://jsonblob.com/api/jsonBlob/${code}`;
 
-      const storageKey = "oracaoininterruptav2";
+      const storageKey = "oracaoininterruptav1";
+      window.localStorage.removeItem("oracaoininterruptav2");
       let locations = window.localStorage.getItem(storageKey);
       locations = locations === null ? {values: []} : JSON.parse(locations);
       document.getElementById("dell-div").hidden = !locations.values.includes(window.location.href);
