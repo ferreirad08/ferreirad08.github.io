@@ -133,8 +133,12 @@
         height: 40px;
         border-radius: 40px;
         font-weight: bold;
-        margin-top: 20px;
-        margin-bottom: 25px;
+      }
+
+      #dell {
+        background-color: #fff;
+        color: #151b54;
+        border: 2px solid #151b54;
       }
     </style>
     <meta charset="utf-8" />
@@ -169,12 +173,20 @@
         value="Copiar link"
         onclick="copyy()"
       />-->
+    <br />
+    <button id="dell" onclick="dell()">
+      Apagar Escala &ensp;&ensp;
+      <i class='bi bi-trash3'></i>
+    </button>
+    <br />
+    <br />
     <button
       onclick="copyy()"
     >
       Copiar Link &ensp;&ensp;
       <i class="bi bi-copy"></i>
     </button>
+    <br />
     <br />
 
     <table name="List">
@@ -313,6 +325,16 @@ ${window.location.href}`;
           // alert("Texto copiado!");
         } catch (err) {
           console.error("Falha ao copiar: ", err);
+        }
+      }
+
+      async function dell() {
+        if (window.confirm("Excluir tabela? Todos os dados serão apagados!")) {
+          const res = await fetch(url, {method: "DELETE"});
+          if (res.status === 200) {
+            window.alert("Tabela excluída com sucesso!");
+            window.location.href = "https://ferreirad08.github.io/icm/oracaoininterrupta/";
+          }
         }
       }
 
