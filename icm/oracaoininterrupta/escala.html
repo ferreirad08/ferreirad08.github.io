@@ -341,6 +341,7 @@ ${window.location.href}`;
           const res = await fetch(url, {method: "DELETE"});
           if (res.status === 200) {
             locations.values = locations.values.filter(item => item !== window.location.href);
+            window.localStorage.setItem(storageKey, JSON.stringify(locations));
             window.alert("Escala excluída com sucesso!");
             window.location.href = "https://ferreirad08.github.io/icm/oracaoininterrupta/";
           }
