@@ -176,7 +176,7 @@
     <br />
     <div id="dell-div" hidden>
       <button id="dell" onclick="dell()">
-        Apagar Escala &ensp;&ensp;
+        Excluir Escala &ensp;&ensp;
         <i class='bi bi-trash3'></i>
       </button>
       <br />
@@ -337,10 +337,11 @@ ${window.location.href}`;
       }
 
       async function dell() {
-        if (window.confirm("Excluir tabela? Todos os dados serão apagados!")) {
+        if (window.confirm("Excluir escala? Todos os dados serão perdidos!")) {
           const res = await fetch(url, {method: "DELETE"});
           if (res.status === 200) {
-            window.alert("Tabela excluída com sucesso!");
+            locations.values = locations.values.filter(item => item !== window.location.href);
+            window.alert("Escala excluída com sucesso!");
             window.location.href = "https://ferreirad08.github.io/icm/oracaoininterrupta/";
           }
         }
