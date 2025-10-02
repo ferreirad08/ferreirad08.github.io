@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    table[name="Header"] {
+      width: 100%;
+      height: 50px;
+      color: #151b54;
+      box-shadow: 0px 2px 2px -1px grey;
+      position: absolute;
+      top: 0%;
+      left: 0%;
+    }
+
+    table[name="Header"] td {
+      font-size: 15px;
+      font-weight: bold;
+      border: none;
+      width: calc(100% / 6);
+    }
+
+    #table {
+      border-collapse: collapse;
+      width: 350px;
+      margin-left: calc(50% - 175px);
+      box-shadow: -1px 1px 4px 0px grey;
+      margin-top: 50px;
+    }
+
+    th,
+    td {
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    label,
+    button {
+      background-color: #151b54;
+      color: #ffffff;
+      border: none;
+      width: 173px;
+      height: 40px;
+      border-radius: 40px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #button_0,
+    #button_2 {
+      margin-left: calc(50% - 175px);
+    }
+
+    #button_0,
+    #button_2 {
+      background-color: #ffffff;
+      color: #151b54;
+      border: 2px solid #151b54;
+    }
+
+    i {
+      font-size: 30px;
+    }
+
+    a img {
+      height: 130px;
+      box-shadow: -2px 2px 4px 0px grey;
+    }
+
+    #button_3 {
+      background-image: url(https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/dashboard-image.png);
+      background-size: 105px 130px;
+      background-color: #fff;
+      color: #151b54;
+      /*border: none;*/
+      margin-top: -3px;
+      height: 130px;
+      width: 105px;
+      border-radius: 0px;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: -1px 1px 4px 0px grey;
+      /*
+      position: fixed;
+      bottom: 25px;
+      right: 50px;
+      z-index: 99999;*/
+    }
+
+    label {
+      display: block;
+      padding-top: 10px;
+      height: 30px;
+    }
+
+    input {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #ffffff;
+      font-size: 13px;
+      border: none;
+    }
+
+    .sum {
+      background-color: #ddd;
+    }
+
+    img {
+      width: 200px;
+    }
+
+    .meu-confirmar {
+      border-radius: 20px !important;
+      background-color: #151b54;
+      color: white;
+    }
+
+    .meu-cancelar {
+      border-radius: 20px !important;
+      background-color: white;
+      color: #151b54;
+      border: 2px solid #151b54;
+    }
+
+    .meu-input-estilizado:focus {
+      outline: none;
+      border-bottom: 2px solid #151b54;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+
+    .meu-input-estilizado {
+      border-radius: 0px;
+      border-bottom: 1px solid gray;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+
+    #foot {
+      width: 350px;
+      margin-left: calc(50% - 175px);
+    }
+
+    #foot td {
+      border: none;
+      width: 175px;
+    }
+  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contagem da EBD</title>
+</head>
+
+<body>
+  <table name="Header">
+    <tr>
+      <td onclick="window.location.href = 'https://ferreirad08.github.io/icm/'">
+        <img style="width: 40px"
+          src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/back.png">
+      </td>
+      <td colspan="4">Contagem da EBD</td>
+      <td></td>
+    </tr>
+  </table>
+
+  <br />
+  <br />
+
+  <table id="table">
+    <thead>
+      <tr>
+        <th colspan="4">
+          <img id="logo" alt="" />
+        </th>
+      </tr>
+      <tr>
+        <th>IGREJA</th>
+        <td colspan="3" id="td_0_1" onclick="churchNameInput(this)"></td>
+      </tr>
+      <tr>
+        <th>DATA DO CULTO:</th>
+        <td colspan="3">
+          <input type="date" id="input_1_1" onchange="handleChange(this)" />
+        </td>
+      </tr>
+      <tr>
+        <th></th>
+        <th>IGREJA</th>
+        <th>VISITANTE</th>
+        <th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>CRIANÇAS</td>
+        <td id="td_3_1" onclick="numberInput(this, 'Crianças')"></td>
+        <td id="td_3_2" onclick="numberInput(this, 'Crianças visitantes')"></td>
+        <td id="td_3_3" class="sum"></td>
+      </tr>
+      <tr>
+        <td>INTERMEDIÁRIOS</td>
+        <td id="td_4_1" onclick="numberInput(this, 'Intermediários')"></td>
+        <td id="td_4_2" onclick="numberInput(this, 'Intermediários visitantes')"></td>
+        <td id="td_4_3" class="sum"></td>
+      </tr>
+      <tr>
+        <td>ADOLESCENTES</td>
+        <td id="td_5_1" onclick="numberInput(this, 'Adolescentes')"></td>
+        <td id="td_5_2" onclick="numberInput(this, 'Adolescentes visitantes')"></td>
+        <td id="td_5_3" class="sum"></td>
+      </tr>
+      <tr>
+        <td>JOVENS</td>
+        <td id="td_6_1" onclick="numberInput(this, 'Jovens')"></td>
+        <td id="td_6_2" onclick="numberInput(this, 'Jovens visitantes')"></td>
+        <td id="td_6_3" class="sum"></td>
+      </tr>
+      <tr>
+        <td>SENHORAS</td>
+        <td id="td_7_1" onclick="numberInput(this, 'Senhoras')"></td>
+        <td id="td_7_2" onclick="numberInput(this, 'Senhoras visitantes')"></td>
+        <td id="td_7_3" class="sum"></td>
+      </tr>
+      <tr>
+        <td>VARÕES</td>
+        <td id="td_8_1" onclick="numberInput(this, 'Varões')"></td>
+        <td id="td_8_2" onclick="numberInput(this, 'Varões visitantes')"></td>
+        <td id="td_8_3" class="sum"></td>
+      </tr>
+      <tr>
+        <td><b>TOTAL:</b></td>
+        <td id="td_9_1" class="sum"></td>
+        <td id="td_9_2" class="sum"></td>
+        <td id="td_9_3" class="sum"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br />
+  <button id="button_0" onclick="clean()">Limpar tabela</button>
+  <button id="button_1" onclick="share()">Compartilhar</button>
+
+  <br />
+  <br />
+  <table id="foot">
+    <tr>
+      <td>
+        <a href="https://clustrmaps.com/site/1c24h" title="Visit tracker"><img
+          src="//www.clustrmaps.com/map_v2.png?d=ekaoLQiRFnnIvR7t1aQC_DKD8d9bdrKIZ5IlS9jPyXM&cl=ffffff"></a>
+      </td>
+      <td>
+        <button id="button_3" onclick="window.location.href = `https://ferreirad08.github.io/icm/contagemdaebd/dashboard`">
+          <!--<i class="bi bi-graph-up"></i>
+          <br />
+          Dashboard-->
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    let tabelaValores = {
+      td_0_1: "Nome",
+      input_1_1: getFormattedDate(),
+      td_3_1: "0",
+      td_3_2: "0",
+      td_4_1: "0",
+      td_4_2: "0",
+      td_5_1: "0",
+      td_5_2: "0",
+      td_6_1: "0",
+      td_6_2: "0",
+      td_7_1: "0",
+      td_7_2: "0",
+      td_8_1: "0",
+      td_8_2: "0",
+    };
+
+    const countStorageKey = "contagemdaebd";
+    const name = document.getElementById("td_0_1");
+
+    const diasDaSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+
+    setImage({
+      src: "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/contagemdaebd/assets/icm-logo.png",
+    });
+
+    async function setImage(img) {
+      const blob = await (await fetch(img.src)).blob();
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        document.getElementById(
+          "logo"
+        ).src = reader.result;
+      };
+      reader.readAsDataURL(blob);
+    }
+
+    window.onload = function () {
+      const valoresSalvos = localStorage.getItem(countStorageKey);
+
+      if (valoresSalvos) {
+        tabelaValores = JSON.parse(valoresSalvos);
+      }
+
+      for (const id in tabelaValores) {
+        const element = document.getElementById(id);
+
+        if (element) {
+          if (id.includes("input")) {
+            element.value = tabelaValores[id]; // Carrega o valor padrão
+          } else {
+            element.innerHTML = tabelaValores[id]; // Carrega o valor padrão
+          }
+        }
+      }
+
+      soma();
+    };
+
+    function churchNameInput(cell) {
+      Swal.fire({
+        title: "Nome da igreja",
+        text: "Insira o nome da igreja!",
+        input: 'text',
+        inputValue: cell.innerHTML,
+        /*confirmButtonColor: '#151b54',*/
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        customClass: {
+          confirmButton: 'meu-confirmar',
+          cancelButton: 'meu-cancelar',
+          input: 'meu-input-estilizado'
+        },
+        inputValidator: (value) => {
+          if (value.includes(',')) {
+            return 'O nome não pode conter vírgulas!';
+          }
+        }
+      }).then((result) => {
+        if (result.value && result.value.trim() !== "") {
+          cell.innerHTML = result.value.trim();
+          tabelaValores[cell.id] = result.value.trim();
+          localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
+        }
+      });
+    }
+
+    function numberInput(cell, title) {
+      Swal.fire({
+        title,
+        text: "Insira a quantidade!",
+        input: 'number',
+        inputValue: cell.innerHTML,
+        /*confirmButtonColor: '#151b54',*/
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        customClass: {
+          confirmButton: 'meu-confirmar',
+          cancelButton: 'meu-cancelar',
+          input: 'meu-input-estilizado'
+        },
+        inputValidator: (value) => {
+          if (value.length > 3) {
+            return 'Digite no máximo 3 dígitos!';
+          }
+        },
+      }).then((result) => {
+        if (result.value && result.value.trim() !== "") {
+          cell.innerHTML = Number(result.value.trim());
+          tabelaValores[cell.id] = Number(result.value.trim());
+          localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
+          soma();
+        }
+      });
+    }
+
+    function handleClick(cell) {
+      const valorAtual = cell.innerHTML.trim();
+      const valor = prompt("Insira ou edite o valor:", valorAtual);
+
+      if (valor !== null && valor.trim() !== "") {
+        cell.innerHTML = valor;
+        tabelaValores[cell.id] = valor; // Atualiza o valor no JSON
+        localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
+      }
+
+      soma();
+    }
+
+    function handleChange(element) {
+      tabelaValores[element.id] = element.value; // Atualiza o valor no JSON
+      localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
+    }
+
+    function getValue(id) {
+      return Number(document.getElementById(id).innerHTML);
+    }
+
+    function getValueInByte(id) {
+      return document.getElementById(id).innerHTML + ",";
+    }
+
+    function soma() {
+      document.getElementById(`td_9_1`).innerHTML =
+        getValue(`td_3_1`) +
+        getValue(`td_4_1`) +
+        getValue(`td_5_1`) +
+        getValue(`td_6_1`) +
+        getValue(`td_7_1`) +
+        getValue(`td_8_1`);
+
+      document.getElementById(`td_9_2`).innerHTML =
+        getValue(`td_3_2`) +
+        getValue(`td_4_2`) +
+        getValue(`td_5_2`) +
+        getValue(`td_6_2`) +
+        getValue(`td_7_2`) +
+        getValue(`td_8_2`);
+
+      for (let i = 3; i < 10; i++) {
+        document.getElementById(`td_${i}_3`).innerHTML =
+          getValue(`td_${i}_1`) +
+          getValue(`td_${i}_2`);
+      }
+    }
+
+    function clean() {
+      Swal.fire({
+        title: `Confirmar limpeza?`,
+        text: 'Todos os dados serão apagados!',
+        icon: 'question',
+        showCancelButton: true,
+        /*confirmButtonColor: '#151b54',
+        cancelButtonColor: '#d33',*/
+        confirmButtonText: 'Sim, limpar!',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+          confirmButton: 'meu-confirmar',
+          cancelButton: 'meu-cancelar'
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem(countStorageKey);
+          window.location.reload();
+        }
+      });
+    }
+
+    function downloadJpg() {
+      html2canvas(document.getElementById("table")).then(function (canvas) {
+        const a = document.createElement("a");
+        a.download = "contagemdaebd.jpg";
+        a.href = canvas.toDataURL("image/jpeg");
+        a.click();
+      });
+    }
+
+    function csv() {
+      return getValueInByte(`td_0_1`) +
+        document.getElementById(`input_1_1`).value + "," +
+        getValueInByte(`td_3_1`) +
+        getValueInByte(`td_4_1`) +
+        getValueInByte(`td_5_1`) +
+        getValueInByte(`td_6_1`) +
+        getValueInByte(`td_7_1`) +
+        getValueInByte(`td_8_1`) +
+        getValueInByte(`td_3_2`) +
+        getValueInByte(`td_4_2`) +
+        getValueInByte(`td_5_2`) +
+        getValueInByte(`td_6_2`) +
+        getValueInByte(`td_7_2`) +
+        getValueInByte(`td_8_2`);
+    }
+
+    function share() {
+      const total = Number(document.getElementById("td_9_3").innerHTML);
+
+      if (total < 1) {
+        return Swal.fire({
+          title: "Oops...",
+          text: "Insira a contagem!",
+          icon: "error",
+          customClass: {
+            confirmButton: 'meu-confirmar'
+          },
+        });
+      }
+
+      if (
+        name.innerHTML.trim() === "Nome" ||
+        name.innerHTML.trim() === ""
+      ) {
+        // name.setCustomValidity("Nome é obrigatório.");
+        // return name.reportValidity();
+        return Swal.fire({
+          title: "Oops...",
+          text: "Insira o nome da Igreja!",
+          icon: "error",
+          customClass: {
+            confirmButton: 'meu-confirmar'
+          },
+        });
+      }
+
+      html2canvas(document.getElementById("table")).then(function (canvas) {
+        const ctx = canvas.getContext("2d");
+        ctx.textAlign = "center";
+        ctx.fillText("DAVID, PHD", canvas.width / 2, canvas.height / 10);
+
+        fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
+          res.blob().then(function (blob) {
+            const files = [new File([blob], "contagemdaebd.jpg", blob)];
+            // const text = `${diasDaSemana[4]} - 10/10/2024`;
+            const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
+            accessCount();
+            navigator.share({ files, url });
+          });
+        });
+      });
+    }
+
+    function getFormattedDate() {
+      const today = new Date();
+      return (
+        today.getFullYear() +
+        "-" +
+        String(today.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(today.getDate()).padStart(2, "0")
+      );
+    }
+
+    async function accessCount() {
+      const url = "https://jsonblob.com/api/jsonBlob/1308416807962599424";
+      const storageKey = "ferreirad08-access";
+      let data = window.localStorage.getItem(storageKey);
+
+      data = data === null ? {
+        id: ObjectId(),
+        days: [],
+        count: {},
+        geojson: null
+      } : JSON.parse(data);
+
+      if (!("count" in data)) {
+        data["count"] = {};
+      }
+
+      if ('days' in data) {
+        for (item of data.days) {
+          if (!(item in data.count)) {
+            data.count[item] = null;
+          }
+        }
+        data.days = [];
+      }
+
+      const day = new Date();
+
+      data["count"][day.toISOString()] = csv();
+      data["geojson"] = await (await fetch(
+        "https://get.geojs.io/v1/ip/geo.json"
+      )).json();
+
+      window.localStorage.setItem(storageKey, JSON.stringify(data));
+
+      await fetch(url, {
+        method: "PUT",
+        headers: {
+          'mode': 'no-cors',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data),
+      });
+
+      // window.localStorage.removeItem(storageKey);
+      // alert(JSON.stringify(data, null, 4))
+    }
+
+    function toBase64(str) {
+      const bytes = new TextEncoder().encode(str);
+      return btoa(String.fromCharCode(...bytes));
+    }
+
+    function fromBase64(base64) {
+      const binary = atob(base64);
+      const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+      return new TextDecoder().decode(bytes);
+    }
+
+    function ObjectId() {
+      // https://www.mongodb.com/docs/manual/reference/method/ObjectId/
+      let _id = ((new Date().getTime() / 1000) | 0).toString(16);
+
+      while (_id.length < 24) {
+        _id += ((Math.random() * 15) | 0).toString(16);
+      }
+      return _id;
+    }
+  </script>
+
+  <!-- <script id="aclib" type="text/javascript" src="https://acscdn.com/script/aclib.js"></script>
+    <script type="text/javascript">
+      aclib.runAutoTag({
+        zoneId: 'lw0tojibif',
+      });
+    </script> -->
+
+</html>
