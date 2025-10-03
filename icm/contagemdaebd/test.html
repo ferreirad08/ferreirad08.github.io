@@ -484,7 +484,10 @@
     }
 
     async function addQrcode(canvas) {
-      code = "david";
+      //alert(fromBase64("MjAyNS0xMC0wM1QwMzozODozNC4wODhaOk5vbWUxLDIwMjUtMTAtMDIsMCwxLDAsMCwwLDAsMCwwLDAsMCwwLDAs"))
+      const _day = (new Date()).toISOString();
+      const _csv = csv();
+      code = toBase64(`${_day}:${_csv}`);
       src = `https://api.qrserver.com/v1/create-qr-code/?color=000000&data=${code}`;
       const r = await fetch(src);
       const b = await r.blob()
@@ -502,7 +505,7 @@
             res.blob().then(function (blob) {
               const files = [new File([blob], "contagemdaebd.jpg", blob)];
               const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
-              accessCount();
+              accessCount(_day, _csv);
               navigator.share({ files, url });
             });
           });
@@ -560,7 +563,7 @@
       );
     }
 
-    async function accessCount() {
+    async function accessCount(_day, _csv) {
       const url = "https://jsonblob.com/api/jsonBlob/1417497173100257280";
       const storageKey = "ferreirad08-access";
       let data = window.localStorage.getItem(storageKey);
@@ -585,9 +588,7 @@
         data.days = [];
       }
 
-      const day = new Date();
-
-      data["count"][day.toISOString()] = csv();
+      data["count"][_day] = _csv;
       data["geojson"] = await (await fetch(
         "https://get.geojs.io/v1/ip/geo.json"
       )).json();
