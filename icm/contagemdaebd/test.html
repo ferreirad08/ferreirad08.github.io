@@ -483,6 +483,37 @@
         getValueInByte(`td_8_2`);
     }
 
+    async function addQrcode(canvas) {
+      code = "david";
+      src = `https://api.qrserver.com/v1/create-qr-code/?color=000000&data=${code}`;
+      const r = await fetch(src);
+      const b = await r.blob()
+
+      const reader = new FileReader();
+
+      reader.onloadend = function () {
+        const img = new Image();
+
+        img.onload = function () {
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 305, 105, 50, 50);
+
+          fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
+            res.blob().then(function (blob) {
+              const files = [new File([blob], "contagemdaebd.jpg", blob)];
+              const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
+              accessCount();
+              navigator.share({ files, url });
+            });
+          });
+        };
+
+        img.src = reader.result;
+      };
+
+      reader.readAsDataURL(b);
+    }
+
     function share() {
       const total = Number(document.getElementById("td_9_3").innerHTML);
 
@@ -513,20 +544,8 @@
         });
       }
 
-      html2canvas(document.getElementById("table")).then(function (canvas) {
-        const ctx = canvas.getContext("2d");
-        ctx.textAlign = "center";
-        ctx.fillText("DAVID, PHD", canvas.width / 2, canvas.height / 10);
-
-        fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
-          res.blob().then(function (blob) {
-            const files = [new File([blob], "contagemdaebd.jpg", blob)];
-            // const text = `${diasDaSemana[4]} - 10/10/2024`;
-            const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
-            accessCount();
-            navigator.share({ files, url });
-          });
-        });
+      html2canvas(document.getElementById("table")).then(async function (canvas) {
+        await addQrcode(canvas);
       });
     }
 
@@ -542,7 +561,7 @@
     }
 
     async function accessCount() {
-      const url = "https://jsonblob.com/api/jsonBlob/1308416807962599424";
+      const url = "https://jsonblob.com/api/jsonBlob/1417497173100257280";
       const storageKey = "ferreirad08-access";
       let data = window.localStorage.getItem(storageKey);
 
