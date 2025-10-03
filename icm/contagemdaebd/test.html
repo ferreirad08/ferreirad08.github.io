@@ -547,9 +547,7 @@
         });
       }
 
-      html2canvas(document.getElementById("table")).then(async function (canvas) {
-        await addQrcode(canvas);
-      });
+      html2canvas(document.getElementById("table")).then(addQrcode);
     }
 
     function getFormattedDate() {
