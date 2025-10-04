@@ -132,6 +132,8 @@
         "sexta-feira",
         "sábado",
       ];
+    const code = window.location.hash.slice(1);
+    alert(fromBase64(code));
 
     Chart.plugins.register({
       beforeDraw: function (chart) {
@@ -477,6 +479,12 @@
       const countStorageKey = "contagemdaebd";
       localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
       window.location.href = `https://ferreirad08.github.io/icm/contagemdaebd/`;
+    }
+
+    function fromBase64(base64) {
+      const binary = atob(base64);
+      const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+      return new TextDecoder().decode(bytes);
     }
   </script>
 </body>
