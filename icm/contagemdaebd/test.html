@@ -346,6 +346,9 @@
           if (value.includes(',')) {
             return 'O nome não pode conter vírgulas!';
           }
+          if (value.includes('#')) {
+            return 'O nome não pode conter hashtag!';
+          }
         }
       }).then((result) => {
         if (result.value && result.value.trim() !== "") {
@@ -487,7 +490,7 @@
       //alert(fromBase64("MjAyNS0xMC0wM1QwMzozODozNC4wODhaOk5vbWUxLDIwMjUtMTAtMDIsMCwxLDAsMCwwLDAsMCwwLDAsMCwwLDAs"))
       const _day = (new Date()).toISOString();
       const _csv = csv();
-      code = "https://ferreirad08.github.io/icm/contagemdaebd/dashboard#" + toBase64(`${_day}:${_csv}`);
+      code = "https://ferreirad08.github.io/icm/contagemdaebd/dashboard#" + toBase64(`${_day},${_csv}`);
       src = `https://api.qrserver.com/v1/create-qr-code/?color=000000&data=${code}`;
       const b = await (await fetch(src)).blob()
 
