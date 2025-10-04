@@ -351,7 +351,7 @@
           title: "Nome da igreja",
           text: "Insira o nome da igreja!",
           input: "text",
-          inputValue: cell.innerHTML,
+          inputValue: cell.innerHTML === "Nome" ? "" : cell.innerHTML,
           showCancelButton: true,
           cancelButtonText: "Cancelar",
           customClass: {
