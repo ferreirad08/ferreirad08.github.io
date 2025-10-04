@@ -506,6 +506,7 @@
               const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
               accessCount(_day, _csv);
               navigator.share({ files, url });
+              Swal.close();
             });
           });
         };
@@ -545,6 +546,14 @@
           },
         });
       }
+
+      Swal.fire({
+        title: 'Criando imagem...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
 
       html2canvas(document.getElementById("table")).then(addQrcode);
     }
