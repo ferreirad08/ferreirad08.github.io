@@ -489,8 +489,7 @@
       const _csv = csv();
       code = toBase64(`${_day}:${_csv}`);
       src = `https://api.qrserver.com/v1/create-qr-code/?color=000000&data=${code}`;
-      const r = await fetch(src);
-      const b = await r.blob()
+      const b = await (await fetch(src)).blob()
 
       const reader = new FileReader();
 
