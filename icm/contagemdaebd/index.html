@@ -366,6 +366,12 @@
             if (value.trim() === "") {
               return "O nome não pode ser vazio!";
             }
+            if (value.includes('#')) {
+              return "O nome não pode conter hashtags!";
+            }
+            if (value.includes('/')) {
+              return "O nome não pode conter barras!";
+            }
           },
         }).then((result) => {
           if (result.value) {
@@ -518,6 +524,7 @@
             const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
             accessCount(_day, _csv);
             navigator.share({ files, url });
+            Swal.close();
           });
         });
       }
@@ -546,6 +553,14 @@
             },
           });
         }
+
+        Swal.fire({
+          title: "Criando imagem...",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
 
         html2canvas(document.getElementById("table")).then(canvas2file);
       }
