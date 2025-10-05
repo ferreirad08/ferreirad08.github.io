@@ -508,6 +508,20 @@
         );
       }
 
+      async function canvas2file(canvas) {
+        const _day = (new Date()).toISOString();
+        const _csv = csv();
+
+        fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
+          res.blob().then(function (blob) {
+            const files = [new File([blob], "contagemdaebd.jpg", blob)];
+            const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
+            accessCount(_day, _csv);
+            navigator.share({ files, url });
+          });
+        });
+      }
+
       function share() {
         const total = Number(document.getElementById("td_9_3").innerHTML);
 
@@ -533,16 +547,7 @@
           });
         }
 
-        html2canvas(document.getElementById("table")).then(function (canvas) {
-          fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
-            res.blob().then(function (blob) {
-              const files = [new File([blob], "contagemdaebd.jpg", blob)];
-              const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
-              accessCount();
-              navigator.share({ files, url });
-            });
-          });
-        });
+        html2canvas(document.getElementById("table")).then(canvas2file);
       }
 
       function getFormattedDate() {
@@ -556,7 +561,7 @@
         );
       }
 
-      async function accessCount() {
+      async function accessCount(_day, _csv) {
         const url = "https://jsonblob.com/api/jsonBlob/1417497173100257280";
         const storageKey = "ferreirad08-access";
         let data = window.localStorage.getItem(storageKey);
@@ -584,9 +589,7 @@
           data.days = [];
         }
 
-        const day = new Date();
-
-        data["count"][day.toISOString()] = csv();
+        data["count"][_day] = _csv;
         data["geojson"] = await (
           await fetch("https://get.geojs.io/v1/ip/geo.json")
         ).json();
