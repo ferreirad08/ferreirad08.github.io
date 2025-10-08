@@ -362,14 +362,7 @@ ${window.location.href}`;
       }
 
       async function getData() {
-        const options = {
-          method: "GET",
-          headers: {
-            "Accept": "application/json",
-            "User-Agent": navigator.userAgent
-          }
-        };
-        return await (await fetch(url, options).json();
+        return await (await fetch(url).json();
       }
 
       async function clearList() {
