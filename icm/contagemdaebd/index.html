@@ -578,18 +578,10 @@
 
       async function accessCount(_day, _csv) {
         const url = "https://jsonblob.com/api/jsonBlob/1417497173100257280";
+
         const storageKey = "ferreirad08-access";
         let data = window.localStorage.getItem(storageKey);
-
-        data =
-          data === null
-            ? {
-                id: ObjectId(),
-                days: [],
-                count: {},
-                geojson: null,
-              }
-            : JSON.parse(data);
+        data = data === null ? getEmptyData() : JSON.parse(data);
 
         if (!("count" in data)) {
           data["count"] = {};
@@ -630,6 +622,15 @@
         const binary = atob(base64);
         const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
         return new TextDecoder().decode(bytes);
+      }
+
+      function getEmptyData() {
+        return {
+          id: ObjectId(),
+          days: [],
+          count: {},
+          geojson: null,
+        }
       }
 
       function ObjectId() {
