@@ -611,12 +611,11 @@
 
         window.localStorage.setItem(storageKey, JSON.stringify(data));
 
-        await fetch(url, {
-          method: "PUT",
+        await fetch("https://api.jsonbin.io/v3/b", {
+          method: "POST",
           headers: {
-            mode: "no-cors",
             "Content-Type": "application/json",
-            Accept: "application/json",
+            "X-Access-Key": "$2a$10$lrR0ptsogl.rGgdJ1cQo6OZGlBm/hKHHs0l3AgioBRwO43Y8t7VUW"
           },
           body: JSON.stringify(data),
         });
