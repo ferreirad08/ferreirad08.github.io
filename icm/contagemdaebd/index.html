@@ -521,9 +521,8 @@
         fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
           res.blob().then(function (blob) {
             const files = [new File([blob], "contagemdaebd.jpg", blob)];
-            const url = "https://ferreirad08.github.io/icm/contagemdaebd/";
             accessCount(_day, _csv);
-            navigator.share({ files, url });
+            navigator.share({ files, url: window.location.href });
             Swal.close();
           });
         });
