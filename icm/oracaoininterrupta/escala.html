@@ -310,7 +310,7 @@
       const code = window.location.hash.slice(1);
       const url = `https://api.jsonbin.io/v3/b/${code}`;
 
-      const headers={
+      const headers = {
         "Content-Type": "application/json",
         "X-Access-Key": "$2a$10$lrR0ptsogl.rGgdJ1cQo6OZGlBm/hKHHs0l3AgioBRwO43Y8t7VUW"
       };
@@ -362,7 +362,9 @@ ${window.location.href}`;
       }
 
       async function getData() {
-        return await (await fetch(url, {method: "GET", headers}).json();
+        return (await (
+          await fetch(url, {method: "GET", headers})
+        ).json()).record;
       }
 
       async function clearList() {
