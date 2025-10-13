@@ -308,8 +308,8 @@
           "$2a$10$lrR0ptsogl.rGgdJ1cQo6OZGlBm/hKHHs0l3AgioBRwO43Y8t7VUW",
       };
 
-      const countStorageKey = "contagemdaebd";
-      const name = document.getElementById("td_0_1");
+      const currentCountKey = "contagemdaebd";
+      const storageCountKey = "ferreirad08-access";
 
       setImage({ src: icmLogoUrl });
 
@@ -323,7 +323,7 @@
       }
 
       window.onload = function () {
-        const valoresSalvos = localStorage.getItem(countStorageKey);
+        const valoresSalvos = localStorage.getItem(currentCountKey);
 
         if (valoresSalvos) {
           tabelaValores = JSON.parse(valoresSalvos);
@@ -376,7 +376,7 @@
             cell.innerHTML = result.value.trim();
             tabelaValores[cell.id] = result.value.trim();
             localStorage.setItem(
-              countStorageKey,
+              currentCountKey,
               JSON.stringify(tabelaValores)
             );
           }
@@ -406,7 +406,7 @@
             cell.innerHTML = Number(result.value.trim());
             tabelaValores[cell.id] = Number(result.value.trim());
             localStorage.setItem(
-              countStorageKey,
+              currentCountKey,
               JSON.stringify(tabelaValores)
             );
             soma();
@@ -421,7 +421,7 @@
         if (valor !== null && valor.trim() !== "") {
           cell.innerHTML = valor;
           tabelaValores[cell.id] = valor;
-          localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
+          localStorage.setItem(currentCountKey, JSON.stringify(tabelaValores));
         }
 
         soma();
@@ -429,7 +429,7 @@
 
       function handleChange(element) {
         tabelaValores[element.id] = element.value;
-        localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
+        localStorage.setItem(currentCountKey, JSON.stringify(tabelaValores));
       }
 
       function getValue(id) {
@@ -477,7 +477,7 @@
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            localStorage.removeItem(countStorageKey);
+            localStorage.removeItem(currentCountKey);
             window.location.reload();
           }
         });
@@ -540,7 +540,9 @@
           });
         }
 
-        if (name.innerHTML.trim() === "Nome" || name.innerHTML.trim() === "") {
+        const name = document.getElementById("td_0_1").innerHTML.trim();
+
+        if (name === "Nome" || name === "") {
           return Swal.fire({
             title: "Oops...",
             text: "Insira o nome da Igreja!",
@@ -574,8 +576,7 @@
       }
 
       async function accessCount(_day, _csv) {
-        const storageKey = "ferreirad08-access";
-        let data = window.localStorage.getItem(storageKey);
+        let data = window.localStorage.getItem(storageCountKey);
         data = data === null ? getEmptyData() : JSON.parse(data);
 
         if (!("count" in data)) {
@@ -594,7 +595,7 @@
         data["count"][_day] = _csv;
         data["geojson"] = await (await fetch(geoJsonUrl)).json();
 
-        window.localStorage.setItem(storageKey, JSON.stringify(data));
+        window.localStorage.setItem(storageCountKey, JSON.stringify(data));
 
         if (data.binId) {
           await fetch(jsonBinUrl + "/" + data.binId, {
@@ -615,7 +616,7 @@
           ).json()
         ).metadata.id;
 
-        window.localStorage.setItem(storageKey, JSON.stringify(data));
+        window.localStorage.setItem(storageCountKey, JSON.stringify(data));
       }
 
       function toBase64(str) {
