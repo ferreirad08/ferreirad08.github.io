@@ -140,6 +140,12 @@
         color: #151b54;
         border: 2px solid #151b54;
       }
+
+      .meu-confirmar {
+        border-radius: 20px !important;
+        background-color: #151b54;
+        color: white;
+      }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -207,6 +213,7 @@
     </table>
     <br />
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
       const emptyList = {
         "00:00 às 00:15": null,
@@ -383,14 +390,30 @@ ${window.location.href}`;
 
         if (!name) return;
 
-        await openLoading("Aguarde...");
+        Swal.fire({
+          title: "Aguarde...",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+        // await openLoading("Aguarde...");
         const data0 = await getData();
 
         if (data0.currentList[interval]) {
-          await closeLoading();
-          window.alert(
-            `Desculpe, o horário das ${interval} não está mais disponível!`
-          );
+          Swal.close();
+          Swal.fire({
+            title: "Aviso!",
+            text: `Desculpe, o horário das ${interval} não está mais disponível!`,
+            icon: "warning",
+            customClass: {
+              confirmButton: "meu-confirmar",
+            },
+          });
+          // await closeLoading();
+          // window.alert(
+          //   `Desculpe, o horário das ${interval} não está mais disponível!`
+          // );
           return populateTable(data0.currentList);
         }
 
@@ -401,14 +424,28 @@ ${window.location.href}`;
         await sleep(2000);
 
         const data1 = await getData();
-        await closeLoading();
+        Swal.close();
+        // await closeLoading();
 
         if (data1.currentList[interval] !== data0.currentList[interval]) {
-          window.alert(
-            `Desculpe, o horário das ${interval} não está mais disponível!`
-          );
+          Swal.fire({
+            title: "Aviso",
+            text: `Desculpe, o horário das ${interval} não está mais disponível!`,
+            icon: "warning",
+            customClass: {
+              confirmButton: "meu-confirmar",
+            },
+          });
         } else {
-          window.alert("Participação registrada com sucesso!");
+          Swal.fire({
+            title: "Sucesso!",
+            text: "Participação registrada com sucesso!",
+            icon: "success",
+            customClass: {
+              confirmButton: "meu-confirmar",
+            },
+          });
+          // window.alert("Participação registrada com sucesso!");
         }
 
         populateTable(data1.currentList);
