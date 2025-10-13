@@ -603,12 +603,24 @@
 
         window.localStorage.setItem(storageKey, JSON.stringify(data));
 
-        data["binId"] = (await (await fetch("https://api.jsonbin.io/v3/b", {
+        const jsonBinUrl = "https://api.jsonbin.io/v3/b";
+        const headers = {
+          "Content-Type": "application/json",
+          "X-Access-Key": "$2a$10$lrR0ptsogl.rGgdJ1cQo6OZGlBm/hKHHs0l3AgioBRwO43Y8t7VUW"
+        };
+
+        if (data.binId) {
+          await fetch(jsonBinUrl + "/" + data.binId, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(data),
+          });
+          return;
+        }
+
+        data["binId"] = (await (await fetch(jsonBinUrl, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Access-Key": "$2a$10$lrR0ptsogl.rGgdJ1cQo6OZGlBm/hKHHs0l3AgioBRwO43Y8t7VUW"
-          },
+          headers,
           body: JSON.stringify(data),
         })).json()).metadata.id;
 
