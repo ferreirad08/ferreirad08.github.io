@@ -596,22 +596,22 @@
         }
 
         data["count"][_day] = _csv;
+
         data["geojson"] = await (
           await fetch("https://get.geojs.io/v1/ip/geo.json")
         ).json();
 
         window.localStorage.setItem(storageKey, JSON.stringify(data));
 
-        const res = await fetch("https://api.jsonbin.io/v3/b", {
+        data["binId"] = (await (await fetch("https://api.jsonbin.io/v3/b", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "X-Access-Key": "$2a$10$lrR0ptsogl.rGgdJ1cQo6OZGlBm/hKHHs0l3AgioBRwO43Y8t7VUW"
           },
           body: JSON.stringify(data),
-        });
+        })).json()).metadata.id;
 
-        data["binId"] = (await res.json()).metadata.id;
         window.localStorage.setItem(storageKey, JSON.stringify(data));
       }
 
