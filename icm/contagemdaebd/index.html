@@ -298,9 +298,9 @@
         td_8_2: "0",
       };
 
-      const logoUrl =
+      const icmLogoUrl =
         "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/contagemdaebd/assets/icm-logo.png";
-      const geojsonUrl = "https://get.geojs.io/v1/ip/geo.json";
+      const geoJsonUrl = "https://get.geojs.io/v1/ip/geo.json";
       const jsonBinUrl = "https://api.jsonbin.io/v3/b";
       const headers = {
         "Content-Type": "application/json",
@@ -311,7 +311,7 @@
       const countStorageKey = "contagemdaebd";
       const name = document.getElementById("td_0_1");
 
-      setImage({ src: logoUrl });
+      setImage({ src: icmLogoUrl });
 
       async function setImage(img) {
         const blob = await (await fetch(img.src)).blob();
