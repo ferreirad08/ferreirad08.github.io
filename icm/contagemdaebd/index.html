@@ -602,7 +602,7 @@
 
         window.localStorage.setItem(storageKey, JSON.stringify(data));
 
-        await fetch("https://api.jsonbin.io/v3/b", {
+        const res = await fetch("https://api.jsonbin.io/v3/b", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -610,6 +610,9 @@
           },
           body: JSON.stringify(data),
         });
+
+        data["binId"] = (await res.json()).metadata.id;
+        window.localStorage.setItem(storageKey, JSON.stringify(data));
       }
 
       function toBase64(str) {
