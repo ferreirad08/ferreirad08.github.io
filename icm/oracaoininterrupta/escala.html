@@ -307,9 +307,13 @@
         "23:45 às 00:00": null,
       };
 
-      const code = window.location.hash.slice(1); // "1417497173100257280"
-      const url = `https://jsonblob.com/api/jsonBlob/${code}`;
+      const code = window.location.hash.slice(1);
+      const url = `https://api.jsonbin.io/v3/b/${code}`;
 
+      const headers={
+        "Content-Type": "application/json",
+        "X-Access-Key": "$2a$10$lrR0ptsogl.rGgdJ1cQo6OZGlBm/hKHHs0l3AgioBRwO43Y8t7VUW"
+      };
       const storageKey = "oracaoininterruptav1";
       //window.localStorage.removeItem(storageKey);
       let locations = window.localStorage.getItem(storageKey);
@@ -339,7 +343,7 @@ ${window.location.href}`;
 
       async function dell() {
         if (window.confirm("Excluir escala? Todos os dados serão perdidos!")) {
-          const res = await fetch(url, {method: "DELETE"});
+          const res = await fetch(url, {method: "DELETE", headers});
           if (res.status === 200) {
             locations.values = locations.values.filter(item => item !== window.location.href);
             window.localStorage.setItem(storageKey, JSON.stringify(locations));
@@ -352,17 +356,13 @@ ${window.location.href}`;
       async function setData(data) {
         await fetch(url, {
           method: "PUT",
-          headers: {
-            mode: "no-cors",
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
+          headers,
           body: JSON.stringify(data),
         });
       }
 
       async function getData() {
-        return await (await fetch(url).json();
+        return await (await fetch(url, {method: "GET", headers}).json();
       }
 
       async function clearList() {
