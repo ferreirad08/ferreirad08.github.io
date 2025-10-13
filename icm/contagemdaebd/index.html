@@ -298,22 +298,20 @@
         td_8_2: "0",
       };
 
+      const logoUrl =
+        "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/contagemdaebd/assets/icm-logo.png";
+      const geojsonUrl = "https://get.geojs.io/v1/ip/geo.json";
+      const jsonBinUrl = "https://api.jsonbin.io/v3/b";
+      const headers = {
+        "Content-Type": "application/json",
+        "X-Access-Key":
+          "$2a$10$lrR0ptsogl.rGgdJ1cQo6OZGlBm/hKHHs0l3AgioBRwO43Y8t7VUW",
+      };
+
       const countStorageKey = "contagemdaebd";
       const name = document.getElementById("td_0_1");
 
-      const diasDaSemana = [
-        "Domingo",
-        "Segunda-feira",
-        "Terça-feira",
-        "Quarta-feira",
-        "Quinta-feira",
-        "Sexta-feira",
-        "Sábado",
-      ];
-
-      setImage({
-        src: "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/contagemdaebd/assets/icm-logo.png",
-      });
+      setImage({ src: logoUrl });
 
       async function setImage(img) {
         const blob = await (await fetch(img.src)).blob();
@@ -336,9 +334,9 @@
 
           if (element) {
             if (id.includes("input")) {
-              element.value = tabelaValores[id]; // Carrega o valor padrão
+              element.value = tabelaValores[id];
             } else {
-              element.innerHTML = tabelaValores[id]; // Carrega o valor padrão
+              element.innerHTML = tabelaValores[id];
             }
           }
         }
@@ -366,10 +364,10 @@
             if (value.trim() === "") {
               return "O nome não pode ser vazio!";
             }
-            if (value.includes('#')) {
+            if (value.includes("#")) {
               return "O nome não pode conter hashtags!";
             }
-            if (value.includes('/')) {
+            if (value.includes("/")) {
               return "O nome não pode conter barras!";
             }
           },
@@ -422,16 +420,16 @@
 
         if (valor !== null && valor.trim() !== "") {
           cell.innerHTML = valor;
-          tabelaValores[cell.id] = valor; // Atualiza o valor no JSON
-          localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
+          tabelaValores[cell.id] = valor;
+          localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
         }
 
         soma();
       }
 
       function handleChange(element) {
-        tabelaValores[element.id] = element.value; // Atualiza o valor no JSON
-        localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores)); // Salva os valores no LocalStorage
+        tabelaValores[element.id] = element.value;
+        localStorage.setItem(countStorageKey, JSON.stringify(tabelaValores));
       }
 
       function getValue(id) {
@@ -515,7 +513,7 @@
       }
 
       async function canvas2file(canvas) {
-        const _day = (new Date()).toISOString();
+        const _day = new Date().toISOString();
         const _csv = csv();
 
         fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
@@ -558,7 +556,7 @@
           allowOutsideClick: false,
           didOpen: () => {
             Swal.showLoading();
-          }
+          },
         });
 
         html2canvas(document.getElementById("table")).then(canvas2file);
@@ -576,8 +574,6 @@
       }
 
       async function accessCount(_day, _csv) {
-        const url = "https://jsonblob.com/api/jsonBlob/1417497173100257280";
-
         const storageKey = "ferreirad08-access";
         let data = window.localStorage.getItem(storageKey);
         data = data === null ? getEmptyData() : JSON.parse(data);
@@ -596,18 +592,9 @@
         }
 
         data["count"][_day] = _csv;
-
-        data["geojson"] = await (
-          await fetch("https://get.geojs.io/v1/ip/geo.json")
-        ).json();
+        data["geojson"] = await (await fetch(geoJsonUrl)).json();
 
         window.localStorage.setItem(storageKey, JSON.stringify(data));
-
-        const jsonBinUrl = "https://api.jsonbin.io/v3/b";
-        const headers = {
-          "Content-Type": "application/json",
-          "X-Access-Key": "$2a$10$lrR0ptsogl.rGgdJ1cQo6OZGlBm/hKHHs0l3AgioBRwO43Y8t7VUW"
-        };
 
         if (data.binId) {
           await fetch(jsonBinUrl + "/" + data.binId, {
@@ -618,11 +605,15 @@
           return;
         }
 
-        data["binId"] = (await (await fetch(jsonBinUrl, {
-          method: "POST",
-          headers,
-          body: JSON.stringify(data),
-        })).json()).metadata.id;
+        data["binId"] = (
+          await (
+            await fetch(jsonBinUrl, {
+              method: "POST",
+              headers,
+              body: JSON.stringify(data),
+            })
+          ).json()
+        ).metadata.id;
 
         window.localStorage.setItem(storageKey, JSON.stringify(data));
       }
@@ -645,7 +636,7 @@
           count: {},
           geojson: null,
           binId: null,
-        }
+        };
       }
 
       function ObjectId() {
