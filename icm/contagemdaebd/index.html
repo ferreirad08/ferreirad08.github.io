@@ -610,7 +610,10 @@
           await (
             await fetch(jsonBinUrl, {
               method: "POST",
-              headers,
+              headers: {
+                ...headers,
+                "X-Collection-Id": "68e70383d0ea881f409a6791";
+              },
               body: JSON.stringify(data),
             })
           ).json()
