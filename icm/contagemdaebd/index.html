@@ -589,7 +589,7 @@
               data.count[item] = null;
             }
           }
-          data.days = [];
+          delete data["days"];
         }
 
         data["count"][_day] = _csv;
@@ -612,7 +612,7 @@
               method: "POST",
               headers: {
                 ...headers,
-                "X-Collection-Id": "68e70383d0ea881f409a6791";
+                "X-Collection-Id": "68e70383d0ea881f409a6791",
               },
               body: JSON.stringify(data),
             })
@@ -636,7 +636,6 @@
       function getEmptyData() {
         return {
           id: ObjectId(),
-          days: [],
           count: {},
           geojson: null,
           binId: null,
