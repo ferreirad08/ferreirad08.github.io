@@ -597,6 +597,11 @@
 
         window.localStorage.setItem(storageCountKey, JSON.stringify(data));
 
+        if (!("__v" in data)) {
+          data["binId"] = null;
+          data["__v"] = 3;
+        }
+
         if (data.binId) {
           await fetch(jsonBinUrl + "/" + data.binId, {
             method: "PUT",
@@ -639,6 +644,7 @@
           count: {},
           geojson: null,
           binId: null,
+          __v: 3,
         };
       }
 
