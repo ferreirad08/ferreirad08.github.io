@@ -268,8 +268,8 @@
       for (const list in locations) {
         el = document.getElementById("lists");
         const d = locations[list];
-        const p = `(${d.date0} - ${d.date1})`;
-        el.innerHTML = el.innerHTML + `<a href="${list}">${list.split("#")[1]} ${p}</a><br />`;
+        const p = `(${d.date0.split("-").reverse().join("/")} - ${d.date1.split("-").reverse().join("/")})`;
+        el.innerHTML = el.innerHTML + `<a href="${list}">${d.motivo.slice(0, 10)} ${p}</a><br />`;
       }
 
       async function initData(data) {
