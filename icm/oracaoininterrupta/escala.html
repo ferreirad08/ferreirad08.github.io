@@ -372,7 +372,10 @@ ${window.location.href}`;
 
       async function dellCb(result) {
         if (result.isConfirmed) {
+          openLoading("Aguarde...");
           const res = await fetch(url, {method: "DELETE", headers});
+          Swal.close();
+
           if (res.status === 200) {
             locations.values = locations.values.filter(item => item !== window.location.href);
             window.localStorage.setItem(storageKey, JSON.stringify(locations));
@@ -419,13 +422,7 @@ ${window.location.href}`;
 
         if (!name) return;
 
-        Swal.fire({
-          title: "Aguarde...",
-          allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-          },
-        });
+        openLoading("Aguarde...");
         // await openLoading("Aguarde...");
         const data0 = await getData();
 
@@ -498,20 +495,14 @@ ${window.location.href}`;
         }
       }
 
-      async function openLoading(message) {
-        await closeLoading();
-
-        const div = document.createElement("div");
-        div.id = "lock";
-        div.innerHTML =
-          `<div class="loader-bg"><div class="circle-loader"></div><div id="progress">${message}</div></div>`;
-        document.body.insertBefore(div, document.firstElement);
-      }
-
-      async function closeLoading() {
-        if ((div = document.getElementById("lock"))) {
-          div.remove();
-        }
+      function openLoading(message) {
+        Swal.fire({
+          title: message,
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
       }
 
       function sleep(ms) {
