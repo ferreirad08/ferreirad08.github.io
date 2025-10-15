@@ -184,11 +184,11 @@
     <br />
     <br />
 
-    <label>Igreja: </label>
+    <label>Igreja: ...</label>
     <br />
-    <label>Motivo: </label>
+    <label>Motivo: ...</label>
     <br />
-    <label>Período: </label>
+    <label>Período: ...</label>
     <br />
 
     <!--<input
@@ -528,9 +528,9 @@ ${window.location.href}`;
 
       async function initHeader(data) {
         const els = document.getElementsByTagName("label");
-        els[0].innerHTML = els[0].innerHTML + data.igreja;
-        els[1].innerHTML = els[1].innerHTML + data.motivo;
-        els[2].innerHTML = els[2].innerHTML + data.date0.split("-").reverse().join("/") + " - " + data.date1.split("-").reverse().join("/");
+        els[0].innerHTML = "Igreja: " + data.igreja;
+        els[1].innerHTML = "Motivo: " + data.motivo;
+        els[2].innerHTML = "Período: " + data.date0.split("-").reverse().join("/") + " - " + data.date1.split("-").reverse().join("/");
       }
 
       async function main() {
