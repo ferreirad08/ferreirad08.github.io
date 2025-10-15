@@ -82,6 +82,13 @@
         width: calc(346px + 4px);
         margin-left: calc(50% - 174px);
       }
+
+      .meu-confirmar {
+        border-radius: 20px !important;
+        background-color: #151b54;
+        color: white;
+        width: calc(346px / 2);
+      }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -140,6 +147,7 @@
     <a href="https://clustrmaps.com/site/1c81h"  title="ClustrMaps">
       <img src="//www.clustrmaps.com/map_v2.png?d=qs2Qv9nyBtx3BWRaw3RzzrNPL6XIELr5JI9_Cpw7RfA&cl=ffffff" />
     </a>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
       const emptyList = {
         "00:00 às 00:15": null,
@@ -260,11 +268,21 @@
       }
 
       async function initData(data) {
+        Swal.fire({
+          title: "Aguarde...",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
         const res = await fetch(url, {
           method: "POST",
           headers,
           body: JSON.stringify(data),
         });
+        
+        Swal.close();
 
         if (res.status === 200 && res.headers.get('Content-Type') === 'application/json; charset=utf-8') {
           const location = scalePath + "#" + (await res.json()).metadata.id;
@@ -272,7 +290,14 @@
           window.localStorage.setItem(storageKey, JSON.stringify(locations));
           window.location.href = location;
         } else {
-          alert('Ocorreu um erro ao criar!');
+          Swal.fire({
+            title: "Oops...",
+            text: "Ocorreu um erro ao criar!",
+            icon: "error",
+            customClass: {
+              confirmButton: "meu-confirmar",
+            },
+          });
         }
       }
 
@@ -292,8 +317,16 @@
           data.date0 === "" ||
           data.date1 === ""
         ) {
-          return alert("Todos os campos devem ser preenchidos!");
+          return Swal.fire({
+            title: "Oops...",
+            text: "Todos os campos devem ser preenchidos!",
+            icon: "error",
+            customClass: {
+              confirmButton: "meu-confirmar",
+            },
+          });
         }
+
         initData(data);
       }
     </script>
