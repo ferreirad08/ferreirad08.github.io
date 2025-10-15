@@ -344,11 +344,11 @@
         "Content-Type": "application/json",
         "X-Access-Key": "$2a$10$hAT1PQtTWY.vtq5BTEeJruDlB.ULfWMknzape/RRM.Xa.xEpds7rG",
       };
-      const storageKey = "oracaoininterruptav1";
+      const storageKey = "oracaoininterruptav3";
       //window.localStorage.removeItem(storageKey);
       let locations = window.localStorage.getItem(storageKey);
-      locations = locations === null ? {values: []} : JSON.parse(locations);
-      document.getElementById("dell-div").hidden = !locations.values.includes(window.location.href);
+      locations = locations === null ? {} : JSON.parse(locations);
+      document.getElementById("dell-div").hidden = !(window.location.href in locations);
 
       function getMessage() {
         const els = document.getElementsByTagName("label");
@@ -393,7 +393,8 @@ ${window.location.href}`;
           Swal.close();
 
           if (res.status === 200) {
-            locations.values = locations.values.filter(item => item !== window.location.href);
+            // locations.values = locations.values.filter(item => item !== window.location.href);
+            delete locations[window.location.href];
             window.localStorage.setItem(storageKey, JSON.stringify(locations));
             await Swal.fire({
               title: "Sucesso!",
