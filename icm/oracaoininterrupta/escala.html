@@ -123,6 +123,11 @@
         box-shadow: -1px 1px 4px 0px grey;
       }
 
+      button:disabled {
+        background-color: #ccc;
+        color: #666;
+      }
+
       input[type="button"],
       button    {
         background-color: #151b54;
@@ -188,7 +193,11 @@
       />-->
     <br />
     <div id="dell-div" hidden>
-      <button id="dell" onclick="dell()">
+      <button
+        id="dell"
+        onclick="dell()"
+        disabled
+      >
         Excluir Escala &ensp;&ensp;
         <i class='bi bi-trash3'></i>
       </button>
@@ -197,7 +206,9 @@
     </div>
 
     <button
+      id="copyButton"
       onclick="copyy()"
+      disabled
     >
       Copiar Link &ensp;&ensp;
       <i class="bi bi-copy"></i>
@@ -535,6 +546,9 @@ ${window.location.href}`;
 
         await initHeader(data);
         populateTable(data.currentList);
+
+        document.getElementById("dell").disabled = false;
+        document.getElementById("copyButton").disabled = false;
       }
 
       main();
