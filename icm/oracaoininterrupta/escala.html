@@ -146,6 +146,13 @@
         background-color: #151b54;
         color: white;
       }
+
+      .meu-cancelar {
+        border-radius: 20px !important;
+        background-color: white;
+        color: #151b54;
+        border: 2px solid #151b54;
+      }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -349,12 +356,34 @@ ${window.location.href}`;
       }
 
       async function dell() {
-        if (window.confirm("Excluir escala? Todos os dados serão perdidos!")) {
+        Swal.fire({
+          title: `Excluir escala?`,
+          text: "Todos os dados serão perdidos!",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Sim, excluir!",
+          cancelButtonText: "Cancelar",
+          customClass: {
+            confirmButton: "meu-confirmar",
+            cancelButton: "meu-cancelar",
+          },
+        }).then(dellCb);
+      }
+
+      async function dellCb(result) {
+        if (result.isConfirmed) {
           const res = await fetch(url, {method: "DELETE", headers});
           if (res.status === 200) {
             locations.values = locations.values.filter(item => item !== window.location.href);
             window.localStorage.setItem(storageKey, JSON.stringify(locations));
-            window.alert("Escala excluída com sucesso!");
+            await Swal.fire({
+              title: "Sucesso!",
+              text: "Escala excluída com sucesso!",
+              icon: "success",
+              customClass: {
+                confirmButton: "meu-confirmar",
+              },
+            });
             window.location.href = "https://ferreirad08.github.io/icm/oracaoininterrupta/";
           }
         }
@@ -517,7 +546,7 @@ ${window.location.href}`;
         populateTable(data.currentList);
       }
 
-      window.onload = main;
+      main();
     </script>
   </body>
 </html>
