@@ -502,6 +502,14 @@ ${window.location.href}`;
         const data = await getData();
 
         if (!data) {
+          await Swal.fire({
+            title: "Aviso",
+            text: "Escala inexistente!",
+            icon: "warning",
+            customClass: {
+              confirmButton: "meu-confirmar",
+            },
+          });
           window.location.href = "https://ferreirad08.github.io/icm/oracaoininterrupta/";
         }
 
