@@ -267,7 +267,8 @@
 
       for (const list in locations) {
         el = document.getElementById("lists");
-        const p = `(${data.date0} - ${data.date0})`;
+        const d = locations[list];
+        const p = `(${d.date0} - ${d.date1})`;
         el.innerHTML = el.innerHTML + `<a href="${list}">${list.split("#")[1]} ${p}</a><br />`;
       }
 
