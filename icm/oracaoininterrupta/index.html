@@ -260,8 +260,9 @@
 
       window.localStorage.removeItem("oracaoininterrupta");
       window.localStorage.removeItem("oracaoininterruptav1");
+      window.localStorage.removeItem("oracaoininterruptav2");
 
-      const storageKey = "oracaoininterruptav2";
+      const storageKey = "oracaoininterruptav3";
       let locations = window.localStorage.getItem(storageKey);
       locations = locations === null ? {} : JSON.parse(locations);
 
@@ -269,7 +270,7 @@
         el = document.getElementById("lists");
         const d = locations[list];
         const p = `(${d.date0.split("-").reverse().join("/")} - ${d.date1.split("-").reverse().join("/")})`;
-        el.innerHTML = el.innerHTML + `<a href="${list}">${d.motivo.slice(0, 10)} ${p}</a><br />`;
+        el.innerHTML = el.innerHTML + `<a href="${list}">${d.motivo.slice(0, 15)}... ${p}</a><br />`;
       }
 
       async function initData(data) {
