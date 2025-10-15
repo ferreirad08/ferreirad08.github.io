@@ -593,7 +593,10 @@
         }
 
         data["count"][_day] = _csv;
-        data["geojson"] = await (await fetch(geoJsonUrl)).json();
+
+        if (!(data.geojson)) {
+          data["geojson"] = await (await fetch(geoJsonUrl)).json();
+        }
 
         window.localStorage.setItem(storageCountKey, JSON.stringify(data));
 
