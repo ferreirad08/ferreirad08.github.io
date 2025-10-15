@@ -431,14 +431,29 @@ ${window.location.href}`;
       }
 
       async function register(interval) {
-        const name = window.prompt(
-          `          Intervalo selecionado: ${interval}!
+        Swal.fire({
+          title: `Intervalo selecionado: ${interval}!`,
+          text: "Insira o seu nome!",
+          input: "text",
+          // inputValue: cell.innerHTML === "Nome" ? "" : cell.innerHTML,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          customClass: {
+            confirmButton: "meu-confirmar",
+            cancelButton: "meu-cancelar",
+            input: "meu-input-estilizado",
+          },
+          inputValidator: (value) => {
+            if (value.trim() === "") {
+              return "O nome não pode ser vazio!";
+            }
+          },
+        }).then((result) => {
+          register0(result.value.trim(), interval)
+        });
+      }
 
-          Insira o seu nome!`
-        );
-
-        if (!name) return;
-
+      async function register0(name, interval) {
         openLoading("Aguarde...");
         // await openLoading("Aguarde...");
         const data0 = await getData();
