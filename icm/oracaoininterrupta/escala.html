@@ -432,7 +432,7 @@ ${window.location.href}`;
 
       async function register(interval) {
         Swal.fire({
-          title: `Intervalo selecionado: ${interval}!`,
+          title: interval,
           text: "Insira o seu nome!",
           input: "text",
           // inputValue: cell.innerHTML === "Nome" ? "" : cell.innerHTML,
@@ -449,11 +449,11 @@ ${window.location.href}`;
             }
           },
         }).then((result) => {
-          register0(result.value.trim(), interval)
+          register(result.value.trim(), interval)
         });
       }
 
-      async function register0(name, interval) {
+      async function registerCb(name, interval) {
         openLoading("Aguarde...");
         // await openLoading("Aguarde...");
         const data0 = await getData();
