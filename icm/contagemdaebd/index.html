@@ -602,29 +602,28 @@
           data["__v"] = 3;
         }
 
-        if (data.binId) {
-          await fetch(jsonBinUrl + "/" + data.binId, {
-            method: "PUT",
-            headers,
-            body: JSON.stringify(data),
-          });
-          return;
+        if (!(data.binId)) {
+          data["binId"] = (
+            await (
+              await fetch(jsonBinUrl, {
+                method: "POST",
+                headers: {
+                  ...headers,
+                  "X-Collection-Id": "68e70383d0ea881f409a6791",
+                },
+                body: JSON.stringify(data),
+              })
+            ).json()
+          ).metadata.id;
+
+          window.localStorage.setItem(storageCountKey, JSON.stringify(data));
         }
 
-        data["binId"] = (
-          await (
-            await fetch(jsonBinUrl, {
-              method: "POST",
-              headers: {
-                ...headers,
-                "X-Collection-Id": "68e70383d0ea881f409a6791",
-              },
-              body: JSON.stringify(data),
-            })
-          ).json()
-        ).metadata.id;
-
-        window.localStorage.setItem(storageCountKey, JSON.stringify(data));
+        await fetch(jsonBinUrl + "/" + data.binId, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify(data),
+        });
       }
 
       function toBase64(str) {
