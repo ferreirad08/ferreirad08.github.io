@@ -501,7 +501,9 @@ ${window.location.href}`;
 
         const data = await getData();
 
-        if (!data.currentList) return;
+        if (!data) {
+          window.location.href = "https://ferreirad08.github.io/icm/oracaoininterrupta/";
+        }
 
         await initHeader(data);
         populateTable(data.currentList);
