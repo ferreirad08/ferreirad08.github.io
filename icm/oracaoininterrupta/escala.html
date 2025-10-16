@@ -465,7 +465,7 @@ ${window.location.href}`;
             }
           },
         }).then((result) => {
-          rCancelaCb(result.value.trim(), interval)
+          registerCb(result.value.trim(), interval)
         });
       }
 
