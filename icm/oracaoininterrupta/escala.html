@@ -502,9 +502,10 @@ ${window.location.href}`;
         // await closeLoading();
 
         if (data1.currentList[interval] !== data0.currentList[interval]) {
+          const message = `Desculpe, o horário das ${interval} não está mais disponível!`;
           Swal.fire({
             title: "Aviso",
-            text: `Desculpe, o horário das ${interval} não está mais disponível!`,
+            text: message,
             icon: "warning",
             customClass: {
               confirmButton: "meu-confirmar",
