@@ -465,7 +465,7 @@ ${window.location.href}`;
             }
           },
         }).then((result) => {
-          register(result.value.trim(), interval)
+          rCancelaCb(result.value.trim(), interval)
         });
       }
 
