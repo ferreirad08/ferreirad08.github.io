@@ -467,9 +467,12 @@ ${window.location.href}`;
             if (value.trim() === "") {
               return "O nome não pode ser vazio!";
             }
+            if (value.trim().length > 32) {
+              return "Entre com no máximo 32 caracteres!";
+            }
           },
         }).then((result) => {
-          registerCb(result.value.trim(), interval)
+          registerCb(result.value.trim().toUpperCase(), interval)
         });
       }
 
@@ -496,7 +499,7 @@ ${window.location.href}`;
         }
 
         data0.timestamp = new Date();
-        data0.currentList[interval] = name.slice(0, 31);
+        data0.currentList[interval] = name;
 
         await setData(data0);
         await sleep(2000);
