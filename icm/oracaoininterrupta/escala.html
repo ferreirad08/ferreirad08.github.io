@@ -83,7 +83,7 @@
         width: 346px;
         margin-left: calc(50% - 173px);
         font-size: 15px;
-        color: #151b54;
+        color: #ccc;
         height: 30px;
       }
 
@@ -567,6 +567,10 @@ ${window.location.href}`;
 
       async function initHeader(data) {
         const els = document.getElementsByTagName("label");
+        els[0].style.color = "#151b54";
+        els[1].style.color = "#151b54";
+        els[2].style.color = "#151b54";
+
         els[0].innerHTML = "Igreja: " + data.igreja;
         els[1].innerHTML = "Motivo: " + data.motivo;
         els[2].innerHTML = "Período: " + data.date0.split("-").reverse().join("/") + " - " + data.date1.split("-").reverse().join("/");
