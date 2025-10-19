@@ -207,7 +207,7 @@
     <label>Motivo: ...</label>
     <br />
     <label>Período: ...</label>
-    <br />
+    <br /><br />
     <label>Última atualização: ...</label>
     <br />
 
@@ -497,6 +497,7 @@ ${window.location.href}`;
           // window.alert(
           //   `Desculpe, o horário das ${interval} não está mais disponível!`
           // );
+          await initHeader(data0);
           return populateTable(data0.currentList);
         }
 
@@ -535,6 +536,7 @@ ${window.location.href}`;
           // window.alert("Participação registrada com sucesso!");
         }
 
+        await initHeader(data1);
         populateTable(data1.currentList);
       }
 
@@ -580,7 +582,7 @@ ${window.location.href}`;
         els[0].innerHTML = "Igreja: " + data.igreja;
         els[1].innerHTML = "Motivo: " + data.motivo;
         els[2].innerHTML = "Período: " + data.date0.split("-").reverse().join("/") + " - " + data.date1.split("-").reverse().join("/");
-        els[3].innerHTML = "Última atualização: " + "18/10/2025 17:13";
+        els[3].innerHTML = "Última atualização: " + formatDate(data.timestamp);
       }
 
       async function main() {
@@ -605,6 +607,17 @@ ${window.location.href}`;
 
         document.getElementById("dell").disabled = false;
         document.getElementById("copyButton").disabled = false;
+      }
+
+      function formatDate(isoString) {
+        const date = new Date(isoString);
+        const dia = String(date.getDate()).padStart(2, '0');
+        const mes = String(date.getMonth() + 1).padStart(2, '0');
+        const ano = date.getFullYear();
+        const hora = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        const seg = String(date.getSeconds()).padStart(2, '0');
+        return `${dia}/${mes}/${ano} ${hora}:${min}:${seg}`;
       }
 
       main();
