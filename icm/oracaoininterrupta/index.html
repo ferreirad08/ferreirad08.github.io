@@ -82,12 +82,16 @@
         --ok-fg: #151b54;
       }
 
-      a {
+      #lists a {
+        position: absolute;
         border-radius: 10px;
         background: var(--ok-bg);
         color: var(--ok-fg);
-        width: calc(346px + 4px);
-        margin-left: calc(50% - 174px);
+        border: 1px solid grey;
+        height: 40px;
+        width: 346px;
+        margin-left: calc(50% - 173px);
+        padding-left: 4px;
       }
 
       .meu-confirmar {
@@ -300,7 +304,7 @@
         el = document.getElementById("lists");
         const d = locations[list];
         const p = `(${d.date0.split("-").reverse().join("/")} - ${d.date1.split("-").reverse().join("/")})`;
-        el.innerHTML = el.innerHTML + `<a href="${list}">${d.motivo.slice(0, 15)}... ${p}</a><br />`;
+        el.innerHTML = el.innerHTML + `<a href="${list}"><b>${d.motivo.slice(0, 35)}...</b><br />${p}</a><br /><br /><br />`;
       }
 
       async function initData(data) {
