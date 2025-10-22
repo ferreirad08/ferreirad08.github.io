@@ -152,18 +152,18 @@
       }
 
       .meu-confirmar {
+        width: 145px;
         border-radius: 20px !important;
         background-color: #151b54;
         color: white;
-        width: calc(346px / 2);
       }
 
       .meu-cancelar {
+        width: 145px;
         border-radius: 20px !important;
         background-color: white;
         color: #151b54;
         border: 2px solid #151b54;
-        width: calc(346px / 2);
       }
 
       .meu-input-estilizado:focus {
@@ -399,6 +399,7 @@ ${window.location.href}`;
           text: "Todos os dados serão perdidos!",
           icon: "question",
           showCancelButton: true,
+          reverseButtons: true,
           confirmButtonText: "Sim, excluir!",
           cancelButtonText: "Cancelar",
           customClass: {
@@ -455,10 +456,14 @@ ${window.location.href}`;
       async function register(interval) {
         Swal.fire({
           title: interval,
+          inputAttributes: {
+            placeholder: "Nome",
+          },
           text: "Insira o seu nome!",
           input: "text",
           // inputValue: cell.innerHTML === "Nome" ? "" : cell.innerHTML,
           showCancelButton: true,
+          reverseButtons: true,
           cancelButtonText: "Cancelar",
           customClass: {
             confirmButton: "meu-confirmar",
