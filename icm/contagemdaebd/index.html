@@ -347,6 +347,9 @@
       function churchNameInput(cell) {
         Swal.fire({
           title: "Nome da igreja",
+          inputAttributes: {
+            placeholder: "Nome",
+          },
           text: "Insira o nome da igreja!",
           input: "text",
           inputValue: cell.innerHTML === "Nome" ? "" : cell.innerHTML,
