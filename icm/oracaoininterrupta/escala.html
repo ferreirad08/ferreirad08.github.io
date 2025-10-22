@@ -87,6 +87,14 @@
         height: 30px;
       }
 
+      #info {
+        border-radius: 4px;
+        box-shadow: 0px 2px 2px -1px grey;
+        width: 345px;
+        padding-left: 5px;
+        margin-left: calc(50% - 175px);
+      }
+
       a {
         color: blue;
         text-decoration: underline;
@@ -202,14 +210,15 @@
     <br />
     <br />
 
-    <label>Igreja: ...</label>
-    <br />
-    <label>Motivo: ...</label>
-    <br />
-    <label>Período: ...</label>
-    <br /><br />
-    <label>Última atualização: ...</label>
-    <br />
+    <div id="info">
+      <label>Igreja...</label>
+      <br />
+      <label>Motivo...</label>
+      <br />
+      <label>Período...</label>
+      <br /><br />
+      <label>Última atualização...</label>
+    </div>
 
     <!--<input
         type="button"
@@ -587,7 +596,7 @@ ${window.location.href}`;
         els[0].innerHTML = "Igreja: " + data.igreja;
         els[1].innerHTML = "Motivo: " + data.motivo;
         els[2].innerHTML = "Período: " + data.date0.split("-").reverse().join("/") + " - " + data.date1.split("-").reverse().join("/");
-        els[3].innerHTML = "Última atualização: " + formatDate(data.timestamp);
+        els[3].innerHTML = "<i>Última atualização: " + formatDate(data.timestamp) + "</i>";
       }
 
       async function main() {
