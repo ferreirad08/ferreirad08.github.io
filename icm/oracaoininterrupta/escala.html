@@ -83,7 +83,7 @@
         width: 346px;
         margin-left: calc(50% - 173px);
         font-size: 15px;
-        color: #ccc;
+        color: #151b54;
         height: 30px;
       }
 
@@ -93,6 +93,8 @@
         width: 345px;
         padding-left: 5px;
         margin-left: calc(50% - 175px);
+        padding-top: 5px;
+        padding-bottom: 5px;
       }
 
       a {
@@ -211,13 +213,13 @@
     <br />
 
     <div id="info">
-      <label>Igreja: ...</label>
+      <label></label>
       <br />
-      <label>Motivo: ...</label>
+      <b><label></label></b>
       <br />
-      <label>Período: ...</label>
+      <label></label>
       <br /><br />
-      <label><i>Última atualização: ...</i></label>
+      <label></label>
     </div>
 
     <!--<input
@@ -385,9 +387,9 @@
         const els = document.getElementsByTagName("label");
         return `📜 *ESCALA DA ORAÇÃO ININTERRUPTA*
 
-_${els[0].innerHTML}_
-_${els[1].innerHTML}_
-_${els[2].innerHTML}_
+_Igreja: ${els[0].innerHTML}_
+_Motivo: ${els[1].innerHTML}_
+_Período: ${els[2].innerHTML}_
 
 Para participar do período de oração ininterrupta, clique neste link:
 ${window.location.href}`;
@@ -588,15 +590,10 @@ ${window.location.href}`;
 
       async function initHeader(data) {
         const els = document.getElementsByTagName("label");
-        els[0].style.color = "#151b54";
-        els[1].style.color = "#151b54";
-        els[2].style.color = "#151b54";
-        els[3].style.color = "#151b54";
-
-        els[0].innerHTML = "Igreja: " + data.igreja;
-        els[1].innerHTML = "Motivo: " + data.motivo;
-        els[2].innerHTML = "Período: " + data.date0.split("-").reverse().join("/") + " - " + data.date1.split("-").reverse().join("/");
-        els[3].innerHTML = "<i>Última atualização: " + formatDate(data.timestamp) + "</i>";
+        els[0].innerHTML = data.igreja;
+        els[1].innerHTML = data.motivo;
+        els[2].innerHTML = data.date0.split("-").reverse().join("/") + " - " + data.date1.split("-").reverse().join("/");
+        els[3].innerHTML = "<i class='bi bi-clock-history'></i> Último registro: " + formatDate(data.timestamp);
       }
 
       async function main() {
