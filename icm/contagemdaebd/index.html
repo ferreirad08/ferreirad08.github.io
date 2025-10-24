@@ -280,7 +280,6 @@
       </tr>
     </table>
 
-    <script src="assets/icm-logo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
@@ -317,9 +316,6 @@
       setImage({ src: icmLogoUrl });
 
       async function setImage(img) {
-        document.getElementById("logo").src = img.src;
-        return;
-
         const blob = await (await fetch(img.src)).blob();
         const reader = new FileReader();
         reader.onloadend = function () {
