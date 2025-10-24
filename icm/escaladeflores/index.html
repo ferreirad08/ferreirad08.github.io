@@ -101,6 +101,7 @@
     <br />
     <br />
     <br />
+    <script src="background.js"></script>
     <a href="https://clustrmaps.com/site/1c69z"  title="ClustrMaps"><img width="500" src="//www.clustrmaps.com/map_v2.png?d=E3S4teRBru0eEaayxZyt1lCfO_CtVpgKglAJaekmpjY&cl=ffffff" /></a>
     <script>
       document.getElementById("break0").innerHTML = "<br />".repeat(13);
@@ -118,6 +119,9 @@
       img.onload = populate;
 
       async function setBackground() {
+        img.src = background;
+        return;
+
         const blob = await (
           await fetch(
             "https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/escaladeflores/assets/flores.jfif"
