@@ -333,7 +333,9 @@
       //window.localStorage.removeItem(storageKey);
       let locations = window.localStorage.getItem(storageKey);
       locations = locations === null ? {} : JSON.parse(locations);
-      document.getElementById("dell-div").hidden = !(window.location.href in locations);
+
+      const isOnwer = window.location.href in locations;
+      document.getElementById("dell-div").hidden = !isOnwer;
 
       function getMessage() {
         const els = document.getElementsByTagName("label");
