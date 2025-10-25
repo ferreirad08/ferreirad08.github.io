@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    table {
+      border-collapse: collapse;
+      border: 1px solid #000;
+      width: 350px;
+      margin-left: calc(50% - 175px);
+      box-shadow: -1px 1px 4px 0px grey;
+    }
+
+    img {
+      width: 150px;
+    }
+
+    #logo {
+      padding-top: 8px;
+      padding-left: 8px;
+      text-align: left;
+    }
+
+    #line1,
+    #line2 {
+      font-weight: bold;
+    }
+
+    #line1 td {
+      border: none;
+    }
+
+    #line2 {
+      background-color: #ddd;
+    }
+
+    #dateLabel{
+      text-align: right !important;
+    }
+
+    #date {
+      text-decoration: underline;
+    }
+
+    td {
+      border: 1px solid #000;
+      padding: 4px;
+      text-align: center;
+      font-size: 18px;
+      height: 22px;
+      width: calc(350px / 5);
+    }
+
+    button {
+        background-color: #151b54;
+        color: #ffffff;
+        border: none;
+        width: 173px;
+        height: 40px;
+        border-radius: 40px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      #button_0 {
+        margin-left: calc(50% - 175px);
+        background-color: #ffffff;
+        color: #151b54;
+        border: 2px solid #151b54;
+      }
+  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lista de Louvores</title>
+</head>
+<body>
+  <h1>
+    Lista de Louvores
+  </h1>
+
+  <table id="table">
+    <tr>
+      <td id="logo" colspan="5">
+        <img
+          id="logoImg"
+          alt="" />
+      </td>
+    </tr>
+    <tr id="line1">
+      <td colspan="2">LOUVORES</td>
+      <td colspan="2" id="dateLabel">Data:</td>
+      <td id="date">25/10/2025</td>
+    </tr>
+    <tr id="line2">
+      <td>N°</td>
+      <td colspan="4">Nome do Hino</td>
+    </tr>
+    <tr><td id="00" onclick="setNumber(this.id)"></td><td id="01" onclick="setName(this.id)" colspan="4"></td></tr>
+    <tr><td id="10" onclick="setNumber(this.id)"></td><td id="11" onclick="setName(this.id)" colspan="4"></td></tr>
+    <tr><td id="20" onclick="setNumber(this.id)"></td><td id="21" onclick="setName(this.id)" colspan="4"></td></tr>
+    <tr><td id="30" onclick="setNumber(this.id)"></td><td id="31" onclick="setName(this.id)" colspan="4"></td></tr>
+    <tr><td id="40" onclick="setNumber(this.id)"></td><td id="41" onclick="setName(this.id)" colspan="4"></td></tr>
+    <tr><td id="50" onclick="setNumber(this.id)"></td><td id="51" onclick="setName(this.id)" colspan="4"></td></tr>
+    <tr><td id="60" onclick="setNumber(this.id)"></td><td id="61" onclick="setName(this.id)" colspan="4"></td></tr>
+    <tr><td id="70" onclick="setNumber(this.id)"></td><td id="71" onclick="setName(this.id)" colspan="4"></td></tr>
+    <tr><td id="80" onclick="setNumber(this.id)"></td><td id="81" onclick="setName(this.id)" colspan="4"></td></tr>
+  </table>
+
+  <br />
+  <button id="button_0" onclick="clean()">Limpar lista</button>
+  <button id="button_1" onclick="share()">Compartilhar</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    const storageKey = "listadelouvores";
+    let list = window.localStorage.getItem(storageKey);
+    list = list === null ? {} : JSON.parse(list);
+
+    for (const key in list) {
+        el = document.getElementById(key);
+        el.innerHTML = list[key];
+    }
+
+    const icmLogoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7VhuSl9_SSmUIK1g0PnEAzs7EJTm7mroeDQ&usqp=CAU";
+    setImage({ src: icmLogoUrl });
+
+    async function setImage(img) {
+        const blob = await (await fetch(img.src)).blob();
+        const reader = new FileReader();
+        reader.onloadend = function () {
+          document.getElementById("logoImg").src = reader.result;
+        };
+        reader.readAsDataURL(blob);
+    }
+
+    function setNumber(key) {
+      const number = window.prompt("Insira o número!", list[key]);
+      if (Number(number)) {
+        list[key] = number;
+        window.localStorage.setItem(storageKey, JSON.stringify(list));
+        el = document.getElementById(key);
+        el.innerHTML = list[key];
+      }
+    }
+
+    function setName(key) {
+      const name = window.prompt("Insira o nome!", list[key]);
+      if (name) {
+        list[key] = name;
+        window.localStorage.setItem(storageKey, JSON.stringify(list));
+        el = document.getElementById(key);
+        el.innerHTML = list[key];
+      }
+    }
+
+    function clean () {
+      for (const key in list) {
+        el = document.getElementById(key);
+        el.innerHTML = "";
+      }
+      list = {};
+      window.localStorage.removeItem(storageKey);
+    }
+
+    function share() {
+        Swal.fire({
+          title: "Criando imagem...",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
+        html2canvas(document.getElementById("table")).then(canvas2file);
+    }
+
+    async function canvas2file(canvas) {
+        fetch(canvas.toDataURL("image/jpeg")).then(function (res) {
+          res.blob().then(function (blob) {
+            const files = [new File([blob], "listadelouvores.jpg", blob)];
+            Swal.close();
+            navigator.share({ files, url: window.location.href });
+          });
+        });
+    }
+  </script>
+</body>
+</html>
