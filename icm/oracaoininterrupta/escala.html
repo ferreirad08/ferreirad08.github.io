@@ -49,8 +49,13 @@
         padding-left: 7px;
       }
 
-      a {
+      .registerLink {
         color: blue;
+        text-decoration: underline;
+      }
+
+      .removeLink {
+        color: #b12d33;
         text-decoration: underline;
       }
 
@@ -418,6 +423,32 @@ ${window.location.href}`;
         });
       }
 
+      async function removeRegister(interval, name) {
+        Swal.fire({
+          title: `Excluir o registro das ${interval} feito por ${name}?`,
+          text: "Os dados serão perdidos!",
+          icon: "question",
+          showCancelButton: true,
+          reverseButtons: true,
+          confirmButtonText: "Sim, excluir!",
+          cancelButtonText: "Cancelar",
+          customClass: {
+            confirmButton: "meu-confirmar",
+            cancelButton: "meu-cancelar",
+          },
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            openLoading("Aguarde...");
+            const data = await getData();
+            data.timestamp = new Date();
+            data.currentList[interval] = null;
+            await setData(data);
+            Swal.close();
+            window.location.reload();
+          }
+        });
+      }
+
       async function register(interval) {
         Swal.fire({
           title: interval,
@@ -523,9 +554,14 @@ ${window.location.href}`;
           const cell = row.insertCell();
 
           if (currentList[interval]) {
-            cell.innerHTML = currentList[interval];
+            if (isOnwer) {
+              cell.innerHTML = `<a class='removeLink'>${currentList[interval]}</a>`;
+              cell.setAttribute("onclick", `removeRegister("${interval}", "${currentList[interval]}")`);
+            } else {
+              cell.innerHTML = currentList[interval];
+            }
           } else {
-            cell.innerHTML = "<a>Clique para selecionar!</a>";
+            cell.innerHTML = "<a class='registerLink'>Clique para selecionar!</a>";
             cell.setAttribute("onclick", `register("${interval}")`);
           }
         }
