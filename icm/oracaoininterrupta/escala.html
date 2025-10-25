@@ -444,7 +444,9 @@ ${window.location.href}`;
             }
           },
         }).then((result) => {
-          registerCb(result.value.trim(), interval)
+          if (result.value) { 
+            registerCb(result.value.trim(), interval);
+          }
         });
       }
 
@@ -519,9 +521,10 @@ ${window.location.href}`;
           row.insertCell().innerHTML = interval;
 
           const cell = row.insertCell();
-          cell.innerHTML = currentList[interval];
 
-          if (!currentList[interval]) {
+          if (currentList[interval]) {
+            cell.innerHTML = currentList[interval];
+          } else {
             cell.innerHTML = "<a>Clique para selecionar!</a>";
             cell.setAttribute("onclick", `register("${interval}")`);
           }
