@@ -230,7 +230,7 @@
     function setName(key) {
       const name = window.prompt("Insira o nome!", list[key]);
       if (name) {
-        list[key] = name;
+        list[key] = name.toUpperCase();
         window.localStorage.setItem(storageKey, JSON.stringify(list));
         el = document.getElementById(key);
         el.innerHTML = list[key];
