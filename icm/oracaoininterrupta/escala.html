@@ -443,6 +443,7 @@ ${window.location.href}`;
             data.timestamp = new Date();
             data.currentList[interval] = null;
             await setData(data);
+            await sleep(2000);
             Swal.close();
             window.location.reload();
           }
