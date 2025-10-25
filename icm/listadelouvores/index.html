@@ -7,7 +7,24 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    table {
+    table[name="Header"] {
+        width: 100%;
+        height: 50px;
+        color: #151b54;
+        box-shadow: 0px 2px 2px -1px grey;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+    }
+
+    table[name="Header"] td {
+        font-size: 15px;
+        font-weight: bold;
+        border: none;
+        width: calc(100% / 6);
+    }
+
+    #table {
       border-collapse: collapse;
       border: 1px solid #000;
       width: 350px;
@@ -17,6 +34,10 @@
 
     img {
       width: 150px;
+    }
+
+    #title {
+      padding-left: 15px;
     }
 
     #logo {
@@ -43,6 +64,7 @@
     }
 
     #date {
+      padding-right: 15px;
       text-decoration: underline;
     }
 
@@ -50,8 +72,8 @@
       border: 1px solid #000;
       padding: 4px;
       text-align: center;
-      font-size: 18px;
-      height: 22px;
+      font-size: 14px;
+      height: 20px;
       width: calc(350px / 5);
     }
 
@@ -72,15 +94,68 @@
         color: #151b54;
         border: 2px solid #151b54;
       }
+
+      .meu-confirmar {
+        width: 145px;
+        border-radius: 20px !important;
+        background-color: #151b54;
+        color: white;
+      }
+
+      .meu-cancelar {
+        width: 145px;
+        border-radius: 20px !important;
+        background-color: white;
+        color: #151b54;
+        border: 2px solid #151b54;
+      }
+
+      #swal-input-date:focus {
+        outline: none;
+        border-bottom: 2px solid #151b54;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+
+      #swal-input-date {
+        width: 295px;
+        margin-left: calc(50% - 146.5px);
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #ffffff;
+        font-size: 15px;
+        border: none;
+        border-radius: 0px;
+        border-bottom: 1px solid gray;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
   </style>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lista de Louvores</title>
 </head>
 <body>
-  <h1>
-    Lista de Louvores
-  </h1>
+  <table name="Header">
+      <tr>
+        <td
+          onclick="window.location.href = 'https://ferreirad08.github.io/icm/'"
+        >
+          <img
+            style="width: 40px"
+            src="https://raw.githubusercontent.com/ferreirad08/ferreirad08.github.io/refs/heads/main/icm/bible/assets/back.png"
+          />
+        </td>
+        <td colspan="4">Lista de Louvores</td>
+        <td></td>
+      </tr>
+  </table>
+
+  <br />
+  <br />
+  <br />
+  <br />
 
   <table id="table">
     <tr>
@@ -91,9 +166,9 @@
       </td>
     </tr>
     <tr id="line1">
-      <td colspan="2">LOUVORES</td>
+      <td id="title" colspan="2">LOUVORES</td>
       <td colspan="2" id="dateLabel">Data:</td>
-      <td id="date">25/10/2025</td>
+      <td id="date" onclick="setDate(this.id)">25/10/2025</td>
     </tr>
     <tr id="line2">
       <td>N°</td>
@@ -158,10 +233,34 @@
       }
     }
 
+    function setDate(key) {
+      Swal.fire({
+        title: 'Select a Date',
+        html: '<input type="date" id="swal-input-date" class="swal2-input">',
+        focusConfirm: false,
+        showCancelButton: true,
+        reverseButtons: true,
+        customClass: {
+          confirmButton: "meu-confirmar",
+          cancelButton: "meu-cancelar",
+        },
+        preConfirm: () => {
+          return document.getElementById('swal-input-date').value;
+        }
+      }).then((result) => {
+        if (result.value) {
+          list[key] = result.value.split("-").reverse().join("/");
+          window.localStorage.setItem(storageKey, JSON.stringify(list));
+          el = document.getElementById(key);
+          el.innerHTML = list[key];
+        }
+      });
+    }
+
     function clean () {
       for (const key in list) {
         el = document.getElementById(key);
-        el.innerHTML = "";
+        el.innerHTML = key==="date"?"25/10/2025":"";
       }
       list = {};
       window.localStorage.removeItem(storageKey);
@@ -191,3 +290,4 @@
   </script>
 </body>
 </html>
+
