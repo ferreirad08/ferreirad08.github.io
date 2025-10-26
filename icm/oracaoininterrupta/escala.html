@@ -177,6 +177,8 @@
       Período (primeiro e último dia)<br /><label></label>
       <br /><br /><br />
       <label></label>
+      <br />
+      <label></label>
     </div>
 
     <!--<input
@@ -588,6 +590,12 @@ ${window.location.href}`;
         els[1].innerHTML = data.motivo;
         els[2].innerHTML = data.date0.split("-").reverse().join("/") + " - " + data.date1.split("-").reverse().join("/");
         els[3].innerHTML = "<i class='bi bi-clock-history'></i> Último registro: " + formatDate(data.timestamp);
+
+        const nullCount = Object.values(data.currentList)
+          .filter(v => v).length
+        const percentage = Math.round(nullCount / 96 * 1000, 3) / 10;
+
+        els[4].innerHTML = `<i class='bi bi-floppy'></i> Horários preenchidos: ${nullCount} de 96 (${percentage}%)`;
       }
 
       async function main() {
