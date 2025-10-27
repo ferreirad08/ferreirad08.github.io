@@ -83,17 +83,26 @@
         --ok-fg: #151b54;
       }
 
+      #lists {
+        position: absolute;
+        width: 336px;
+        margin-left: 20px;
+      }
+
       #lists a {
         position: absolute;
         border-radius: 4px;
         /*background: var(--ok-bg);*/
         color: var(--ok-fg);
         height: 42px;
-        width: 340px;
-        margin-left: calc(50% - 174px);
+        width: 100%;
         padding-left: 10px;
         box-shadow: 0px 2px 2px -1px grey;
         text-decoration: none;
+      }
+
+      #clustrmaps {
+        margin-left: 18px;
       }
 
       .meu-confirmar {
@@ -126,8 +135,6 @@
         border-right: none;
       }
     </style>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Oração Ininterrupta</title>
   </head>
   <body>
@@ -180,7 +187,7 @@
     <div id="lists"></div>
 
     <br /><br />
-    <a href="https://clustrmaps.com/site/1c81h"  title="ClustrMaps">
+    <a id="clustrmaps" href="https://clustrmaps.com/site/1c81h"  title="ClustrMaps">
       <img src="//www.clustrmaps.com/map_v2.png?d=qs2Qv9nyBtx3BWRaw3RzzrNPL6XIELr5JI9_Cpw7RfA&cl=ffffff" />
     </a>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -302,8 +309,8 @@
       let locations = window.localStorage.getItem(storageKey);
       locations = locations === null ? {} : JSON.parse(locations);
 
+      el = document.getElementById("lists");
       for (const list in locations) {
-        el = document.getElementById("lists");
         const d = locations[list];
         const p = `${d.date0.split("-").reverse().join("/")} - ${d.date1.split("-").reverse().join("/")}`;
         const arrow = "<i class='bi bi-link-45deg'></i>";
