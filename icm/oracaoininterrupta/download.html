@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+
+    <script>
+      const code = window.location.hash.slice(1);
+      const url = `https://api.jsonbin.io/v3/b/${code}`;
+
+      const headers = {
+        "Content-Type": "application/json",
+        "X-Access-Key": "$2a$10$hAT1PQtTWY.vtq5BTEeJruDlB.ULfWMknzape/RRM.Xa.xEpds7rG",
+      };
+
+      async function getData() {
+        return (await (
+          await fetch(url, {method: "GET", headers})
+        ).json()).record;
+      }
+
+      function json2pdf(dataOrJSONString, options = {}) {
+        const TZ =
+          Intl.DateTimeFormat().resolvedOptions().timeZone ||
+          "America/Sao_Paulo";
+        const NBSP = "\u00A0";
+        const { jsPDF } = window.jspdf;
+
+        let data;
+        if (typeof dataOrJSONString === "string") {
+          try {
+            data = JSON.parse(dataOrJSONString);
+          } catch {
+            console.error("JSON inválido");
+            return;
+          }
+        } else data = dataOrJSONString || {};
+
+        const fmtDate = (iso) => {
+          try {
+            return new Date(
+              iso + (iso?.endsWith?.("Z") ? "" : "T00:00:00Z")
+            ).toLocaleDateString("pt-BR", { timeZone: TZ });
+          } catch {
+            return iso || "";
+          }
+        };
+        const fmtDateTime = (iso) => {
+          try {
+            return new Date(iso).toLocaleString("pt-BR", { timeZone: TZ });
+          } catch {
+            return iso || "";
+          }
+        };
+        const safe = (s) =>
+          String(s || "")
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "");
+
+        // Gera os 96 horários fixos
+        function genSlots() {
+          const out = [];
+          let h = 0,
+            m = 0;
+          for (let i = 0; i < 96; i++) {
+            const start = `${String(h).padStart(2, "0")}:${String(m).padStart(
+              2,
+              "0"
+            )}`;
+            m += 15;
+            if (m >= 60) {
+              m = 0;
+              h = (h + 1) % 24;
+            }
+            const end = `${String(h).padStart(2, "0")}:${String(m).padStart(
+              2,
+              "0"
+            )}`;
+            out.push(`${start} às ${end}`);
+          }
+          return out;
+        }
+
+        const normalizeList = (list) => {
+          const norm = {};
+          const all = genSlots();
+          alert(all)
+          for (const s of all)
+            norm[s] = list && Object.prototype.hasOwnProperty.call(list, s)
+              ? list[s]
+              : null;
+          return norm;
+        };
+
+        const toRows = (list) =>
+          Object.entries(list).map(([h, n]) => [
+            h,
+            n == null || String(n).trim() === "" ? NBSP : String(n),
+          ]);
+
+        const stats = (list) => {
+          const total = Object.keys(list).length;
+          const filled = Object.values(list).filter(
+            (v) => v && String(v).trim() !== ""
+          ).length;
+          const percent = total ? Math.round((filled / total) * 100) : 0;
+          return { total, filled, percent, empty: total - filled };
+        };
+
+        const {
+          igreja = "Igreja",
+          motivo = "",
+          date0 = "",
+          date1 = "",
+          timestamp = new Date().toISOString(),
+          currentList = {},
+        } = data;
+
+        const norm = normalizeList(currentList);
+        const allRows = toRows(norm);
+        const { total, filled, percent, empty } = stats(norm);
+
+        const orientation =
+          options.orientation === "landscape" ? "landscape" : "portrait";
+        const doc = new jsPDF({ orientation, unit: "pt", format: "a4" });
+        const pageW = doc.internal.pageSize.getWidth();
+        const pageH = doc.internal.pageSize.getHeight();
+
+        const margin = { left: 36, right: 36, top: 36, bottom: 24 };
+        const gap = 18;
+        const usableW = pageW - margin.left - margin.right;
+        const colW = (usableW - gap) / 2;
+
+        const tableBase = {
+          head: [["Horário", "Nome"]],
+          styles: { fontSize: 8, cellPadding: 1.8, lineWidth: 0.1 },
+          headStyles: { fillColor: [21, 27, 84], textColor: 255, fontSize: 8.5 },
+          columnStyles: { 0: { cellWidth: 70 }, 1: { cellWidth: colW - 70 } },
+          theme: "striped",
+          pageBreak: "avoid",
+          rowPageBreak: "avoid",
+          tableWidth: colW,
+        };
+
+        const ROWS_PER_COL = 48;
+        const ROWS_PER_PAGE = 96;
+        const numPages = Math.ceil(allRows.length / ROWS_PER_PAGE);
+
+        for (let p = 0; p < numPages; p++) {
+          if (p > 0) doc.addPage();
+          const slice = allRows.slice(p * ROWS_PER_PAGE, (p + 1) * ROWS_PER_PAGE);
+          const left = slice.slice(0, ROWS_PER_COL);
+          const right = slice.slice(ROWS_PER_COL, ROWS_PER_PAGE);
+
+          let y = margin.top;
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(13);
+          doc.text(`Escala de Oração Ininterrupta – ${igreja}`, margin.left, y);
+          y += 14;
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(9);
+
+          if (motivo) {
+            doc.text(`Motivo: ${motivo}`, margin.left, y);
+            y += 12;
+          }
+          if (date0 || date1) {
+            doc.text(`Período: ${fmtDate(date0)} - ${fmtDate(date1)}`, margin.left, y);
+            y += 12;
+          }
+
+          /*doc.text(
+            `Gerado em: ${fmtDateTime(timestamp)} (${TZ})`,
+            margin.left,
+            y
+          );*/
+          y += 12;
+          /*doc.text(
+            `Total: ${total}    Preenchidos: ${filled} (${percent}%)    Vagos: ${empty}`,
+            margin.left,
+            y
+          );*/
+
+          const topY = y + 10;
+          doc.autoTable({
+            ...tableBase,
+            startY: topY,
+            margin: { left: margin.left },
+            body: left,
+          });
+          doc.autoTable({
+            ...tableBase,
+            startY: topY,
+            margin: { left: margin.left + colW + gap },
+            body: right,
+          });
+          doc.setFontSize(8);
+          doc.text(`Página ${p + 1}`, pageW - 60, pageH - 10);
+        }
+
+        const filename =
+          options.filename ||
+          `escala-2col-${safe(igreja)}-${safe(date0)}-a-${safe(
+            date1 || "dia"
+          )}.pdf`;
+
+        try {
+          doc.save(filename);
+        } catch {}
+      }
+
+      async function main() {
+        json2pdf(await getData());
+        window.location.href = `https://ferreirad08.github.io/icm/oracaoininterrupta/escala#${code}`;
+      }
+
+      main();
+    </script>
+  </body>
+</html>
