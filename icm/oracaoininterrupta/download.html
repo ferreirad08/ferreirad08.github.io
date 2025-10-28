@@ -165,7 +165,8 @@
         }
 
         try {
-          doc.save("escala.pdf");
+          const _timestamp = new Date().toISOString();
+          doc.save(`escala_${_timestamp}.pdf`);
         } catch {}
       }
 
