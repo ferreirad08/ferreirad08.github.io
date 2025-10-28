@@ -41,14 +41,6 @@
           }
         };
 
-        const fmtDateTime = (iso) => {
-          try {
-            return new Date(iso).toLocaleString("pt-BR", { timeZone: TZ });
-          } catch {
-            return iso || "";
-          }
-        };
-
         const safe = (s) =>
           String(s || "")
             .toLowerCase()
@@ -83,16 +75,7 @@
           return { total, filled, percent, empty: total - filled };
         };
 
-        const {
-          igreja = "Igreja",
-          motivo = "",
-          date0 = "",
-          date1 = "",
-          timestamp = new Date().toISOString(),
-          currentList = {},
-        } = data;
-
-        const norm = normalizeList(currentList);
+        const norm = normalizeList(data.currentList);
         const allRows = toRows(norm);
         const { total, filled, percent, empty } = stats(norm);
 
@@ -140,28 +123,28 @@
           let y = margin.top;
           doc.setFont("helvetica", "bold");
           doc.setFontSize(13);
-          doc.text(`Escala de Oração Ininterrupta - ${igreja}`, margin.left, y);
+          doc.text(
+            `Escala de Oração Ininterrupta - ${data.igreja}`,
+            margin.left,
+            y
+          );
+
           y += 14;
           doc.setFont("helvetica", "normal");
           doc.setFontSize(9);
 
-          if (motivo) {
-            doc.text(`Motivo: ${motivo}`, margin.left, y);
-            y += 12;
-          }
-
-          if (date0 || date1) {
-            doc.text(
-              `Período: ${fmtDate(date0)} - ${fmtDate(date1)}`,
-              margin.left,
-              y
-            );
-            y += 12;
-          }
-
+          doc.text(`Motivo: ${data.motivo}`, margin.left, y);
           y += 12;
 
+          doc.text(
+            `Período: ${fmtDate(data.date0)} - ${fmtDate(data.date1)}`,
+            margin.left,
+            y
+          );
+
+          y += 24;
           const topY = y + 10;
+
           doc.autoTable({
             ...tableBase,
             startY: topY,
@@ -193,7 +176,7 @@
           json2pdf(data);
         }
 
-        //window.location.href = `https://ferreirad08.github.io/icm/oracaoininterrupta/escala#${code}`;
+        window.location.href = `https://ferreirad08.github.io/icm/oracaoininterrupta/escala#${code}`;
       }
 
       main();
