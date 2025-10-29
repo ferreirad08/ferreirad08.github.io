@@ -32,13 +32,7 @@
         const { jsPDF } = window.jspdf;
 
         const fmtDate = (iso) => {
-          try {
-            return new Date(
-              iso + (iso?.endsWith?.("Z") ? "" : "T00:00:00Z")
-            ).toLocaleDateString("pt-BR", { timeZone: TZ });
-          } catch {
-            return iso || "";
-          }
+          return iso.split("-").reverse().join("/");
         };
 
         const safe = (s) =>
