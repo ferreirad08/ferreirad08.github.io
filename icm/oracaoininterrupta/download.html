@@ -31,29 +31,6 @@
         const NBSP = "\u00A0";
         const { jsPDF } = window.jspdf;
 
-        const fmtDate = (iso) => {
-          return iso.split("-").reverse().join("/");
-        };
-
-        const safe = (s) =>
-          String(s || "")
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/(^-|-$)/g, "");
-
-        const normalizeList = (list) => {
-          const norm = {};
-          const all = Object.keys(data.currentList);
-          for (const s of all)
-            norm[s] =
-              list && Object.prototype.hasOwnProperty.call(list, s)
-                ? list[s]
-                : null;
-          return norm;
-        };
-
         const toRows = (list) =>
           Object.entries(list).map(([h, n]) => [
             h,
@@ -69,9 +46,8 @@
           return { total, filled, percent, empty: total - filled };
         };
 
-        const norm = normalizeList(data.currentList);
-        const allRows = toRows(norm);
-        const { total, filled, percent, empty } = stats(norm);
+        const allRows = toRows(data.currentList);
+        const { total, filled, percent, empty } = stats(data.currentList);
 
         const doc = new jsPDF({
           orientation: "portrait",
@@ -126,12 +102,14 @@
           y += 14;
           doc.setFont("helvetica", "normal");
           doc.setFontSize(9);
-
           doc.text(`Motivo: ${data.motivo}`, margin.left, y);
-          y += 12;
 
+          y += 12;
           doc.text(
-            `Período: ${fmtDate(data.date0)} - ${fmtDate(data.date1)}`,
+            `Período: ${data.date0
+              .split("-")
+              .reverse()
+              .join("/")} - ${data.date1.split("-").reverse().join("/")}`,
             margin.left,
             y
           );
@@ -154,8 +132,7 @@
           });
 
           doc.setFontSize(8);
-
-          doc.text(`Página ${p + 1}`, pageW - 60, pageH - 10);
+          doc.text(`Página ${p + 1} / ${numPages}`, pageW - 60, pageH - 10);
         }
 
         try {
