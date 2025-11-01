@@ -307,14 +307,6 @@
       bar.update();
     }
 
-    if (data) {
-      data = JSON.parse(data);
-
-      if ("count" in data) {
-        populate();
-      }
-    }
-
     function getOptions(title) {
       return {
         type: "line",
@@ -399,7 +391,8 @@
 
     function populate() {
       tbody.innerHTML = "";
-      const xx = [], yy = [];
+      const xx = [], yyTotal = [], yyVisitors = [];
+      let totalVisitors = 0;
 
       for (const date in data.count) {
         if (!data.count[date]) continue;
@@ -437,11 +430,14 @@
         cell10.innerHTML = "<i class='bi bi-box-arrow-up-right'></i>";
         cell10.setAttribute("onclick", `shareDate("${date}")`);
 
+        totalVisitors = Number(CV) + Number(IV) + Number(AV) + Number(JV) + Number(SV) + Number(VV);
+
         xx.push(`${d}/${m}/${y}`);
-        yy.push(total);
+        yyTotal.push(total);
+        yyVisitors.push(totalVisitors);
       }
 
-      let {x:xSorted,y:ySorted} = sortByX(xx, yy);
+      let {x:xSorted,y:ySorted} = sortByX(xx, yyVisitors);
       updateCumulative(xSorted, ySorted);
       updateBar(xSorted, ySorted);
       // updateDoughnut(data.count);
@@ -486,6 +482,18 @@
       const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
       return new TextDecoder().decode(bytes);
     }
+
+    function main() {
+      if (data) {
+        data = JSON.parse(data);
+
+        if ("count" in data) {
+          populate();
+        }
+      }
+    }
+
+    main();
   </script>
 </body>
 
