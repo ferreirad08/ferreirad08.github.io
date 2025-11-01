@@ -37,17 +37,7 @@
             n == null || String(n).trim() === "" ? NBSP : String(n),
           ]);
 
-        const stats = (list) => {
-          const total = Object.keys(list).length;
-          const filled = Object.values(list).filter(
-            (v) => v && String(v).trim() !== ""
-          ).length;
-          const percent = total ? Math.round((filled / total) * 100) : 0;
-          return { total, filled, percent, empty: total - filled };
-        };
-
         const allRows = toRows(data.currentList);
-        const { total, filled, percent, empty } = stats(data.currentList);
 
         const doc = new jsPDF({
           orientation: "portrait",
